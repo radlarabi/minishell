@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/24 01:56:20 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/24 11:41:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_cmd
 {
     char *content;
 	int	type;
+	int state;
 	int len;
     struct s_cmd *next;
 	struct s_cmd *prev;

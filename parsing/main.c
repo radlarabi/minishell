@@ -6,12 +6,11 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/24 01:55:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:41:35 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 
 t_command *init_cmd()
@@ -32,6 +31,11 @@ void    ft_lstadd_back(t_command **lst,t_command *new)
 {
     t_command *temp;
 
+    if(!(*lst))
+    {
+        *lst = new;
+        return ;
+    }
     temp = *lst;
     while(temp->next != NULL)
         temp = temp->next;
@@ -45,6 +49,100 @@ void    ft_lstadd_back(t_command **lst,t_command *new)
         new->prev = temp;
 	}
 }
+// void    set_type_token(t_command *tmp, char *str,int *i)
+// {
+//     if (str[*i] == '-')
+//     {
+//         tmp->len = 1;
+//         tmp->type = 2;
+//         *i++;
+//     }
+// }
+void displayList(t_command *node)
+{
+    while (node != NULL) {
+        printf("%s -> %d\n", node->content, node->state);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+void    check_close_qotes(t_command **cmd)
+{
+    t_command *tmp;
+    int start_dc = 0;
+    int start_sc = 0;
+    int i;
+
+
+    i = 0;
+    tmp = *cmd;
+    while(tmp != NULL)
+    {
+        i = 0;
+        while(tmp->content[i])
+        {
+            if (tmp->content[i] == '\"')
+                start_dc++;
+            if (tmp->content[i] == '\'')
+                start_sc++;
+            i++;
+        }
+        tmp = tmp->next;
+    }
+    if (start_dc % 2 || start_sc % 2)
+    {
+        printf("Error qotes %d %d\n", start_dc, start_sc);
+        exit(0);
+    } 
+}
+void    set_state(t_command **cmd)
+{
+    int i = 0;
+    int close_dc = 0;
+    int close_sc = 0;
+    t_command *tmp;
+    int count = 0;
+    tmp = *cmd;
+    while(tmp != NULL)
+    {
+        i = 0;
+        while(tmp->content[i])
+        {
+            tmp->state = 2;
+            if (tmp->content[i] == '\"')
+            {
+                tmp->state = 3;
+                tmp = tmp->next;
+                count++;
+                close_dc = 1;
+                if (count == 2)
+                {
+                    close_dc = 0;
+                    count = 0;
+                }
+                if (close_dc == 1)
+                    tmp->state = 1;
+            }
+            else if (tmp->content[i] == '\'')
+            {
+                // tmp->state = 4;
+                // tmp = tmp->next;
+                // count++;
+                // close_dc = 1;
+                // if (count == 2)
+                // {
+                //     close_dc = 0;
+                //     count = 0;
+                // }
+                // if (close_dc == 1)
+                //     tmp->state = 1;
+            }
+            i++;
+        }
+        tmp = tmp->next;
+    }
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -53,7 +151,7 @@ int main(int ac, char **av, char **env)
     int len;
     t_command *cmd;
     t_command *tmp;
-    cmd = init_cmd();
+    // cmd = init_cmd();
     while(1)
     {
         i = 0;
@@ -131,13 +229,18 @@ int main(int ac, char **av, char **env)
                 tmp->type = 11;
                 i++;
             }
+            else
+            {
+                printf("error token");
+                return 0;
+            }
             tmp->content = ft_substr(str, i - tmp->len, tmp->len);
-            printf("%s   -> %d -> %d\n", tmp->content, i , tmp->len);
             ft_lstadd_back(&cmd, tmp);
-            // exit(0);
-            // free(tmp);
-            // i++;
+            // printf("%s   -> %d -> %d -> %d\n", tmp->content, i - tmp->len , tmp->len);
         }
+        check_close_qotes(&cmd);
+        set_state(&cmd);
+        displayList(cmd);
         free(str);
     }
     return 0;

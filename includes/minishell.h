@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/25 16:08:07 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:23:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,13 @@
 # define APPE 9
 # define PIPE 10
 # define ENV 11
+# define S_DOTS 12
+# define D_DOTS 13
 
+
+#define GENERAL 1
+#define IN_DC 2
+#define IN_SC 3
 typedef struct s_cmd
 {
     char *content;
@@ -36,16 +42,14 @@ typedef struct s_cmd
 	int state;
 	int len;
     struct s_cmd *next;
-	struct s_cmd *prev;
+    struct s_cmd *prev;
 }   t_command;
 
 typedef struct s_cmd_line
 {
 	char	*infile;
 	char	*outfile;
-	int		num_cmds;
-	int		num_pipes;
-	char	*cmd;
+	char	**cmds;
 }			t_cmd_line;
 
 #endif

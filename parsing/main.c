@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/26 21:44:44 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/03/27 00:42:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+void    error_msg()
+{
+    printf("syntax error near unexpected token `newline'\n");
+}
 t_command	*init_cmd()
 {
 	t_command	*cmd;
@@ -344,6 +347,49 @@ void	set_states(t_command **cmd)
 			tmp = tmp->next;
 	}
 }
+
+void check_syntax_error(t_command **cmd)
+{
+    t_command *tmp;
+
+    tmp = *cmd;
+    printf("%s------> %d\n", tmp->content, tmp->type);
+    while(tmp && tmp->type == SPACE)
+        tmp = tmp->next;
+    while (tmp && tmp->type != WORD)
+        tmp = tmp->next;
+	if (!tmp)
+	{
+		error_msg();
+		return ;
+	}
+    if (tmp->type == PIPE || tmp->type == RED_OUT)
+    {
+        error_msg();
+        return ;
+    }
+    // while(tmp != NULL)
+    // {
+    //     tmp = tmp->next;
+    // }
+}
+
+void	ft_pwd(t_command **cmd)
+{
+	t_command *tmp;
+
+	tmp = *cmd;
+	if (tmp && !ft_strncmp(tmp->content, "pwd", ft_strlen(tmp->content)))
+	{
+		char cwd[1024];
+		if (getcwd(cwd, sizeof(cwd)) != NULL) {
+			printf("Current working directory: %s\n", cwd);
+		} else {
+			perror("getcwd() error");
+			return ;
+		}
+	}
+}
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -366,13 +412,16 @@ int	main(int ac, char **av, char **env)
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
 		}
-		printf("--->%s\n", struct_to_str(&cmd));
+		// printf("--->%s\n", struct_to_str(&cmd));
 		check_close_qotes(str);
-		command_or_pipe(&cmd, str);
+		// command_or_pipe(&cmd, str);
 		set_states(&cmd);
 		extend_cmd(&cmd);
-		free(str);
+		ft_pwd(&cmd);
+        // check_syntax_error(&cmd);
+		
 		displayList(&cmd);
+        free(str); 
 	}
 	return (0);
 }

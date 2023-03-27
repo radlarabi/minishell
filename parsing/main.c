@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/27 00:42:10 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/27 01:52:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,11 @@ int	check_close_qotes(char *str)
 	}
 	return (1);
 }
-
+void	skipe_spaces(t_command **tmp)
+{
+	while((*tmp) && (*tmp)->type == SPACE)
+        (*tmp) = (*tmp)->next;
+}
 int	fill_types(t_command *tmp, char c, int *i, char *str)
 {
 	if (c == '-')
@@ -195,41 +199,60 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	return (1);
 }
 
-void	fill_pipe(t_command **cmd, char *str)
+t_cmd_line	*fill_pipe(t_command **cmd, char *str)
 {
 	t_command	*tmp;
+	char *str1 = NULL;
 	t_cmd_line	*cmd_p;
 	int			i;
 
-	cmd_p = malloc(sizeof(cmd_p));
+	cmd_p = malloc(sizeof(t_cmd_line));
 	tmp = *cmd;
 	while (tmp != NULL)
 	{
 		i = 0;
-		if (tmp->type == RED_IN)
+		if (tmp && tmp->type == RED_IN)
 		{
 			while (tmp != NULL && tmp->type != WORD)
 				tmp = tmp->next;
 			if (!tmp)
-				return ;
+			{
+				cmd_p->infile = NULL;
+				break ;
+			}
 			if (tmp->type == WORD)
+			{
 				cmd_p->infile = ft_strdup(tmp->content);
+				tmp = tmp->next;
+			}
+			skipe_spaces(&tmp);
+			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q))
+			{
+				str1 = ft_strjoin(str1, tmp->content);
+				tmp = tmp->next;
+			}
+			cmd_p->cmds = ft_split(str1, ' ');
+			//printf("!!!!!!!%s\n", str1);
+			// exit(0);
 		}
-		if (tmp->type == RED_OUT)
+		else if (tmp && tmp->type == RED_OUT)
 		{
 			while (tmp != NULL && tmp->type != WORD)
 				tmp = tmp->next;
 			if (!tmp)
 			{
 				cmd_p->outfile = NULL;
-				return ;
+				break ;
 			}
 			if (tmp->type == WORD)
 				cmd_p->outfile = ft_strdup(tmp->content);
 		}
-		tmp = tmp->next;
+		else
+			tmp = tmp->next;
 	}
-	printf("in %s\tout %s\n", cmd_p->infile, cmd_p->outfile);
+			// exit(0);
+	// printf("in %s\tout %s\tcmd %s %s\n", cmd_p->infile, cmd_p->outfile, cmd_p->cmds[0], cmd_p->cmds[1]);
+	return cmd_p;
 }
 
 void	command_or_pipe(t_command **cmd, char *str)
@@ -390,6 +413,37 @@ void	ft_pwd(t_command **cmd)
 		}
 	}
 }
+
+
+// t_cmd_line *fill_cmd(t_command **cmd)
+// {
+// 	t_command *tmp;
+// 	t_cmd_line *cmd_l = malloc(sizeof(t_cmd_line));
+// 	char *str;
+// 	str = NULL;
+// 	tmp = *cmd;
+// 	skipe_spaces(tmp);
+// 	if (tmp && tmp->type == RED_IN)
+// 	{
+// 		tmp = tmp->next;
+// 		skipe_spaces(tmp);
+// 		printf("-%s-\n", tmp->content);
+// 		cmd_l->infile = ft_strdup(tmp->content);
+// 	}
+// 	else
+// 		cmd_l->infile = NULL;
+// 	skipe_spaces(tmp);
+// 	while(tmp && tmp->type == WORD)
+// 	{
+// 		ft_strjoin(str, tmp->content);
+// 		tmp = tmp->next;
+// 	}
+// 	cmd_l->cmds = ft_split(str, ' ');
+// 	printf("----+>%s %s \n", cmd_l->infile, cmd_l->cmds[0]);
+// 	// exit(0);
+// 	return cmd_l;
+// }
+
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -418,6 +472,8 @@ int	main(int ac, char **av, char **env)
 		set_states(&cmd);
 		extend_cmd(&cmd);
 		ft_pwd(&cmd);
+		// fill_cmd(&cmd);
+		fill_pipe(&cmd, str);
         // check_syntax_error(&cmd);
 		
 		displayList(&cmd);

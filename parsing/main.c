@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/27 01:52:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/28 01:42:46 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,14 +204,27 @@ t_cmd_line	*fill_pipe(t_command **cmd, char *str)
 	t_command	*tmp;
 	char *str1 = NULL;
 	t_cmd_line	*cmd_p;
-	int			i;
-
 	cmd_p = malloc(sizeof(t_cmd_line));
+	if (!cmd_p)
+		return NULL;
+	cmd_p->infile = NULL;
+	cmd_p->outfile = NULL;
+	cmd_p->cmds = NULL;
 	tmp = *cmd;
 	while (tmp != NULL)
 	{
-		i = 0;
-		if (tmp && tmp->type == RED_IN)
+		if (tmp && tmp->type == WORD)
+		{
+			cmd_p->infile = NULL;
+			cmd_p->outfile = NULL;
+			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q || tmp->type == DASH))
+			{
+				str1 = ft_strjoin(str1, tmp->content);
+				tmp = tmp->next;
+			}
+			cmd_p->cmds = ft_split(str1, ' ');
+		}
+		else if (tmp && tmp->type == RED_IN)
 		{
 			while (tmp != NULL && tmp->type != WORD)
 				tmp = tmp->next;
@@ -220,13 +233,15 @@ t_cmd_line	*fill_pipe(t_command **cmd, char *str)
 				cmd_p->infile = NULL;
 				break ;
 			}
-			if (tmp->type == WORD)
+			if (tmp && tmp->type == WORD)
 			{
 				cmd_p->infile = ft_strdup(tmp->content);
 				tmp = tmp->next;
 			}
+			else
+				cmd_p->infile = NULL;
 			skipe_spaces(&tmp);
-			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q))
+			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q || tmp->type == DASH))
 			{
 				str1 = ft_strjoin(str1, tmp->content);
 				tmp = tmp->next;
@@ -244,14 +259,19 @@ t_cmd_line	*fill_pipe(t_command **cmd, char *str)
 				cmd_p->outfile = NULL;
 				break ;
 			}
-			if (tmp->type == WORD)
+			if (tmp && tmp->type == WORD)
+			{
 				cmd_p->outfile = ft_strdup(tmp->content);
+				tmp = tmp->next;
+			}
+			else
+				cmd_p->outfile = NULL;
 		}
 		else
 			tmp = tmp->next;
 	}
-			// exit(0);
-	// printf("in %s\tout %s\tcmd %s %s\n", cmd_p->infile, cmd_p->outfile, cmd_p->cmds[0], cmd_p->cmds[1]);
+	// if ((*cmd))
+	// 	printf("in %s\tout %s\tcmd %s %s %s\n", cmd_p->infile, cmd_p->outfile, cmd_p->cmds[0], cmd_p->cmds[1],cmd_p->cmds[2]);
 	return cmd_p;
 }
 
@@ -415,34 +435,43 @@ void	ft_pwd(t_command **cmd)
 }
 
 
-// t_cmd_line *fill_cmd(t_command **cmd)
-// {
-// 	t_command *tmp;
-// 	t_cmd_line *cmd_l = malloc(sizeof(t_cmd_line));
-// 	char *str;
-// 	str = NULL;
-// 	tmp = *cmd;
-// 	skipe_spaces(tmp);
-// 	if (tmp && tmp->type == RED_IN)
-// 	{
-// 		tmp = tmp->next;
-// 		skipe_spaces(tmp);
-// 		printf("-%s-\n", tmp->content);
-// 		cmd_l->infile = ft_strdup(tmp->content);
-// 	}
-// 	else
-// 		cmd_l->infile = NULL;
-// 	skipe_spaces(tmp);
-// 	while(tmp && tmp->type == WORD)
-// 	{
-// 		ft_strjoin(str, tmp->content);
-// 		tmp = tmp->next;
-// 	}
-// 	cmd_l->cmds = ft_split(str, ' ');
-// 	printf("----+>%s %s \n", cmd_l->infile, cmd_l->cmds[0]);
-// 	// exit(0);
-// 	return cmd_l;
-// }
+void	check_syntax(t_command	**cmd)
+{
+	t_command	*tmp;
+	t_command	*t1;
+	t_command	*t2;
+	
+	tmp = *cmd;
+	while(tmp)
+	{
+		if (tmp && tmp->type == PIPE && tmp->state != IN_DC && tmp->state != IN_SC)
+		{
+			t1 = tmp->next;
+			t2 = tmp->prev;
+			while(t1 && t1->type != WORD && t1->type != PIPE)
+				t1 = t1->next;
+			while(t2 && t2->type != WORD && t2->type != PIPE)
+				t2 = t2->prev;
+			if (!t1 || !t2 || t1->type != WORD || t2->type != WORD)
+			{
+				ft_putendl_fd(ERROR_MSG,2);
+				return ;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	display_pipe(t_cmd_line *cmd_l)
+{
+	int i = 0;
+	printf("infile : %s\t outfile : %s\n", cmd_l->infile, cmd_l->outfile);
+	while(cmd_l && cmd_l->cmds[i])
+	{
+		printf("cmds[%d] %s\n", i, cmd_l->cmds[i]);
+		i++;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -452,7 +481,8 @@ int	main(int ac, char **av, char **env)
 	t_command	*cmd;
 	t_command	*node;
 	t_command	*tmp;
-
+	t_cmd_line *cmd_l;
+	// t_pipes_cmds	*cmds_p;
 	while (1)
 	{
 		i = 0;
@@ -466,16 +496,14 @@ int	main(int ac, char **av, char **env)
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
 		}
-		// printf("--->%s\n", struct_to_str(&cmd));
 		check_close_qotes(str);
-		// command_or_pipe(&cmd, str);
 		set_states(&cmd);
-		extend_cmd(&cmd);
+		check_syntax(&cmd);
+		// extend_cmd(&cmd);
 		ft_pwd(&cmd);
-		// fill_cmd(&cmd);
-		fill_pipe(&cmd, str);
-        // check_syntax_error(&cmd);
+		// cmd_l = fill_pipe(&cmd, str);
 		
+		// display_pipe(cmd_l);
 		displayList(&cmd);
         free(str); 
 	}

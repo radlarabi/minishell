@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/26 18:23:24 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/28 01:42:38 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define ENV 11
 # define S_DOTS 12
 # define D_DOTS 13
-
+#define ERROR_MSG "\033[0;31m syntax error \033[0m"
 
 #define GENERAL 1
 #define IN_DC 2

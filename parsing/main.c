@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/29 02:56:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/29 21:45:40 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 		tmp->type = DASH;
 		(*i)++;
 	}
-	else if (ft_isalpha(c))
+	else if (ft_isalnum(c))
 	{
-		while (ft_isalpha(str[*i]))
+		while (ft_isalnum(str[*i]))
 		{
 			tmp->len++;
 			(*i)++;
@@ -489,9 +489,9 @@ void	check_syntax(t_command	**cmd)
 		{
 			t1 = tmp->next;
 			t2 = tmp->prev;
-			while(t1 && t1->opr != OPER && t1->type != WORD )
+			while(t1 && t1->opr != OPER && t1->type != WORD && t1->state == GENERAL)
 				t1 = t1->next;
-			while(t2 && t2->opr != OPER && t2->type != WORD)
+			while(t2 && t2->opr != OPER && t2->type != WORD && t1->state == GENERAL)
 				t2 = t2->prev;
 			if (t1 && tmp && (t1->type == HERDOC || t1->type == APPE || t1->type == RED_IN || t1->type == RED_OUT) && t1->opr == OPER && tmp->type == PIPE)
 			{
@@ -501,7 +501,8 @@ void	check_syntax(t_command	**cmd)
 			if ((t1 && t1->type == WORD && tmp && tmp->opr == OPER && tmp->state == GENERAL)
 			|| (!t2 && t1 && tmp->opr == OPER && tmp->state == GENERAL))
 			{
-				if (t1->opr == OPER && t1->state == GENERAL)
+				printf("csacacasca\n");
+				if ((!t2 || t1->opr == OPER) && t1->state == GENERAL)
 				{
 					ft_putendl_fd(ERROR_MSG,2);
 					return ;
@@ -623,9 +624,9 @@ int	main(int ac, char **av, char **env)
 		// check_syntax_rd1(&cmd);
 		// extend_cmd(&cmd);
 		ft_pwd(&cmd);
-		// cmd_l = fill_pipe(&cmd, str);
+		cmd_l = fill_pipe(&cmd, str);
 		
-		// display_pipe(cmd_l);
+		display_pipe(cmd_l);
 		displayList(&cmd);
         free(str); 
 	}

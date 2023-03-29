@@ -1,0 +1,12 @@
+/ ====> [bash: /: is a directory]
+
+
+/ hada makhasoch idkhol fi syntax error ;
+
+| test ==>  bash: syntax error near unexpected token `|'
+
+
+HERDOC ====> [<< 456] [>> """""] ogaa3 dok char lokhriin .....
+
+
+

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/28 01:42:38 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/29 01:23:20 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define ENV 11
 # define S_DOTS 12
 # define D_DOTS 13
+# define OPER 14
+# define N_OPER 15
+# define QEST 16
+# define OTHER 17
 #define ERROR_MSG "\033[0;31m syntax error \033[0m"
 
 #define GENERAL 1
@@ -40,6 +44,7 @@ typedef struct s_cmd
     char *content;
 	int	type;
 	int state;
+	int opr;
 	int len;
     struct s_cmd *next;
     struct s_cmd *prev;

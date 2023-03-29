@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/28 01:42:46 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/29 02:56:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_command	*init_cmd()
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->type = 0;
+	cmd->opr = N_OPER;
 	cmd->len = 0;
 	cmd->state = 0;
 	return (cmd);
@@ -145,6 +146,7 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	}
 	else if (c == '<' && str[(*i) + 1] != '<')
 	{
+		tmp->opr = OPER;
 		tmp->len = 1;
 		tmp->type = RED_IN;
 		(*i)++;
@@ -152,17 +154,20 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	else if (c == '>' && str[(*i) + 1] != '>')
 	{
 		tmp->len = 1;
-		tmp->type = RED_OUT;
+		tmp->opr = OPER;
 		(*i)++;
+		tmp->type = RED_OUT;
 	}
 	else if (c == '>' && str[(*i) + 1] == '>')
 	{
+		tmp->opr = OPER;
 		tmp->len = 2;
 		tmp->type = APPE;
 		(*i) += 2;
 	}
 	else if (c == '<' && str[(*i) + 1] == '<')
 	{
+		tmp->opr = OPER;
 		tmp->len = 2;
 		tmp->type = HERDOC;
 		(*i) += 2;
@@ -181,8 +186,15 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	}
 	else if (c == '|')
 	{
+		tmp->opr = OPER;
 		tmp->len = 1;
 		tmp->type = PIPE;
+		(*i)++;
+	}
+	else if (c == '?')
+	{
+		tmp->len = 1;
+		tmp->type = QEST;
 		(*i)++;
 	}
 	else if (c == '$')
@@ -193,8 +205,9 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	}
 	else
 	{
-		printf("error token");
-		return (0);
+		tmp->len = 1;
+		tmp->type = OTHER;
+		(*i)++;
 	}
 	return (1);
 }
@@ -363,19 +376,46 @@ void	extend_cmd(t_command **cmd)
 void	set_states(t_command **cmd)
 {
 	t_command	*tmp;
-
+	int count = 0;
 	tmp = *cmd;
+	
 	while (tmp != NULL)
 	{
 		tmp->state = GENERAL;
 		if (tmp->type == DOUBLE_Q)
 		{
 			tmp = tmp->next;
-			while (tmp != NULL && tmp->type != DOUBLE_Q)
+			while(tmp && tmp->type != DOUBLE_Q)
+			{
+				count++;
+				tmp = tmp->next;
+			}
+			if (!tmp)
+			{
+				error_msg();
+				return;
+			}
+			while(count)
+			{
+				tmp = tmp->prev;
+				count--;
+			}
+			while(tmp && tmp->type != DOUBLE_Q)
 			{
 				tmp->state = IN_DC;
 				tmp = tmp->next;
 			}
+				tmp->state = GENERAL;
+				tmp = tmp->next;
+			// while(tmp && tmp->type != DOUBLE_Q)
+			// {
+			// 	tmp->state = IN_DC;
+			// 	tmp = tmp->prev;
+			// }
+			// tmp = tmp->next;
+			// while (tmp != NULL && tmp->type != DOUBLE_Q)
+			// {
+			// }
 		}
 		else if (tmp->type == SINGLE_Q)
 		{
@@ -440,17 +480,97 @@ void	check_syntax(t_command	**cmd)
 	t_command	*tmp;
 	t_command	*t1;
 	t_command	*t2;
+	t_command	*t3;
 	
 	tmp = *cmd;
 	while(tmp)
 	{
-		if (tmp && tmp->type == PIPE && tmp->state != IN_DC && tmp->state != IN_SC)
+		if (tmp && tmp->opr == OPER && tmp->state == GENERAL)
 		{
 			t1 = tmp->next;
 			t2 = tmp->prev;
-			while(t1 && t1->type != WORD && t1->type != PIPE)
+			while(t1 && t1->opr != OPER && t1->type != WORD )
 				t1 = t1->next;
-			while(t2 && t2->type != WORD && t2->type != PIPE)
+			while(t2 && t2->opr != OPER && t2->type != WORD)
+				t2 = t2->prev;
+			if (t1 && tmp && (t1->type == HERDOC || t1->type == APPE || t1->type == RED_IN || t1->type == RED_OUT) && t1->opr == OPER && tmp->type == PIPE)
+			{
+				tmp = tmp->next;
+				continue;
+			}
+			if ((t1 && t1->type == WORD && tmp && tmp->opr == OPER && tmp->state == GENERAL)
+			|| (!t2 && t1 && tmp->opr == OPER && tmp->state == GENERAL))
+			{
+				if (t1->opr == OPER && t1->state == GENERAL)
+				{
+					ft_putendl_fd(ERROR_MSG,2);
+					return ;
+				}
+				tmp = tmp->next;
+				continue;
+			}
+			if (!t1 || !t2 || (t1->opr == OPER && t1->state == GENERAL) || (t2->opr == OPER && t2->state == GENERAL))
+			{
+				ft_putendl_fd(ERROR_MSG,2);
+				return ;
+			}
+		}
+		tmp = tmp->next;
+	}
+	t3 = *cmd;
+	while(t3)
+	{
+		if (t3->type == OTHER && t3->state == GENERAL)
+		{
+			ft_putendl_fd(ERROR_MSG,2);
+			return ;
+		}	
+		t3 = t3->next;
+	}
+}
+
+void	check_syntax_rd(t_command	**cmd)
+{
+	t_command	*tmp;
+	t_command	*t1;
+	t_command	*t2;
+	
+	tmp = *cmd;
+	while(tmp)
+	{
+		if (tmp && (tmp->type == RED_IN || tmp->type == HERDOC) && tmp->state != IN_DC && tmp->state != IN_SC)
+		{
+			t1 = tmp->next;
+			// t2 = tmp->prev;
+			while(t1 && t1->type != WORD && (t1->type != RED_IN && t1->type != HERDOC))
+				t1 = t1->next;
+			// while(t2 && t2->type != WORD && t2->type != RED_IN)
+			// 	t2 = t2->prev;
+			if (!t1 || t1->type != WORD)
+			{
+				ft_putendl_fd(ERROR_MSG,2);
+				return ;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+void	check_syntax_rd1(t_command	**cmd)
+{
+	t_command	*tmp;
+	t_command	*t1;
+	t_command	*t2;
+	
+	tmp = *cmd;
+	while(tmp)
+	{
+		if (tmp && (tmp->type == RED_OUT || tmp->type == APPE) && tmp->state != IN_DC && tmp->state != IN_SC)
+		{
+			t1 = tmp->next;
+			t2 = tmp->prev;
+			while(t1 && t1->type != WORD && (t1->type != RED_OUT && t1->type != APPE))
+				t1 = t1->next;
+			while(t2 && t2->type != WORD && (t2->type != RED_OUT && t2->type != APPE))
 				t2 = t2->prev;
 			if (!t1 || !t2 || t1->type != WORD || t2->type != WORD)
 			{
@@ -499,6 +619,8 @@ int	main(int ac, char **av, char **env)
 		check_close_qotes(str);
 		set_states(&cmd);
 		check_syntax(&cmd);
+		// check_syntax_rd(&cmd);
+		// check_syntax_rd1(&cmd);
 		// extend_cmd(&cmd);
 		ft_pwd(&cmd);
 		// cmd_l = fill_pipe(&cmd, str);

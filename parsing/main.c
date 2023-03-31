@@ -6,14 +6,14 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/29 21:45:40 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/03/31 02:05:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 void    error_msg()
 {
-    printf("syntax error near unexpected token `newline'\n");
+    printf(ERROR_MSG"\n");
 }
 t_command	*init_cmd()
 {
@@ -26,7 +26,7 @@ t_command	*init_cmd()
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->type = 0;
-	cmd->opr = N_OPER;
+	cmd->opr = 0;
 	cmd->len = 0;
 	cmd->state = 0;
 	return (cmd);
@@ -99,7 +99,10 @@ int	check_close_qotes(char *str)
 	while (str[i])
 	{
 		if (!sub_check_qotes(str, &i, 39) || !sub_check_qotes(str, &i, 34))
+		{
 			return (0);
+			// exit(258);
+		}
 		i++;
 	}
 	return (1);
@@ -115,6 +118,7 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	{
 		tmp->len = 1;
 		tmp->type = DASH;
+		tmp->opr = N_OPER;
 		(*i)++;
 	}
 	else if (ft_isalnum(c))
@@ -128,6 +132,7 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	}
 	else if (c == ' ')
 	{
+		tmp->opr = N_OPER;
 		tmp->len = 1;
 		tmp->type = SPACE;
 		(*i)++;
@@ -175,14 +180,16 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	else if (c == '.' && str[(*i) + 1] == '.')
 	{
 		tmp->len = 2;
-		tmp->type = D_DOTS;
+		tmp->opr = N_OPER;
+		tmp->type = WORD;
 		(*i) += 2;
 	}
 	else if (c == '.' && str[(*i) + 1] != '.')
 	{
+		tmp->opr = N_OPER;
 		tmp->len = 1;
-		tmp->type = S_DOTS;
-		(*i) += 2;
+		tmp->type = WORD;
+		(*i) += 1;
 	}
 	else if (c == '|')
 	{
@@ -193,18 +200,21 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	}
 	else if (c == '?')
 	{
+		tmp->opr = N_OPER;
 		tmp->len = 1;
 		tmp->type = QEST;
 		(*i)++;
 	}
 	else if (c == '$')
 	{
+		tmp->opr = N_OPER;
 		tmp->len = 1;
 		tmp->type = ENV;
 		(*i)++;
 	}
 	else
 	{
+		tmp->opr = N_OPER;
 		tmp->len = 1;
 		tmp->type = OTHER;
 		(*i)++;
@@ -392,7 +402,6 @@ void	set_states(t_command **cmd)
 			}
 			if (!tmp)
 			{
-				error_msg();
 				return;
 			}
 			while(count)
@@ -407,66 +416,48 @@ void	set_states(t_command **cmd)
 			}
 				tmp->state = GENERAL;
 				tmp = tmp->next;
-			// while(tmp && tmp->type != DOUBLE_Q)
-			// {
-			// 	tmp->state = IN_DC;
-			// 	tmp = tmp->prev;
-			// }
-			// tmp = tmp->next;
-			// while (tmp != NULL && tmp->type != DOUBLE_Q)
-			// {
-			// }
 		}
 		else if (tmp->type == SINGLE_Q)
 		{
 			tmp = tmp->next;
-			while (tmp != NULL && tmp->type != SINGLE_Q)
+			while(tmp && tmp->type != SINGLE_Q)
 			{
-				tmp->state = IN_SC;
+				count++;
 				tmp = tmp->next;
 			}
+			if (!tmp)
+			{
+				return;
+			}
+			while(count)
+			{
+				tmp = tmp->prev;
+				count--;
+			}
+			while(tmp && tmp->type != SINGLE_Q)
+			{
+				tmp->state = IN_DC;
+				tmp = tmp->next;
+			}
+				tmp->state = GENERAL;
+				tmp = tmp->next;
 		}
 		else
 			tmp = tmp->next;
 	}
 }
 
-void check_syntax_error(t_command **cmd)
-{
-    t_command *tmp;
-
-    tmp = *cmd;
-    printf("%s------> %d\n", tmp->content, tmp->type);
-    while(tmp && tmp->type == SPACE)
-        tmp = tmp->next;
-    while (tmp && tmp->type != WORD)
-        tmp = tmp->next;
-	if (!tmp)
-	{
-		error_msg();
-		return ;
-	}
-    if (tmp->type == PIPE || tmp->type == RED_OUT)
-    {
-        error_msg();
-        return ;
-    }
-    // while(tmp != NULL)
-    // {
-    //     tmp = tmp->next;
-    // }
-}
 
 void	ft_pwd(t_command **cmd)
 {
 	t_command *tmp;
 
 	tmp = *cmd;
-	if (tmp && !ft_strncmp(tmp->content, "pwd", ft_strlen(tmp->content)))
+	if (tmp && !ft_strncmp(tmp->content, "pwd", 3))
 	{
 		char cwd[1024];
 		if (getcwd(cwd, sizeof(cwd)) != NULL) {
-			printf("Current working directory: %s\n", cwd);
+			printf("%s\n", cwd);
 		} else {
 			perror("getcwd() error");
 			return ;
@@ -474,6 +465,26 @@ void	ft_pwd(t_command **cmd)
 	}
 }
 
+void	sub_check_syntax_error(t_command **cmd)
+{
+	t_command	*tmp;
+
+	tmp = *cmd;
+	while (tmp)
+	{
+		if (tmp->state == GENERAL && (!ft_strncmp(tmp->content, "&&", ft_strlen(tmp->content))
+		|| !ft_strncmp(tmp->content, "*", ft_strlen(tmp->content))
+		|| !ft_strncmp(tmp->content, ";", ft_strlen(tmp->content))
+		|| !ft_strncmp(tmp->content, ")", ft_strlen(tmp->content))
+		|| !ft_strncmp(tmp->content, "\\", ft_strlen(tmp->content))))
+		{
+			error_msg();
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	
+}
 
 void	check_syntax(t_command	**cmd)
 {
@@ -481,7 +492,7 @@ void	check_syntax(t_command	**cmd)
 	t_command	*t1;
 	t_command	*t2;
 	t_command	*t3;
-	
+
 	tmp = *cmd;
 	while(tmp)
 	{
@@ -489,99 +500,96 @@ void	check_syntax(t_command	**cmd)
 		{
 			t1 = tmp->next;
 			t2 = tmp->prev;
-			while(t1 && t1->opr != OPER && t1->type != WORD && t1->state == GENERAL)
+			while(t1 && t1->opr != OPER  && t1->type != WORD  && t1->state == GENERAL)
 				t1 = t1->next;
-			while(t2 && t2->opr != OPER && t2->type != WORD && t1->state == GENERAL)
+			while(t2 && t2->opr != OPER  && t2->type != WORD && t2->state == GENERAL)
 				t2 = t2->prev;
-			if (t1 && tmp && (t1->type == HERDOC || t1->type == APPE || t1->type == RED_IN || t1->type == RED_OUT) && t1->opr == OPER && tmp->type == PIPE)
+			if(!t1 || !t2)
 			{
-				tmp = tmp->next;
-				continue;
-			}
-			if ((t1 && t1->type == WORD && tmp && tmp->opr == OPER && tmp->state == GENERAL)
-			|| (!t2 && t1 && tmp->opr == OPER && tmp->state == GENERAL))
-			{
-				printf("csacacasca\n");
-				if ((!t2 || t1->opr == OPER) && t1->state == GENERAL)
+				if (!t1 || (!t2 && tmp && tmp->type == PIPE && tmp->state == GENERAL))
 				{
-					ft_putendl_fd(ERROR_MSG,2);
-					return ;
+					if (!t2 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
+					{	
+						printf("t1 n ");
+						error_msg();
+						return ;
+					}
+					if (!t1 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
+					{	
+						printf("t1 n ");
+						error_msg();
+						return ;
+					}
+					
+					if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN && tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
+					{
+						printf("t1 n ");
+						error_msg();
+						return ;
+					}
 				}
-				tmp = tmp->next;
-				continue;
 			}
-			if (!t1 || !t2 || (t1->opr == OPER && t1->state == GENERAL) || (t2->opr == OPER && t2->state == GENERAL))
+			else
 			{
-				ft_putendl_fd(ERROR_MSG,2);
-				return ;
+				if (t1->opr == OPER)
+				{
+					if (t1->type == PIPE && t1->state == GENERAL)
+					{
+						printf("%s  --> t1 ", t1->content);
+						error_msg();
+						return ;
+					}
+				}
+				if(t2->opr == OPER)
+				{
+					if ((t2->type == PIPE && tmp && tmp->type == PIPE && t2->state == GENERAL)
+						|| (t2->type != PIPE && tmp && tmp->type != PIPE && t2->state == GENERAL) 
+						|| (tmp && tmp->type == PIPE))
+					{
+						printf("%s  --> t2 ", t2->content);
+						error_msg();
+						return ;
+					}
+				}
 			}
 		}
 		tmp = tmp->next;
 	}
-	t3 = *cmd;
-	while(t3)
-	{
-		if (t3->type == OTHER && t3->state == GENERAL)
-		{
-			ft_putendl_fd(ERROR_MSG,2);
-			return ;
-		}	
-		t3 = t3->next;
-	}
+	sub_check_syntax_error(cmd);
 }
-
-void	check_syntax_rd(t_command	**cmd)
-{
-	t_command	*tmp;
-	t_command	*t1;
-	t_command	*t2;
-	
-	tmp = *cmd;
-	while(tmp)
-	{
-		if (tmp && (tmp->type == RED_IN || tmp->type == HERDOC) && tmp->state != IN_DC && tmp->state != IN_SC)
-		{
-			t1 = tmp->next;
-			// t2 = tmp->prev;
-			while(t1 && t1->type != WORD && (t1->type != RED_IN && t1->type != HERDOC))
-				t1 = t1->next;
-			// while(t2 && t2->type != WORD && t2->type != RED_IN)
-			// 	t2 = t2->prev;
-			if (!t1 || t1->type != WORD)
-			{
-				ft_putendl_fd(ERROR_MSG,2);
-				return ;
-			}
-		}
-		tmp = tmp->next;
-	}
-}
-void	check_syntax_rd1(t_command	**cmd)
-{
-	t_command	*tmp;
-	t_command	*t1;
-	t_command	*t2;
-	
-	tmp = *cmd;
-	while(tmp)
-	{
-		if (tmp && (tmp->type == RED_OUT || tmp->type == APPE) && tmp->state != IN_DC && tmp->state != IN_SC)
-		{
-			t1 = tmp->next;
-			t2 = tmp->prev;
-			while(t1 && t1->type != WORD && (t1->type != RED_OUT && t1->type != APPE))
-				t1 = t1->next;
-			while(t2 && t2->type != WORD && (t2->type != RED_OUT && t2->type != APPE))
-				t2 = t2->prev;
-			if (!t1 || !t2 || t1->type != WORD || t2->type != WORD)
-			{
-				ft_putendl_fd(ERROR_MSG,2);
-				return ;
-			}
-		}
-		tmp = tmp->next;
-	}
-}
+		// 	if (t1 && tmp && (t1->type == HERDOC || t1->type == APPE || t1->type == RED_IN || t1->type == RED_OUT) && t1->opr == OPER && tmp->type == PIPE)
+		// 	{
+		// 		tmp = tmp->next;
+		// 		continue;
+		// 	}
+		// 	if ((t1 && t1->type == WORD && tmp && tmp->opr == OPER && tmp->state == GENERAL)
+		// 	|| (!t2 && t1 && tmp->opr == OPER && tmp->state == GENERAL))
+		// 	{
+		// 		if (t1->opr == OPER && t1->state == GENERAL)
+		// 		{
+		// 			printf("*1\n");
+		// 			ft_putendl_fd(ERROR_MSG,2);
+		// 			return ;
+		// 		}
+		// 		tmp = tmp->next;
+		// 		continue;
+		// 	}
+		// 	if (!t1 || !t2 || (t1->opr == OPER && t1->state == GENERAL) || (t2->opr == OPER && t2->state == GENERAL))
+		// 	{
+		// 		printf("*2\n");
+		// 		ft_putendl_fd(ERROR_MSG,2);
+		// 		return ;
+		// 	}
+	// t3 = *cmd;
+	// while(t3)
+	// {
+	// 	if (t3->type == OTHER && t3->state == GENERAL)
+	// 	{
+	// 		ft_putendl_fd(ERROR_MSG,2);
+	// 		return ;
+	// 	}	
+	// 	t3 = t3->next;
+	// }
 
 void	display_pipe(t_cmd_line *cmd_l)
 {
@@ -593,11 +601,52 @@ void	display_pipe(t_cmd_line *cmd_l)
 		i++;
 	}
 }
+int 	count_pipes(t_command **cmd)
+{
+	t_command *tmp;
+	int count;
+
+	count = 0;
+	tmp = *cmd;
+	while(tmp)
+	{
+		if (tmp->type == PIPE && tmp->state == GENERAL)
+			count++;
+		tmp = tmp->next;
+	}
+	return count;
+}
+t_cmd_line *splite_with_pipes(t_command **cmd)
+{
+	t_cmd_line *cmd_l;
+	t_command *tmp;
+	char *str = NULL;
+	cmd_l = malloc(sizeof(cmd_l) * (count_pipes(cmd) + 1));
+	cmd_l->next = NULL;
+	cmd_l->infile = NULL;
+	cmd_l->outfile = NULL;
+	tmp = *cmd;
+	while(tmp)
+	{
+		while(tmp && tmp->type != PIPE)
+		{
+			str = ft_strjoin(str, tmp->content);
+			tmp = tmp->next;
+		}
+		str = ft_strjoin(str, ";"); 
+		tmp = tmp->next;
+	}
+	cmd_l->cmds = ft_split(str, ';');
+	
+	return cmd_l;
+}
 
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
 	int			i;
+	pid_t id;
+	int status;
 	int			len;
 	t_command	*cmd;
 	t_command	*node;
@@ -624,10 +673,11 @@ int	main(int ac, char **av, char **env)
 		// check_syntax_rd1(&cmd);
 		// extend_cmd(&cmd);
 		ft_pwd(&cmd);
-		cmd_l = fill_pipe(&cmd, str);
+		// cmd_l = fill_pipe(&cmd, str);
 		
-		display_pipe(cmd_l);
+		// display_pipe(cmd_l);
 		displayList(&cmd);
+		cmd = NULL;
         free(str); 
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/29 21:50:47 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/03/30 22:40:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define N_OPER 15
 # define QEST 16
 # define OTHER 17
+# define AND 17
 #define ERROR_MSG "\033[0;31m syntax error \033[0m"
 
 #define GENERAL 1
@@ -55,6 +56,7 @@ typedef struct s_cmd_line
 	char	*infile;
 	char	*outfile;
 	char	**cmds;
+	struct s_cmd_line *next;
 }			t_cmd_line;
 
 /*  fonction builtins  */

@@ -21,6 +21,10 @@ fclean: clean
 
 re: fclean all
 
+run :
+	make
+	clear
+	./minishell
 norm:
 	@norminette							
 

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/03/31 02:05:21 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/02 00:30:25 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,27 @@ void	ft_lstadd_back(t_command **lst, t_command *new)
 	{
 		temp->next = new;
 		new->prev = temp;
+	}
+}
+void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new)
+{
+	t_cmd_line	*temp;
+
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	temp = *lst;
+	while (temp->next != NULL)
+		temp = temp->next;
+	if (!temp)
+	{
+		*lst = new;
+	}
+	else
+	{
+		temp->next = new;
 	}
 }
 void	displayList(t_command **node)
@@ -222,99 +243,99 @@ int	fill_types(t_command *tmp, char c, int *i, char *str)
 	return (1);
 }
 
-t_cmd_line	*fill_pipe(t_command **cmd, char *str)
-{
-	t_command	*tmp;
-	char *str1 = NULL;
-	t_cmd_line	*cmd_p;
-	cmd_p = malloc(sizeof(t_cmd_line));
-	if (!cmd_p)
-		return NULL;
-	cmd_p->infile = NULL;
-	cmd_p->outfile = NULL;
-	cmd_p->cmds = NULL;
-	tmp = *cmd;
-	while (tmp != NULL)
-	{
-		if (tmp && tmp->type == WORD)
-		{
-			cmd_p->infile = NULL;
-			cmd_p->outfile = NULL;
-			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q || tmp->type == DASH))
-			{
-				str1 = ft_strjoin(str1, tmp->content);
-				tmp = tmp->next;
-			}
-			cmd_p->cmds = ft_split(str1, ' ');
-		}
-		else if (tmp && tmp->type == RED_IN)
-		{
-			while (tmp != NULL && tmp->type != WORD)
-				tmp = tmp->next;
-			if (!tmp)
-			{
-				cmd_p->infile = NULL;
-				break ;
-			}
-			if (tmp && tmp->type == WORD)
-			{
-				cmd_p->infile = ft_strdup(tmp->content);
-				tmp = tmp->next;
-			}
-			else
-				cmd_p->infile = NULL;
-			skipe_spaces(&tmp);
-			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q || tmp->type == DASH))
-			{
-				str1 = ft_strjoin(str1, tmp->content);
-				tmp = tmp->next;
-			}
-			cmd_p->cmds = ft_split(str1, ' ');
-			//printf("!!!!!!!%s\n", str1);
-			// exit(0);
-		}
-		else if (tmp && tmp->type == RED_OUT)
-		{
-			while (tmp != NULL && tmp->type != WORD)
-				tmp = tmp->next;
-			if (!tmp)
-			{
-				cmd_p->outfile = NULL;
-				break ;
-			}
-			if (tmp && tmp->type == WORD)
-			{
-				cmd_p->outfile = ft_strdup(tmp->content);
-				tmp = tmp->next;
-			}
-			else
-				cmd_p->outfile = NULL;
-		}
-		else
-			tmp = tmp->next;
-	}
-	// if ((*cmd))
-	// 	printf("in %s\tout %s\tcmd %s %s %s\n", cmd_p->infile, cmd_p->outfile, cmd_p->cmds[0], cmd_p->cmds[1],cmd_p->cmds[2]);
-	return cmd_p;
-}
+// t_cmd_line	*fill_pipe(t_command **cmd, char *str)
+// {
+// 	t_command	*tmp;
+// 	char *str1 = NULL;
+// 	t_cmd_line	*cmd_p;
+// 	cmd_p = malloc(sizeof(t_cmd_line));
+// 	if (!cmd_p)
+// 		return NULL;
+// 	cmd_p->infile = NULL;
+// 	cmd_p->outfile = NULL;
+// 	cmd_p->cmds = NULL;
+// 	tmp = *cmd;
+// 	while (tmp != NULL)
+// 	{
+// 		if (tmp && tmp->type == WORD)
+// 		{
+// 			cmd_p->infile = NULL;
+// 			cmd_p->outfile = NULL;
+// 			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q || tmp->type == DASH))
+// 			{
+// 				str1 = ft_strjoin(str1, tmp->content);
+// 				tmp = tmp->next;
+// 			}
+// 			cmd_p->cmds = ft_split(str1, ' ');
+// 		}
+// 		else if (tmp && tmp->type == RED_IN)
+// 		{
+// 			while (tmp != NULL && tmp->type != WORD)
+// 				tmp = tmp->next;
+// 			if (!tmp)
+// 			{
+// 				cmd_p->infile = NULL;
+// 				break ;
+// 			}
+// 			if (tmp && tmp->type == WORD)
+// 			{
+// 				cmd_p->infile = ft_strdup(tmp->content);
+// 				tmp = tmp->next;
+// 			}
+// 			else
+// 				cmd_p->infile = NULL;
+// 			skipe_spaces(&tmp);
+// 			while(tmp && (tmp->type == WORD || tmp->type == SPACE || tmp->type == SINGLE_Q || tmp->type == DOUBLE_Q || tmp->type == DASH))
+// 			{
+// 				str1 = ft_strjoin(str1, tmp->content);
+// 				tmp = tmp->next;
+// 			}
+// 			cmd_p->cmds = ft_split(str1, ' ');
+// 			//printf("!!!!!!!%s\n", str1);
+// 			// exit(0);
+// 		}
+// 		else if (tmp && tmp->type == RED_OUT)
+// 		{
+// 			while (tmp != NULL && tmp->type != WORD)
+// 				tmp = tmp->next;
+// 			if (!tmp)
+// 			{
+// 				cmd_p->outfile = NULL;
+// 				break ;
+// 			}
+// 			if (tmp && tmp->type == WORD)
+// 			{
+// 				cmd_p->outfile = ft_strdup(tmp->content);
+// 				tmp = tmp->next;
+// 			}
+// 			else
+// 				cmd_p->outfile = NULL;
+// 		}
+// 		else
+// 			tmp = tmp->next;
+// 	}
+// 	// if ((*cmd))
+// 	// 	printf("in %s\tout %s\tcmd %s %s %s\n", cmd_p->infile, cmd_p->outfile, cmd_p->cmds[0], cmd_p->cmds[1],cmd_p->cmds[2]);
+// 	return cmd_p;
+// }
 
-void	command_or_pipe(t_command **cmd, char *str)
-{
-	t_command	*tmp;
+// void	command_or_pipe(t_command **cmd, char *str)
+// {
+// 	t_command	*tmp;
 
-	tmp = *cmd;
-	while (tmp != NULL)
-	{
-		if (tmp->type == PIPE)
-		{
-			printf("PIPE\n");
-			fill_pipe(cmd, str);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	printf("CMD\n");
-}
+// 	tmp = *cmd;
+// 	while (tmp != NULL)
+// 	{
+// 		if (tmp->type == PIPE)
+// 		{
+// 			printf("PIPE\n");
+// 			fill_pipe(cmd, str);
+// 			return ;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	printf("CMD\n");
+// }
 
 char	*struct_to_str(t_command **cmd)
 {
@@ -339,8 +360,10 @@ void	ft_lstadd_middle(t_command **cmd)
 	new = init_cmd();
 	new->content = " ";
 	new->type = SPACE;
+	new->state = GENERAL;
 	new->len = 1;
 	new1 = init_cmd();
+	new1->state = GENERAL;
 	new1->content = " ";
 	new1->type = SPACE;
 	new1->len = 1;
@@ -363,26 +386,8 @@ void	ft_lstadd_middle(t_command **cmd)
 	}
 	/*end*/
 }
-void	extend_cmd(t_command **cmd)
-{
-	t_command	*tmp;
-	t_command	*node;
-	int			i;
 
-	i = 0;
-	tmp = *cmd;
-	while (tmp != NULL)
-	{
-		if (tmp->state == GENERAL && (tmp->type == RED_IN
-				|| tmp->type == RED_OUT || tmp->type == PIPE
-				|| tmp->type == HERDOC || tmp->type == APPE))
-		{
-			ft_lstadd_middle(&tmp);
-		}
-		tmp = tmp->next;
-		i++;
-	}
-}
+
 void	set_states(t_command **cmd)
 {
 	t_command	*tmp;
@@ -508,22 +513,22 @@ void	check_syntax(t_command	**cmd)
 			{
 				if (!t1 || (!t2 && tmp && tmp->type == PIPE && tmp->state == GENERAL))
 				{
-					if (!t2 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
+					if (!t2 && tmp && tmp->opr == OPER && tmp->state == GENERAL && tmp->type != OTHER)
 					{	
-						printf("t1 n ");
+						printf("t1 n 1");
 						error_msg();
 						return ;
 					}
 					if (!t1 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
 					{	
-						printf("t1 n ");
+						printf("t1 n 2");
 						error_msg();
 						return ;
 					}
 					
 					if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN && tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
 					{
-						printf("t1 n ");
+						printf("t1 n 3");
 						error_msg();
 						return ;
 					}
@@ -557,44 +562,11 @@ void	check_syntax(t_command	**cmd)
 	}
 	sub_check_syntax_error(cmd);
 }
-		// 	if (t1 && tmp && (t1->type == HERDOC || t1->type == APPE || t1->type == RED_IN || t1->type == RED_OUT) && t1->opr == OPER && tmp->type == PIPE)
-		// 	{
-		// 		tmp = tmp->next;
-		// 		continue;
-		// 	}
-		// 	if ((t1 && t1->type == WORD && tmp && tmp->opr == OPER && tmp->state == GENERAL)
-		// 	|| (!t2 && t1 && tmp->opr == OPER && tmp->state == GENERAL))
-		// 	{
-		// 		if (t1->opr == OPER && t1->state == GENERAL)
-		// 		{
-		// 			printf("*1\n");
-		// 			ft_putendl_fd(ERROR_MSG,2);
-		// 			return ;
-		// 		}
-		// 		tmp = tmp->next;
-		// 		continue;
-		// 	}
-		// 	if (!t1 || !t2 || (t1->opr == OPER && t1->state == GENERAL) || (t2->opr == OPER && t2->state == GENERAL))
-		// 	{
-		// 		printf("*2\n");
-		// 		ft_putendl_fd(ERROR_MSG,2);
-		// 		return ;
-		// 	}
-	// t3 = *cmd;
-	// while(t3)
-	// {
-	// 	if (t3->type == OTHER && t3->state == GENERAL)
-	// 	{
-	// 		ft_putendl_fd(ERROR_MSG,2);
-	// 		return ;
-	// 	}	
-	// 	t3 = t3->next;
-	// }
+
 
 void	display_pipe(t_cmd_line *cmd_l)
 {
 	int i = 0;
-	printf("infile : %s\t outfile : %s\n", cmd_l->infile, cmd_l->outfile);
 	while(cmd_l && cmd_l->cmds[i])
 	{
 		printf("cmds[%d] %s\n", i, cmd_l->cmds[i]);
@@ -616,31 +588,140 @@ int 	count_pipes(t_command **cmd)
 	}
 	return count;
 }
-t_cmd_line *splite_with_pipes(t_command **cmd)
+
+t_cmd_line *lst_init_cmds()
 {
-	t_cmd_line *cmd_l;
-	t_command *tmp;
-	char *str = NULL;
-	cmd_l = malloc(sizeof(cmd_l) * (count_pipes(cmd) + 1));
-	cmd_l->next = NULL;
+	t_cmd_line *cmd_l = malloc(sizeof(t_cmd_line));
 	cmd_l->infile = NULL;
 	cmd_l->outfile = NULL;
+	cmd_l->next = NULL;
+	cmd_l->cmds = malloc(sizeof(char *) * 3);
+	return cmd_l;
+}
+void	extend_cmd(t_command **cmd)
+{
+	t_command	*tmp;
+	t_command	*node;
+	int			i;
+
+	i = 0;
 	tmp = *cmd;
+	while (tmp != NULL)
+	{
+		if (tmp->state == GENERAL && (tmp->type == RED_IN
+				|| tmp->type == RED_OUT || tmp->type == PIPE
+				|| tmp->type == HERDOC || tmp->type == APPE))
+		{
+			ft_lstadd_middle(&tmp);
+		}
+		tmp = tmp->next;
+		i++;
+	}
+}
+t_cmd_line *splite_with_pipes(t_command **cmd)
+{
+	t_command *tmp;
+	int i = 0;
+	char **cmds;
+	t_cmd_line *cmd_l = NULL;
+	t_cmd_line *temp;
+
+	tmp = *cmd;
+	extend_cmd(&tmp);
 	while(tmp)
 	{
 		while(tmp && tmp->type != PIPE)
 		{
-			str = ft_strjoin(str, tmp->content);
+			if (tmp->type == RED_IN)
+			{
+				temp = lst_init_cmds();
+				tmp = tmp->next;
+				skipe_spaces(&tmp);
+				while(tmp && (tmp->type != SPACE || tmp->state != GENERAL))
+				{
+					while(tmp && tmp->type == DOUBLE_Q && tmp->state == GENERAL)
+					{
+						printf("DOUBLE\n");
+						tmp = tmp->next;
+					}
+					if (!tmp || (tmp->state == GENERAL && tmp->type != WORD && tmp->type != OTHER))
+						break;
+					temp->infile = ft_strjoin(temp->infile, tmp->content);
+					tmp = tmp->next;
+				}
+				// ft_lstadd_back_cmds(&cmd_l, temp);
+			}
+			else if (tmp->type == RED_OUT)
+			{
+				temp = lst_init_cmds();
+				tmp = tmp->next;
+				skipe_spaces(&tmp);
+				while(tmp && (tmp->type != SPACE || tmp->state != GENERAL))
+				{
+					while(tmp && tmp->type == DOUBLE_Q && tmp->state == GENERAL)
+					{
+						printf("DOUBLE\n");
+						tmp = tmp->next;
+					}
+					if (!tmp || (tmp->state == GENERAL && tmp->type != WORD && tmp->type != OTHER))
+						break;
+					temp->outfile = ft_strjoin(temp->infile, tmp->content);
+					tmp = tmp->next;
+				}
+			}
+			if (!tmp)
+				break;
 			tmp = tmp->next;
+			// cmds[i] = ft_strjoin(cmds[i], tmp->content);
+			// tmp = tmp->next;
+			// while(tmp && tmp->type == PIPE && tmp->state != GENERAL)
+			// {
+			// 	cmds[i] = ft_strjoin(cmds[i], tmp->content);
+			// 	tmp = tmp->next;
+			// }
 		}
-		str = ft_strjoin(str, ";"); 
+		if (!tmp)
+			break;
+		ft_lstadd_back_cmds(&cmd_l, temp);
+		// i++;
 		tmp = tmp->next;
 	}
-	cmd_l->cmds = ft_split(str, ';');
-	
+	while(cmd_l)
+	{
+		printf("infile %d---%s----\n", i + 1 , cmd_l->infile);
+		printf("outfile %d---%s----\n", i + 1 , cmd_l->outfile);
+		// if (i == 2)
+		// 	exit(0);
+		cmd_l = cmd_l->next;
+		i++;
+	}
 	return cmd_l;
 }
-
+// t_cmd_line *extend_cmds(t_command **cmd)
+// {
+// 	char **cmds = splite_with_pipes(cmd);
+// 	int i;
+// 	int j;
+// 	t_cmd_line *cmd_l;
+// 	t_cmd_line *tmp;
+// 	i = 0;
+// 	j = 0;
+// 	while(cmds[i])
+// 	{
+// 		j = 0;
+// 		tmp = lst_init_cmds();
+// 		while(cmds[i][j])
+// 		{
+// 			if (cmds[i][j] == '<')
+// 			{
+// 				while(cmds[i][j] != ' ')
+// 					tmp->infile = ft_strjoin(tmp->infile , &cmds[i][j]);
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -669,12 +750,9 @@ int	main(int ac, char **av, char **env)
 		check_close_qotes(str);
 		set_states(&cmd);
 		check_syntax(&cmd);
-		// check_syntax_rd(&cmd);
-		// check_syntax_rd1(&cmd);
-		// extend_cmd(&cmd);
+		// cmd_l = extend_cmds(&cmd);
 		ft_pwd(&cmd);
-		// cmd_l = fill_pipe(&cmd, str);
-		
+		splite_with_pipes(&cmd);
 		// display_pipe(cmd_l);
 		displayList(&cmd);
 		cmd = NULL;

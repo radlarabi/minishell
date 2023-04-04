@@ -1,6 +1,6 @@
 SRCS = 	parsing/main.c \
 
-# CFLAGS = 
+# CFLAGS =
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 
@@ -11,8 +11,7 @@ all: $(NAME)
 
 $(NAME): $(O_SRCS)
 	@make -sC libft/
-	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline -fsanitize=address
-
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline 
 clean:
 	$(RM) $(O_SRCS)
 
@@ -26,6 +25,6 @@ run :
 	clear
 	./minishell
 norm:
-	@norminette							
+	@norminette
 
 .PHONY: all clean fclean re norm

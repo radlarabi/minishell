@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 01:21:25 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/04 17:52:12 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <fcntl.h>
 
 # define WORD 1
 # define DASH 2
@@ -53,8 +54,8 @@ typedef struct s_cmd
 
 typedef struct s_cmd_line
 {
-	char	*infile;
-	char	*outfile;
+	int		infile;
+	int 	outfile;
 	char	**cmds;
 	struct s_cmd_line *next;
 }			t_cmd_line;

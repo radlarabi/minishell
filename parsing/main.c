@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 16:09:07 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:08:16 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -502,8 +502,8 @@ int 	count_pipes(t_command **cmd)
 t_cmd_line *lst_init_cmds()
 {
 	t_cmd_line *cmd_l = malloc(sizeof(t_cmd_line));
-	cmd_l->infile = NULL;
-	cmd_l->outfile = NULL;
+	cmd_l->infile = -1;
+	cmd_l->outfile = -1;
 	cmd_l->next = NULL;
 	cmd_l->cmds = NULL;
 	return cmd_l;
@@ -574,7 +574,6 @@ char *join_char(char *str, char c)
 	a[i] = c;
 	i++;
 	a[i] = '\0';
-	printf("--------------> %s\n", a);
 	return a;
 }
 char *change_quote_in_files(char *str)
@@ -617,7 +616,6 @@ char *change_quote_in_files(char *str)
 		}
 		else
 		{
-			printf("-%s-\n",a);
 			a = join_char(a, str[i]);
 			i++;
 		}
@@ -656,7 +654,6 @@ char **splite_with_pipes(t_command **cmd)
 	tmp = *cmd;
 	extend_cmd(&tmp);
 	char *str = struct_to_str(&tmp);
-	printf("_________^^^%s\n", str);
 	return ft_split(set_spliter(str, '|'), -1);
 }
 
@@ -669,6 +666,8 @@ t_cmd_line * commands_struct(char **cmds)
 {
 	t_cmd_line *cmd_l = NULL;
 	t_cmd_line *tmp;
+	char *infile;
+	char *outfile;
 	int i = 0;
 	int j = 0;
 	char *t1;
@@ -685,13 +684,19 @@ t_cmd_line * commands_struct(char **cmds)
 			{
 				if (!temp[++j])
 					break;
-				tmp->infile = change_quote_in_files(ft_strdup(temp[j]));
+				infile = change_quote_in_files(ft_strdup(temp[j]));
+				tmp->infile = open(infile,O_RDONLY | O_RDWR);
+				if (tmp->infile < 0)
+					perror("Error");
 			}
 			else if (!ft_strncmp(temp[j], ">", ft_strlen(temp[j])))
 			{
 				if (!temp[++j])
 					break;
-				tmp->outfile = change_quote_in_files(ft_strdup(temp[j]));
+				outfile = change_quote_in_files(ft_strdup(temp[j]));
+				tmp->outfile = open(outfile,O_CREAT | O_RDONLY | O_RDWR | O_TRUNC,  0644);
+				if (tmp->outfile < 0)
+					perror("Error");
 			}
 			else
 			{
@@ -704,20 +709,21 @@ t_cmd_line * commands_struct(char **cmds)
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
 	}
-	i = 0;
-	while(cmd_l)
-	{
-		j = 0;
-		printf("---> %d infile %s +++ outfile %s +++ \n", i++, cmd_l->infile, cmd_l->outfile);
-		while (cmd_l->cmds[j])
-		{
-			printf("cmd [%d] %s\n", j+1, cmd_l->cmds[j]);
-			j++;
-		}
-		cmd_l = cmd_l->next;
-	}
+	// i = 0;
+	// while(cmd_l)
+	// {
+	// 	j = 0;
+	// 	printf("---> %d infile %s +++ outfile %s +++ \n", i++, cmd_l->infile, cmd_l->outfile);
+	// 	while (cmd_l->cmds[j])
+	// 	{
+	// 		printf("cmd [%d] %s\n", j+1, cmd_l->cmds[j]);
+	// 		j++;
+	// 	}
+	// 	cmd_l = cmd_l->next;
+	// }
 	return cmd_l;
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -764,7 +770,7 @@ int	main(int ac, char **av, char **env)
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
-		displayList(&cmd);
+		//displayList(&cmd);
 		cmd = NULL;
         free(str);
 	}

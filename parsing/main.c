@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 03:34:36 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/04 15:51:25 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,7 +376,7 @@ void	ft_pwd(t_command **cmd)
 	}
 }
 
-void	sub_check_syntax_error(t_command **cmd)
+int	sub_check_syntax_error(t_command **cmd)
 {
 	t_command	*tmp;
 
@@ -392,14 +392,14 @@ void	sub_check_syntax_error(t_command **cmd)
 		|| !ft_strncmp(tmp->content, "\\", ft_strlen(tmp->content))))
 		{
 			error_msg();
-			return ;
+			return 0;
 		}
 		tmp = tmp->next;
 	}
-	
+	return 1;
 }
 
-void	check_syntax(t_command	**cmd)
+int	check_syntax(t_command	**cmd)
 {
 	t_command	*tmp;
 	t_command	*t1;
@@ -425,20 +425,20 @@ void	check_syntax(t_command	**cmd)
 					{
 						printf("t1 n 1");
 						error_msg();
-						return ;
+						return 0;
 					}
 					if (!t1 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
 					{	
 						printf("t1 n 2");
 						error_msg();
-						return ;
+						return 0;
 					}
 					
 					if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN && tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
 					{
 						printf("t1 n 3");
 						error_msg();
-						return ;
+						return 0;
 					}
 				}
 			}
@@ -450,7 +450,7 @@ void	check_syntax(t_command	**cmd)
 					{
 						printf("%s  --> t1 ", t1->content);
 						error_msg();
-						return ;
+						return 0;
 					}
 				}
 				if(t2->opr == OPER)
@@ -461,14 +461,16 @@ void	check_syntax(t_command	**cmd)
 					{
 						printf("%s  --> t2 ", t2->content);
 						error_msg();
-						return ;
+						return 0;
 					}
 				}
 			}
 		}
 		tmp = tmp->next;
 	}
-	sub_check_syntax_error(cmd);
+	if (!sub_check_syntax_error(cmd))
+		return 0;
+	return 1;
 }
 
 
@@ -568,34 +570,50 @@ char *join_char(char *str, char c)
 	printf("--------------> %s\n", a);
 	return a;
 }
-char *change_quote(char *str)
+char *change_quote_in_files(char *str)
 {
 	int i = 0;
 	char *a = NULL;
 	if (!str)
 		return NULL;
-	if (str[0] == '\"')
+	while(str[i])
 	{
-		while(str[i])
+		if (str[i] == '\"')
 		{
-			if (str[i] != '\"')
+			i++;
+			while(str[i] && str[i] != '\"')
 			{
 				a = join_char(a, str[i]);
+				i++;
 			}
-			i++;
+			if (!str[i])
+				break;
+			if ('\"')
+				i++;
+			if (!str[i])
+				break;
 		}
-	}
-	else if (str[0] == '\'')
-	{
-		while(str[i])
+		else if (str[i] == '\'')
 		{
-			if (str[i] != '\'')
+			i++;
+			while(str[i] && str[i] != '\'')
+			{
 				a = join_char(a, str[i]);
+				i++;
+			}
+			if (!str[i])
+				break;
+			if ('\'')
+				i++;
+			if (!str[i])
+				break;
+		}
+		else
+		{
+			a = join_char(a, str[i]);
 			i++;
 		}
 	}
-	else
-		return str;
 	return a;
 }
 
@@ -606,7 +624,6 @@ char *set_spliter(char *str, char c)
 	if (!str)
 		return NULL;
 	s = malloc(ft_strlen(str) + 1);
-
 	i = 0;
 	while(str[i])
 	{
@@ -624,8 +641,14 @@ char *set_spliter(char *str, char c)
 	return s;
 }
 
-char **splite_with_pipes(char *str)
+char **splite_with_pipes(t_command **cmd)
 {
+	t_command *tmp;
+
+	tmp = *cmd;
+	extend_cmd(&tmp);
+	char *str = struct_to_str(&tmp);
+	printf("_________^^^%s\n", str);
 	return ft_split(set_spliter(str, '|'), -1);
 }
 
@@ -654,14 +677,13 @@ t_cmd_line * commands_struct(char **cmds)
 			{
 				if (!temp[++j])
 					break;
-				printf("}}}}}}");
-				tmp->infile = change_quote(ft_strdup(temp[j]));
+				tmp->infile = change_quote_in_files(ft_strdup(temp[j]));
 			}
 			else if (!ft_strncmp(temp[j], ">", ft_strlen(temp[j])))
 			{
 				if (!temp[++j])
 					break;	
-				tmp->outfile = change_quote(ft_strdup(temp[j]));
+				tmp->outfile = change_quote_in_files(ft_strdup(temp[j]));
 			}
 			else
 			{
@@ -713,13 +735,21 @@ int	main(int ac, char **av, char **env)
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
 		}
-		check_close_qotes(str);
+		if (!check_close_qotes(str))
+		{
+			cmd = NULL;
+			continue ;
+		}
 		set_states(&cmd);
-		check_syntax(&cmd);
+		if (!check_syntax(&cmd))
+		{
+			cmd = NULL;
+			continue ;
+		}
 		ft_pwd(&cmd);
 
 		// char **a = splite_with_pipes(str);
-		cmd_l = commands_struct(splite_with_pipes(str));
+		cmd_l = commands_struct(splite_with_pipes(&cmd));
 		// i = 0;
 		// while(cmd_l->cmds[i])
 		// {

@@ -1,6 +1,6 @@
 SRCS = 	parsing/main.c \
-
-# CFLAGS =
+		parsing/fill_types.c \
+# CFLAGS =	
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 

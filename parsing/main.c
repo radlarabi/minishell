@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 18:08:16 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:31:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -744,8 +744,7 @@ int	main(int ac, char **av, char **env)
 		while (str[i])
 		{
 			tmp = init_cmd();
-			if (!fill_types(tmp, str[i], &i, str))
-				return (0);
+			fill_types0(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
 		}
@@ -770,7 +769,7 @@ int	main(int ac, char **av, char **env)
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
-		//displayList(&cmd);
+		displayList(&cmd);
 		cmd = NULL;
         free(str);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 17:52:12 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:31:33 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ typedef struct s_cmd_line
 void	commands(t_cmd_line **commands_v,t_command **cmd);
 int	ft_echo(t_cmd_line **commands_v,t_command **cmd);
 /* end */
-
+void    fill_types0(t_command *tmp, char c, int *i, char *str);
 #endif

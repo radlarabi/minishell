@@ -11,7 +11,7 @@ all: $(NAME)
 
 $(NAME): $(O_SRCS)
 	@make -sC libft/
-	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline -fsanitize=address
 
 clean:
 	$(RM) $(O_SRCS)

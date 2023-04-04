@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 15:51:25 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/04 16:09:07 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ void	set_states(t_command **cmd)
 	t_command	*tmp;
 	int count = 0;
 	tmp = *cmd;
-	
+
 	while (tmp != NULL)
 	{
 		tmp->state = GENERAL;
@@ -428,12 +428,12 @@ int	check_syntax(t_command	**cmd)
 						return 0;
 					}
 					if (!t1 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
-					{	
+					{
 						printf("t1 n 2");
 						error_msg();
 						return 0;
 					}
-					
+
 					if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN && tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
 					{
 						printf("t1 n 3");
@@ -456,7 +456,7 @@ int	check_syntax(t_command	**cmd)
 				if(t2->opr == OPER)
 				{
 					if ((t2->type == PIPE && tmp && tmp->type == PIPE && t2->state == GENERAL)
-						|| (t2->type != PIPE && tmp && tmp->type != PIPE && t2->state == GENERAL) 
+						|| (t2->type != PIPE && tmp && tmp->type != PIPE && t2->state == GENERAL)
 						|| (tmp && tmp->type == PIPE))
 					{
 						printf("%s  --> t2 ", t2->content);
@@ -556,13 +556,20 @@ char *join_char(char *str, char c)
 {
 	char *a;
 	if (!str)
-		return ft_strdup(&c);
+	{
+		a = malloc(sizeof(char) * 2);
+		if (!a)
+			return NULL;
+		a[0] = c;
+		a[1] = '\0';
+		return a;
+	}
 	int i = 0;
 	a = malloc(ft_strlen(str) + 2);
 	while(str[i])
 	{
 		a[i] = str[i];
-		i++; 
+		i++;
 	}
 	a[i] = c;
 	i++;
@@ -610,6 +617,7 @@ char *change_quote_in_files(char *str)
 		}
 		else
 		{
+			printf("-%s-\n",a);
 			a = join_char(a, str[i]);
 			i++;
 		}
@@ -682,7 +690,7 @@ t_cmd_line * commands_struct(char **cmds)
 			else if (!ft_strncmp(temp[j], ">", ft_strlen(temp[j])))
 			{
 				if (!temp[++j])
-					break;	
+					break;
 				tmp->outfile = change_quote_in_files(ft_strdup(temp[j]));
 			}
 			else
@@ -694,7 +702,7 @@ t_cmd_line * commands_struct(char **cmds)
 		}
 		tmp->cmds = splite_with_space(t1);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
-		i++;		
+		i++;
 	}
 	i = 0;
 	while(cmd_l)
@@ -758,7 +766,7 @@ int	main(int ac, char **av, char **env)
 		// }
 		displayList(&cmd);
 		cmd = NULL;
-        free(str); 
+        free(str);
 	}
 	return (0);
 }

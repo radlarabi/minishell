@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/06 00:59:24 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/06 22:18:15 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,6 +396,27 @@ int	sub_check_syntax_error(t_command **cmd)
 	return 1;
 }
 
+int	check_16_heredoc(t_command **cmd)
+{
+	t_command	*tmp;
+	int i;
+
+	tmp = *cmd;
+	i = 0;
+	while(tmp)
+	{
+		if (tmp->type == HERDOC && tmp->state == GENERAL)
+			i++;
+		tmp = tmp->next;
+	}
+	if (i >= 16)
+	{
+		error_msg();
+		return 0;
+	}
+	return 1;
+}
+
 int	check_syntax(t_command	**cmd)
 {
 	t_command	*tmp;
@@ -465,7 +486,7 @@ int	check_syntax(t_command	**cmd)
 		}
 		tmp = tmp->next;
 	}
-	if (!sub_check_syntax_error(cmd))
+	if (!sub_check_syntax_error(cmd) || !check_16_heredoc(cmd))
 		return 0;
 	return 1;
 }
@@ -473,12 +494,17 @@ int	check_syntax(t_command	**cmd)
 
 void	display_pipe(t_cmd_line *cmd_l)
 {
-	// int i = 0;
-	// while(cmd_l && cmd_l->cmds[i])
-	// {
-	// 	printf("cmds[%d] %s\n", i, cmd_l->cmds[i]);
-	// 	i++;
-	// }
+	int i = 0;
+	while(cmd_l)
+	{
+		i = 0;
+		while(cmd_l && cmd_l->cmds[i])
+		{
+			printf("cmds[%d] %s\n", i, cmd_l->cmds[i]);
+			i++;
+		}
+		cmd_l = cmd_l->next;	
+	}
 }
 int 	count_pipes(t_command **cmd)
 {
@@ -686,6 +712,45 @@ char *get_stop_heredoc(char *str)
 	char **a = splite_with_space(str);
 	return change_quote_in_files(a[0]);
 }
+/**********************************************************/
+pid_t child_pid = 0;
+void sigint_handler(int sig) 
+{
+	if (sig ==  SIGINT)
+	{
+		printf("\nReceived SIGINT signal, terminating the child process.\n");
+		if (child_pid > 0) {
+			// Send SIGTERM signal to the child process
+			printf("%d\n",child_pid);
+			kill(child_pid, SIGTERM);
+		}
+	}
+   
+}
+int	here_doc(char **temp, char *stop, t_cmd_line *tmp, int *j)
+{
+	pid_t id;
+	int status;
+	char *r = malloc(100);
+	id = fork();
+	child_pid = getpid();
+	if (id == 0)
+	{
+		signal(SIGINT, sigint_handler);
+		if (!temp[++(*j)])
+			return 1;
+		stop = get_stop_heredoc(temp[*j]);
+		if (tmp->infile != -1)
+			close(tmp->infile);
+		tmp->infile = fill_content_heredoc(stop);
+		read(tmp->infile, r, 100);
+		printf("%s", r);
+	}
+	// child_pid = id;  // Set the child process ID
+	wait(&status);
+	return 0;
+}
+/**********************************************************/
 t_cmd_line * commands_struct(char **cmds)
 {
 	t_cmd_line *cmd_l = NULL;
@@ -693,7 +758,6 @@ t_cmd_line * commands_struct(char **cmds)
 	char *infile;
 	char *outfile;
 	char *stop;
-	char *r = malloc(100);
 	char *content;
 	int i = 0;
 	int j = 0;
@@ -752,14 +816,7 @@ t_cmd_line * commands_struct(char **cmds)
 			}
 			else if (!ft_strncmp(temp[j], "<<", ft_strlen(temp[j])))
 			{
-				if (!temp[++j])
-					break;
-				stop = get_stop_heredoc(temp[j]);
-				if (tmp->infile != -1)
-					close(tmp->infile);
-				tmp->infile = fill_content_heredoc(stop);
-				read(tmp->infile, r, 100);
-				printf("%s", r);
+				here_doc(temp, stop, tmp, &j);
 			}
 			else
 			{
@@ -830,6 +887,7 @@ int	main(int ac, char **av, char **env)
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
+		display_pipe(cmd_l);
 		// displayList(&cmd);
 		cmd = NULL;
         free(str);

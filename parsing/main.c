@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 18:31:51 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/06 00:59:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,7 @@ int	sub_check_qotes(char *str, int *i, int a)
 			(*i)++;
 		}
 		if (j == 0)
-		{
-			printf("errot quotes\n");
 			return (0);
-		}
 	}
 	return (1);
 }
@@ -121,8 +118,8 @@ int	check_close_qotes(char *str)
 	{
 		if (!sub_check_qotes(str, &i, 39) || !sub_check_qotes(str, &i, 34))
 		{
+			error_msg();
 			return (0);
-			// exit(258);
 		}
 		i++;
 	}
@@ -423,20 +420,20 @@ int	check_syntax(t_command	**cmd)
 				{
 					if (!t2 && tmp && tmp->opr == OPER && tmp->state == GENERAL && tmp->type != OTHER && tmp->type != DOUBLE_Q)
 					{
-						printf("t1 n 1");
+						// printf("t1 n 1");
 						error_msg();
 						return 0;
 					}
 					if (!t1 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
 					{
-						printf("t1 n 2");
+						// printf("t1 n 2");
 						error_msg();
 						return 0;
 					}
 
 					if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN && tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
 					{
-						printf("t1 n 3");
+						// printf("t1 n 3");
 						error_msg();
 						return 0;
 					}
@@ -448,7 +445,7 @@ int	check_syntax(t_command	**cmd)
 				{
 					if (t1->type == PIPE && t1->state == GENERAL)
 					{
-						printf("%s  --> t1 ", t1->content);
+						// printf("%s  --> t1 ", t1->content);
 						error_msg();
 						return 0;
 					}
@@ -459,7 +456,7 @@ int	check_syntax(t_command	**cmd)
 						|| (t2->type != PIPE && tmp && tmp->type != PIPE && t2->state == GENERAL)
 						|| (tmp && tmp->type == PIPE))
 					{
-						printf("%s  --> t2 ", t2->content);
+						// printf("%s  --> t2 ", t2->content);
 						error_msg();
 						return 0;
 					}
@@ -506,6 +503,7 @@ t_cmd_line *lst_init_cmds()
 	cmd_l->outfile = -1;
 	cmd_l->next = NULL;
 	cmd_l->cmds = NULL;
+	cmd_l->fd_error = NULL;
 	return cmd_l;
 }
 void	extend_cmd(t_command **cmd)
@@ -579,9 +577,9 @@ char *join_char(char *str, char c)
 char *change_quote_in_files(char *str)
 {
 	int i = 0;
-	char *a = NULL;
+	char *a = ft_strdup("");
 	if (!str)
-		return NULL;
+		return ft_strdup("");
 	while(str[i])
 	{
 		if (str[i] == '\"')
@@ -646,7 +644,28 @@ char *set_spliter(char *str, char c)
 	s[i] = 0;
 	return s;
 }
-
+int	fill_content_heredoc(char *stop)
+{
+	char *str = NULL;
+	char *content = NULL;
+	int fd[2];
+	pipe(fd);
+	while(1)
+	{
+		str = readline(">");
+		if (!ft_strcmp(str, stop))
+		{
+			close(fd[1]);
+			break;
+		}
+		content = ft_strjoin(content , str);
+		content = ft_strjoin(content , "\n");
+		write(fd[1], content, ft_strlen(content));
+		free(content);
+		free(str);
+	}
+	return fd[0];
+}
 char **splite_with_pipes(t_command **cmd)
 {
 	t_command *tmp;
@@ -661,13 +680,21 @@ char **splite_with_space(char *str)
 {
 	return ft_split(set_spliter(str, ' '), -1);
 }
-
+char *get_stop_heredoc(char *str)
+{
+	int i = 0;
+	char **a = splite_with_space(str);
+	return change_quote_in_files(a[0]);
+}
 t_cmd_line * commands_struct(char **cmds)
 {
 	t_cmd_line *cmd_l = NULL;
 	t_cmd_line *tmp;
 	char *infile;
 	char *outfile;
+	char *stop;
+	char *r = malloc(100);
+	char *content;
 	int i = 0;
 	int j = 0;
 	char *t1;
@@ -685,18 +712,54 @@ t_cmd_line * commands_struct(char **cmds)
 				if (!temp[++j])
 					break;
 				infile = change_quote_in_files(ft_strdup(temp[j]));
-				tmp->infile = open(infile,O_RDONLY | O_RDWR);
+				if (tmp->infile != -1)
+					close(tmp->infile);
+				tmp->infile = open(infile,O_RDONLY);
 				if (tmp->infile < 0)
-					perror("Error");
+				{
+					tmp->fd_error = ft_strdup(infile);
+					break;
+				}
 			}
 			else if (!ft_strncmp(temp[j], ">", ft_strlen(temp[j])))
 			{
 				if (!temp[++j])
 					break;
 				outfile = change_quote_in_files(ft_strdup(temp[j]));
-				tmp->outfile = open(outfile,O_CREAT | O_RDONLY | O_RDWR | O_TRUNC,  0644);
+				tmp->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
+				if (tmp->outfile != -1)
+					close(tmp->outfile);
 				if (tmp->outfile < 0)
-					perror("Error");
+				{
+					tmp->fd_error = ft_strdup(outfile);
+					break;
+				}
+			}
+			else if (!ft_strncmp(temp[j], ">>", ft_strlen(temp[j])))
+			{
+				if (!temp[++j])
+					break;
+				if (tmp->outfile != -1)
+					close(tmp->outfile);
+				outfile = change_quote_in_files(ft_strdup(temp[j]));
+				tmp->outfile = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
+				write(tmp->outfile,"hhhhhhhhhhh",11);
+				if (tmp->outfile < 0)
+				{
+					tmp->fd_error = ft_strdup(outfile);
+					break;
+				}
+			}
+			else if (!ft_strncmp(temp[j], "<<", ft_strlen(temp[j])))
+			{
+				if (!temp[++j])
+					break;
+				stop = get_stop_heredoc(temp[j]);
+				if (tmp->infile != -1)
+					close(tmp->infile);
+				tmp->infile = fill_content_heredoc(stop);
+				read(tmp->infile, r, 100);
+				printf("%s", r);
 			}
 			else
 			{
@@ -760,8 +823,6 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		ft_pwd(&cmd);
-
-		// char **a = splite_with_pipes(str);
 		cmd_l = commands_struct(splite_with_pipes(&cmd));
 		// i = 0;
 		// while(cmd_l->cmds[i])
@@ -769,7 +830,7 @@ int	main(int ac, char **av, char **env)
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
-		displayList(&cmd);
+		// displayList(&cmd);
 		cmd = NULL;
         free(str);
 	}

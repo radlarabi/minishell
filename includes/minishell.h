@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 18:31:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/06 01:06:59 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd_line
 {
 	int		infile;
 	int 	outfile;
+	char	*fd_error;
 	char	**cmds;
 	struct s_cmd_line *next;
 }			t_cmd_line;

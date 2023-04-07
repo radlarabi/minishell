@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/06 22:18:15 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/07 00:49:33 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -503,7 +503,7 @@ void	display_pipe(t_cmd_line *cmd_l)
 			printf("cmds[%d] %s\n", i, cmd_l->cmds[i]);
 			i++;
 		}
-		cmd_l = cmd_l->next;	
+		cmd_l = cmd_l->next;
 	}
 }
 int 	count_pipes(t_command **cmd)
@@ -712,29 +712,21 @@ char *get_stop_heredoc(char *str)
 	char **a = splite_with_space(str);
 	return change_quote_in_files(a[0]);
 }
-/**********************************************************/
-pid_t child_pid = 0;
-void sigint_handler(int sig) 
+/********** taraaah bnadam harab fi hadchi dyal signal****************/
+void sigint_handler(int sig)
 {
-	if (sig ==  SIGINT)
-	{
-		printf("\nReceived SIGINT signal, terminating the child process.\n");
-		if (child_pid > 0) {
-			// Send SIGTERM signal to the child process
-			printf("%d\n",child_pid);
-			kill(child_pid, SIGTERM);
-		}
-	}
-   
+	write(1,"\n",1);
+	exit(1);
 }
+
 int	here_doc(char **temp, char *stop, t_cmd_line *tmp, int *j)
 {
-	pid_t id;
 	int status;
+	pid_t  pid;
 	char *r = malloc(100);
-	id = fork();
-	child_pid = getpid();
-	if (id == 0)
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
 	{
 		signal(SIGINT, sigint_handler);
 		if (!temp[++(*j)])
@@ -746,8 +738,7 @@ int	here_doc(char **temp, char *stop, t_cmd_line *tmp, int *j)
 		read(tmp->infile, r, 100);
 		printf("%s", r);
 	}
-	// child_pid = id;  // Set the child process ID
-	wait(&status);
+	waitpid(pid,&status,0);
 	return 0;
 }
 /**********************************************************/
@@ -887,7 +878,7 @@ int	main(int ac, char **av, char **env)
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
-		display_pipe(cmd_l);
+		//display_pipe(cmd_l);
 		// displayList(&cmd);
 		cmd = NULL;
         free(str);

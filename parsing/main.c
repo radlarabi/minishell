@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/07 00:49:33 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/07 02:53:09 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,125 +372,6 @@ void	ft_pwd(t_command **cmd)
 		}
 	}
 }
-
-int	sub_check_syntax_error(t_command **cmd)
-{
-	t_command	*tmp;
-
-	tmp = *cmd;
-	while (tmp)
-	{
-		if (tmp->state == GENERAL && (!ft_strncmp(tmp->content, "&&", ft_strlen(tmp->content))
-		|| !ft_strncmp(tmp->content, "*", ft_strlen(tmp->content))
-		|| !ft_strncmp(tmp->content, ";", ft_strlen(tmp->content))
-		|| !ft_strncmp(tmp->content, ")", ft_strlen(tmp->content))
-		|| !ft_strncmp(tmp->content, "(", ft_strlen(tmp->content))
-		|| !ft_strncmp(tmp->content, "&", ft_strlen(tmp->content))
-		|| !ft_strncmp(tmp->content, "\\", ft_strlen(tmp->content))))
-		{
-			error_msg();
-			return 0;
-		}
-		tmp = tmp->next;
-	}
-	return 1;
-}
-
-int	check_16_heredoc(t_command **cmd)
-{
-	t_command	*tmp;
-	int i;
-
-	tmp = *cmd;
-	i = 0;
-	while(tmp)
-	{
-		if (tmp->type == HERDOC && tmp->state == GENERAL)
-			i++;
-		tmp = tmp->next;
-	}
-	if (i >= 16)
-	{
-		error_msg();
-		return 0;
-	}
-	return 1;
-}
-
-int	check_syntax(t_command	**cmd)
-{
-	t_command	*tmp;
-	t_command	*t1;
-	t_command	*t2;
-	t_command	*t3;
-
-	tmp = *cmd;
-	while(tmp)
-	{
-		if (tmp && tmp->opr == OPER && tmp->state == GENERAL)
-		{
-			t1 = tmp->next;
-			t2 = tmp->prev;
-			while(t1 && t1->opr != OPER  && t1->type != WORD  && t1->type != DOUBLE_Q && t1->type != SINGLE_Q && t1->state == GENERAL && t1->type != OTHER)
-				t1 = t1->next;
-			while(t2 && t2->opr != OPER  && t2->type != WORD && t2->type != DOUBLE_Q && t2->type != SINGLE_Q && t2->state == GENERAL && t2->type != OTHER)
-				t2 = t2->prev;
-			if(!t1 || !t2)
-			{
-				if (!t1 || (!t2 && tmp && tmp->type == PIPE && tmp->state == GENERAL))
-				{
-					if (!t2 && tmp && tmp->opr == OPER && tmp->state == GENERAL && tmp->type != OTHER && tmp->type != DOUBLE_Q)
-					{
-						// printf("t1 n 1");
-						error_msg();
-						return 0;
-					}
-					if (!t1 && tmp && tmp->opr == OPER && tmp->state == GENERAL)
-					{
-						// printf("t1 n 2");
-						error_msg();
-						return 0;
-					}
-
-					if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN && tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
-					{
-						// printf("t1 n 3");
-						error_msg();
-						return 0;
-					}
-				}
-			}
-			else
-			{
-				if (t1->opr == OPER)
-				{
-					if (t1->type == PIPE && t1->state == GENERAL)
-					{
-						// printf("%s  --> t1 ", t1->content);
-						error_msg();
-						return 0;
-					}
-				}
-				if(t2->opr == OPER)
-				{
-					if ((t2->type == PIPE && tmp && tmp->type == PIPE && t2->state == GENERAL)
-						|| (t2->type != PIPE && tmp && tmp->type != PIPE && t2->state == GENERAL)
-						|| (tmp && tmp->type == PIPE))
-					{
-						// printf("%s  --> t2 ", t2->content);
-						error_msg();
-						return 0;
-					}
-				}
-			}
-		}
-		tmp = tmp->next;
-	}
-	if (!sub_check_syntax_error(cmd) || !check_16_heredoc(cmd))
-		return 0;
-	return 1;
-}
-
 
 void	display_pipe(t_cmd_line *cmd_l)
 {

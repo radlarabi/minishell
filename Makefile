@@ -1,6 +1,6 @@
 SRCS = 	parsing/main.c \
-		parsing/fill_types.c \
-# CFLAGS =	
+		parsing/fill_types.c parsing/check_syntax.c\
+# CFLAGS =
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 
@@ -11,7 +11,7 @@ all: $(NAME)
 
 $(NAME): $(O_SRCS)
 	@make -sC libft/
-	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline 
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline
 clean:
 	$(RM) $(O_SRCS)
 

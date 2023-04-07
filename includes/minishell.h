@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/06 12:16:40 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/07 02:52:40 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ void	commands(t_cmd_line **commands_v,t_command **cmd);
 int	ft_echo(t_cmd_line **commands_v,t_command **cmd);
 /* end */
 void    fill_types0(t_command *tmp, char c, int *i, char *str);
+int	check_syntax(t_command **cmd);
 #endif

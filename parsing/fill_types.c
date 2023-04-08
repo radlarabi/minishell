@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   fill_types.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:18:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 01:25:14 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void    fill_types1(t_command *tmp, char c, int *i, char *str)
+void	fill_types1(t_command *tmp, char c, int *i, char *str)
 {
-    if (c == '-')
+	if (c == '-')
 	{
 		tmp->len = 1;
 		tmp->type = DASH;
@@ -38,9 +38,9 @@ void    fill_types1(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void    fill_types2(t_command *tmp, char c, int *i, char *str)
+void	fill_types2(t_command *tmp, char c, int *i, char *str)
 {
-    if (c == '\"')
+	if (c == '\"')
 	{
 		tmp->len = 1;
 		tmp->type = DOUBLE_Q;
@@ -60,9 +60,9 @@ void    fill_types2(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void    fill_types3(t_command *tmp, char c, int *i, char *str)
+void	fill_types3(t_command *tmp, char c, int *i, char *str)
 {
-    if (c == '>' && str[(*i) + 1] != '>')
+	if (c == '>' && str[(*i) + 1] != '>')
 	{
 		tmp->len = 1;
 		tmp->opr = OPER;
@@ -84,9 +84,9 @@ void    fill_types3(t_command *tmp, char c, int *i, char *str)
 		(*i) += 2;
 	}
 }
-void    fill_types4(t_command *tmp, char c, int *i, char *str)
+void	fill_types4(t_command *tmp, char c, int *i, char *str)
 {
-    if (c == '.' && str[(*i) + 1] == '.')
+	if (c == '.' && str[(*i) + 1] == '.')
 	{
 		tmp->len = 2;
 		tmp->opr = N_OPER;
@@ -108,9 +108,9 @@ void    fill_types4(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void    fill_types5(t_command *tmp, char c, int *i, char *str)
+void	fill_types5(t_command *tmp, char c, int *i, char *str)
 {
-    if (c == '.' && str[(*i) + 1] == '.')
+	if (c == '.' && str[(*i) + 1] == '.')
 	{
 		tmp->len = 2;
 		tmp->opr = N_OPER;
@@ -132,22 +132,20 @@ void    fill_types5(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void    fill_types(t_command *tmp, char c, int *i, char *str)
+void	fill_types(t_command *tmp, char c, int *i, char *str)
 {
-    if (c == '-' || ft_isalnum(c) || c == ' ')
-        fill_types1(tmp, c, i, str);
-    else if (c == '\"' || c == '\'' || (c == '<' && str[(*i) + 1] != '<'))
-	    fill_types2(tmp, c, i, str);
-    else if ((c == '>' && str[(*i) + 1] != '>' )
-        || (c == '>' && str[(*i) + 1] == '>')
-        || (c == '<' && str[(*i) + 1] == '<'))
-	    fill_types3(tmp, c, i, str);
-    else if ((c == '.' && str[(*i) + 1] == '.')
-        || (c == '.' && str[(*i) + 1] != '.')
-        || c == '|')
-	    fill_types4(tmp, c, i, str);
-    else if (c == '?'|| c == '$')
-	    fill_types5(tmp, c, i, str);
+	if (c == '-' || ft_isalnum(c) || c == ' ')
+		fill_types1(tmp, c, i, str);
+	else if (c == '\"' || c == '\'' || (c == '<' && str[(*i) + 1] != '<'))
+		fill_types2(tmp, c, i, str);
+	else if ((c == '>' && str[(*i) + 1] != '>') || (c == '>' && str[(*i)
+				+ 1] == '>') || (c == '<' && str[(*i) + 1] == '<'))
+		fill_types3(tmp, c, i, str);
+	else if ((c == '.' && str[(*i) + 1] == '.') || (c == '.' && str[(*i)
+				+ 1] != '.') || c == '|')
+		fill_types4(tmp, c, i, str);
+	else if (c == '?' || c == '$')
+		fill_types5(tmp, c, i, str);
 	else
 	{
 		tmp->opr = N_OPER;

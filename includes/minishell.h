@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:19:09 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 01:24:44 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#include "../libft/libft.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <fcntl.h>
-#include <signal.h>
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
 
 # define WORD 1
 # define DASH 2
@@ -37,64 +37,73 @@
 # define QEST 16
 # define OTHER 17
 # define AND 17
-#define ERROR_MSG "\033[0;31m syntax error \033[0m"
+# define ERROR_MSG "\033[0;31m syntax error \033[0m"
 
-#define GENERAL 1
-#define IN_DC 2
-#define IN_SC 3
+# define GENERAL 1
+# define IN_DC 2
+# define IN_SC 3
 typedef struct s_cmd
 {
-    char *content;
-	int	type;
-	int state;
-	int opr;
-	int len;
-    struct s_cmd *next;
-    struct s_cmd *prev;
-}   t_command;
+	char				*content;
+	int					type;
+	int					state;
+	int					opr;
+	int					len;
+	struct s_cmd		*next;
+	struct s_cmd		*prev;
+}						t_command;
+
+typedef struct s_env
+{
+	char				*value;
+	char				*var;
+	struct s_env		*next;
+}						t_env;
 
 typedef struct s_cmd_line
 {
-	int		infile;
-	int 	outfile;
-	char	*fd_error;
-	char	**cmds;
-	struct s_cmd_line *next;
-}			t_cmd_line;
+	int					infile;
+	int					outfile;
+	char				*fd_error;
+	char				**cmds;
+	struct s_cmd_line	*next;
+}						t_cmd_line;
 
 /*  fonction builtins  */
-void	commands(t_cmd_line **commands_v,t_command **cmd);
-int	ft_echo(t_cmd_line **commands_v,t_command **cmd);
+void					commands(t_cmd_line **commands_v, t_command **cmd);
+int						ft_echo(t_cmd_line **commands_v, t_command **cmd);
 /* end */
-void    error_msg();
-t_command	*init_cmd();
-void	ft_lstadd_back(t_command **lst, t_command *new);
-void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
-void	displayList(t_command **node);
-int	check_syntax(t_command **cmd);
-void	set_states(t_command **cmd);
-t_cmd_line * commands_struct(char **cmds);
-int	files_here_doc(char **temp, t_cmd_line *tmp, int *j);
-int	files_red_in(char **temp, t_cmd_line **tmp, int *j);
-int	files_red_out(char **temp, t_cmd_line **tmp, int *j);
-int	files_append(char **temp, t_cmd_line **tmp, int *j);
-char *change_quote_in_files(char *str);
-char *get_stop_heredoc(char *str);
-int	fill_content_heredoc(char *stop);
-int	sub_check_qotes(char *str, int *i, int a);
-int	check_close_qotes(char *str);
-void	fill_types(t_command *tmp, char c, int *i, char *str);
-char	*struct_to_str(t_command **cmd);
-void	ft_lstadd_middle(t_command **cmd);
-void	ft_pwd(t_command **cmd);
-void	display_pipe(t_cmd_line *cmd_l);
-int 	count_pipes(t_command **cmd);
-t_cmd_line *lst_init_cmds();
-void	extend_cmd(t_command **cmd);
-char *join_char(char *str, char c);
-void	skip_and_fill_in_quotes(char *str, char **s, int a, int *i);
-void	skip_in_quotes(char *str, int a, int *i);
-char *set_spliter(char *str, char c);
-char **splite_with_pipes(t_command **cmd);
-char **splite_with_space(char *str);
+void					error_msg(void);
+t_command				*init_cmd();
+void					ft_lstadd_back(t_command **lst, t_command *new);
+void					ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
+void					displayList(t_command **node);
+int						check_syntax(t_command **cmd);
+void					set_states(t_command **cmd);
+t_cmd_line				*commands_struct(char **cmds);
+int						files_here_doc(char **temp, t_cmd_line *tmp, int *j);
+int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
+int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
+int						files_append(char **temp, t_cmd_line **tmp, int *j);
+char					*change_quote_in_files(char *str);
+char					*get_stop_heredoc(char *str);
+int						fill_content_heredoc(char *stop);
+int						sub_check_qotes(char *str, int *i, int a);
+int						check_close_qotes(char *str);
+void					fill_types(t_command *tmp, char c, int *i, char *str);
+char					*struct_to_str(t_command **cmd);
+void					ft_lstadd_middle(t_command **cmd);
+void					ft_pwd(t_command **cmd);
+void					display_pipe(t_cmd_line *cmd_l);
+int						count_pipes(t_command **cmd);
+t_cmd_line				*lst_init_cmds();
+void					extend_cmd(t_command **cmd);
+char					*join_char(char *str, char c);
+void					skip_and_fill_in_quotes(char *str, char **s, int a,
+							int *i);
+void					skip_in_quotes(char *str, int a, int *i);
+char					*set_spliter(char *str, char c);
+char					**splite_with_pipes(t_command **cmd);
+char					**splite_with_space(char *str);
+
 #endif

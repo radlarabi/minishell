@@ -6,6 +6,7 @@ SRCS = 	parsing/main.c \
 		parsing/lst_init.c\
 		parsing/here_doc.c\
 		parsing/splite_pipe_space.c\
+		parsing/env_link.c\
 		exction/builtins/echo.c
 
 # CFLAGS =

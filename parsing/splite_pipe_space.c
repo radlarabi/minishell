@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splite_pipe_space.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 00:05:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 01:26:05 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ void	skip_in_quotes(char *str, int a, int *i)
 	}
 }
 
-char *set_spliter(char *str, char c)
+char	*set_spliter(char *str, char c)
 {
-	char *s;
-	int i;
+	char	*s;
+	int		i;
+
 	if (!str)
-		return NULL;
+		return (NULL);
 	s = malloc(ft_strlen(str) + 1);
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == 39)
 			skip_and_fill_in_quotes(str, &s, 39, &i);
@@ -57,20 +58,21 @@ char *set_spliter(char *str, char c)
 		i++;
 	}
 	s[i] = 0;
-	return s;
+	return (s);
 }
 
-char **splite_with_pipes(t_command **cmd)
+char	**splite_with_pipes(t_command **cmd)
 {
-	t_command *tmp;
+	t_command	*tmp;
+	char		*str;
 
 	tmp = *cmd;
 	extend_cmd(&tmp);
-	char *str = struct_to_str(&tmp);
-	return ft_split(set_spliter(str, '|'), -1);
+	str = struct_to_str(&tmp);
+	return (ft_split(set_spliter(str, '|'), -1));
 }
 
-char **splite_with_space(char *str)
+char	**splite_with_space(char *str)
 {
-	return ft_split(set_spliter(str, ' '), -1);
+	return (ft_split(set_spliter(str, ' '), -1));
 }

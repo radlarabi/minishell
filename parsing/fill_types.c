@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/04 18:31:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 01:18:55 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void    fill_types5(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void    fill_types0(t_command *tmp, char c, int *i, char *str)
+void    fill_types(t_command *tmp, char c, int *i, char *str)
 {
     if (c == '-' || ft_isalnum(c) || c == ' ')
         fill_types1(tmp, c, i, str);

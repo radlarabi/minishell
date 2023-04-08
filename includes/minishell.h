@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/07 02:52:40 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/08 00:11:33 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,37 @@ typedef struct s_cmd_line
 void	commands(t_cmd_line **commands_v,t_command **cmd);
 int	ft_echo(t_cmd_line **commands_v,t_command **cmd);
 /* end */
+void    error_msg();
+t_command	*init_cmd();
+void	ft_lstadd_back(t_command **lst, t_command *new);
 void    fill_types0(t_command *tmp, char c, int *i, char *str);
+void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
+void	displayList(t_command **node);
 int	check_syntax(t_command **cmd);
+void	set_states(t_command **cmd);
+t_cmd_line * commands_struct(char **cmds);
+int	files_here_doc(char **temp, t_cmd_line *tmp, int *j);
+int	files_red_in(char **temp, t_cmd_line **tmp, int *j);
+int	files_red_out(char **temp, t_cmd_line **tmp, int *j);
+int	files_append(char **temp, t_cmd_line **tmp, int *j);
+char *change_quote_in_files(char *str);
+char *get_stop_heredoc(char *str);
+int	fill_content_heredoc(char *stop);
+int	sub_check_qotes(char *str, int *i, int a);
+int	check_close_qotes(char *str);
+void	skipe_spaces(t_command **tmp);
+int	fill_types(t_command *tmp, char c, int *i, char *str);
+char	*struct_to_str(t_command **cmd);
+void	ft_lstadd_middle(t_command **cmd);
+void	ft_pwd(t_command **cmd);
+void	display_pipe(t_cmd_line *cmd_l);
+int 	count_pipes(t_command **cmd);
+t_cmd_line *lst_init_cmds();
+void	extend_cmd(t_command **cmd);
+char *join_char(char *str, char c);
+void	skip_and_fill_in_quotes(char *str, char **s, int a, int *i);
+void	skip_in_quotes(char *str, int a, int *i);
+char *set_spliter(char *str, char c);
+char **splite_with_pipes(t_command **cmd);
+char **splite_with_space(char *str);
 #endif

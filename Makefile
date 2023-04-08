@@ -1,5 +1,13 @@
 SRCS = 	parsing/main.c \
-		parsing/fill_types.c parsing/check_syntax.c\
+		parsing/fill_types.c \
+		parsing/check_syntax.c\
+		parsing/set_states.c\
+		parsing/files.c\
+		parsing/lst_init.c\
+		parsing/here_doc.c\
+		parsing/splite_pipe_space.c\
+		exction/builtins/echo.c
+
 # CFLAGS =
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 00:11:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 01:19:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	ft_echo(t_cmd_line **commands_v,t_command **cmd);
 void    error_msg();
 t_command	*init_cmd();
 void	ft_lstadd_back(t_command **lst, t_command *new);
-void    fill_types0(t_command *tmp, char c, int *i, char *str);
 void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
 void	displayList(t_command **node);
 int	check_syntax(t_command **cmd);
@@ -84,8 +83,7 @@ char *get_stop_heredoc(char *str);
 int	fill_content_heredoc(char *stop);
 int	sub_check_qotes(char *str, int *i, int a);
 int	check_close_qotes(char *str);
-void	skipe_spaces(t_command **tmp);
-int	fill_types(t_command *tmp, char c, int *i, char *str);
+void	fill_types(t_command *tmp, char c, int *i, char *str);
 char	*struct_to_str(t_command **cmd);
 void	ft_lstadd_middle(t_command **cmd);
 void	ft_pwd(t_command **cmd);

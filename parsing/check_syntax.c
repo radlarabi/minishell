@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 19:56:03 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/04/08 00:08:48 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 01:32:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	sub_check_syntax_error(t_command **cmd)
 		else if (!ft_strcmp(tmp->content, "*"))
 		{
 			t1 = tmp->prev;
-			while (t1->type == SPACE || t1->type == D_DOTS || t1->type == S_DOTS)
+			while (t1->type == SPACE || t1->type == DOUBLE_Q || t1->type == SINGLE_Q)
 			{
 				if (t1->type == HERDOC && t1->state == GENERAL)
 					return 1;

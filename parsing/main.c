@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:18:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/08 12:43:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ int	main(int ac, char **av, char **env)
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
-		//display_pipe(cmd_l);
+		display_pipe(cmd_l);
 		displayList(&cmd);
 		cmd = NULL;
         free(str);

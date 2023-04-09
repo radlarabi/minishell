@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/07 23:39:05 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/09 02:02:59 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,110 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 	}
 	return 0;	
 }
+char *ret_in_double_quotes(char *str)
+{
+	int i;
+	int j;
+	char *ret;
+	i = 0;
+	j = 0;
+	if (!str)
+		return NULL;
+	ret = malloc(ft_strlen(str));
+	while(str[i])
+	{
+		if (str[i] == '\'')
+		{
+			i++;
+			while(str[i] && str[i] != '\'')
+			{
+				// ret = join_char(ret, str[i]);
+				ret[j] = str[i];
+				j++;
+				// j++;
+				i++;
+			}
+		}
+		if (!str[i])
+			return ret;
+		if (str[i] == '\'')
+			i++;
+		if (str[i] == '\"')
+		{
+			i++;
+			continue;
+		}
+		ret[j] = str[i];
+		i++;
+		j++;
+	}
+	ret[j] = '\0';
+	return ret;
+}
+char **extand_variable(char **cmds)
+{
+	int i;
+	int j;
+	int flag = 0;
+	int len;
+	char *var_s;
+	char *var_e;
+	char *var_quote;
+	char *ret;
+	char *str;
+	i = 0;
+	while(cmds[i])
+	{
+		j = 0;
+		str = NULL;
+		cmds[i] = ret_in_double_quotes(cmds[i]);
+		while(cmds[i][j])
+		{
+			// if (cmds[i][j] == '\'')
+			// {
+			// 	j++;
+			// 	while(cmds[i][j] && cmds[i][j] != '\'')
+			// 	{
+			// 		str = join_char(str, cmds[i][j] );
+			// 		j++;
+			// 	}
+			// }
+			// else   
+			if (cmds[i][j] == '$')
+			{
+				var_s = &cmds[i][j];
+				var_e = ft_strchr(var_s + 1, '$');
+				if (var_e == NULL)
+					var_e = &cmds[i][ft_strlen(cmds[i])];
+				len = var_e - var_s;
+				j += len;
+				ret = malloc(len);
+				ft_strlcpy(ret, var_s + 1, len);
+				ret[len] = '\0';
+				printf("--->%s--->str %s\n", getenv(ret), str);
+				str = ft_strjoin(str, getenv(ret));
+				free(ret);
+			}
+			else
+			{
+				while(cmds[i][j] && cmds[i][j] != '$')
+				{
+					str = join_char(str, cmds[i][j]);
+					j++;
+				}
+			}
+		}
+		if (!str)
+			cmds[i] = ft_strdup("");
+		if (str)
+		{
+			cmds[i] = ft_strdup(str);
+		}
+		
+		i++;
+	}
+	return cmds;
+}
 
 t_cmd_line * commands_struct(char **cmds)
 {
@@ -101,9 +205,7 @@ t_cmd_line * commands_struct(char **cmds)
 				printf("outfile --> %d\n", tmp->outfile);
 			}
 			else if (!ft_strncmp(temp[j], "<<", ft_strlen(temp[j])))
-			{
 				files_here_doc(temp, tmp, &j);
-			}
 			else
 			{
 				t1 = ft_strjoin(t1, temp[j]);
@@ -112,6 +214,7 @@ t_cmd_line * commands_struct(char **cmds)
 			j++;
 		}
 		tmp->cmds = splite_with_space(t1);
+		tmp->cmds = extand_variable(tmp->cmds);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
 	}

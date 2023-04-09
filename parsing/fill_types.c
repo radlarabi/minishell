@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_types.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:25:14 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/08 12:42:07 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,25 +110,18 @@ void	fill_types4(t_command *tmp, char c, int *i, char *str)
 }
 void	fill_types5(t_command *tmp, char c, int *i, char *str)
 {
-	if (c == '.' && str[(*i) + 1] == '.')
-	{
-		tmp->len = 2;
-		tmp->opr = N_OPER;
-		tmp->type = WORD;
-		(*i) += 2;
-	}
-	else if (c == '.' && str[(*i) + 1] != '.')
+	if (c == '?')
 	{
 		tmp->opr = N_OPER;
 		tmp->len = 1;
-		tmp->type = WORD;
-		(*i) += 1;
+		tmp->type = QEST;
+		(*i)++;
 	}
-	else if (c == '|')
+	else if (c == '$')
 	{
-		tmp->opr = OPER;
+		tmp->opr = N_OPER;
 		tmp->len = 1;
-		tmp->type = PIPE;
+		tmp->type = ENV;
 		(*i)++;
 	}
 }

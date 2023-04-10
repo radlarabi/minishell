@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:32:35 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/10 03:03:37 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 }						t_cmd_line;
 
+typedef	struct s_gv
+{
+	t_env *env;
+	int	exit_status;
+}						t_gv;
+
+t_gv	*g_gv;
+
 /*  fonction builtins  */
 void					commands(t_cmd_line **commands_v, t_command **cmd);
 int						ft_echo(t_cmd_line **commands_v, t_command **cmd);
@@ -105,5 +113,8 @@ void					skip_in_quotes(char *str, int a, int *i);
 char					*set_spliter(char *str, char c);
 char					**splite_with_pipes(t_command **cmd);
 char					**splite_with_space(char *str);
-
+t_env *get_env(char **ev);
+char *ft_getenv(char *str);
+int is_quots(char *str,int index);
+char *extand_variable(char *cmds);
 #endif

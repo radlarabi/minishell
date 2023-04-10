@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_link.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/04/08 00:11:18 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/09 22:07:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_env *fill_env_node(char *env,t_env *t_env)
 {
 	int i;
 	i = 0;
-	char *value;
+	char *value = NULL;
 	char *var;
 	var = fill_env_var(env,&i);
 	t_env->var = var;

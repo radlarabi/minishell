@@ -6,12 +6,11 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 12:43:13 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/09 23:29:43 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 void	ft_lstadd_back(t_command **lst, t_command *new)
 {
 	t_command	*temp;
@@ -254,6 +253,41 @@ char *join_char(char *str, char c)
 	return a;
 }
 
+char *ft_getenv(char *str)
+{
+	t_env *temp;
+
+	temp = g_gv->env; 
+	while(temp)
+	{
+		if (!ft_strcmp(str, temp->var))
+			return temp->value;
+		temp = temp->next;
+	}
+	return NULL;
+}
+
+int is_quots(char *str,int index)
+{
+	int i;
+	i = 0;
+	int open;
+	open = 0;
+	while (str[i] && i != index)
+	{
+		if (!open && str[i] == '\"')
+			open = 2;
+		else if (open == 2 && str[i] == '\"')
+			open = 0;
+		if (!open && str[i] == '\'')
+			open = 3;
+		else if (open == 3 && str[i] == '\'')
+			open = 0;
+		i++;
+	}
+	return open;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -265,6 +299,8 @@ int	main(int ac, char **av, char **env)
 	t_command	*node;
 	t_command	*tmp;
 	t_cmd_line *cmd_l;
+	g_gv = malloc(sizeof(t_gv));
+	g_gv->env = get_env(env);
 	while (1)
 	{
 		i = 0;

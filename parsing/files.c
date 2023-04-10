@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/09 02:02:59 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/10 03:22:36 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,8 @@ char *ret_in_double_quotes(char *str)
 	ret = malloc(ft_strlen(str));
 	while(str[i])
 	{
-		if (str[i] == '\'')
-		{
-			i++;
-			while(str[i] && str[i] != '\'')
-			{
-				// ret = join_char(ret, str[i]);
-				ret[j] = str[i];
-				j++;
-				// j++;
-				i++;
-			}
-		}
-		if (!str[i])
-			return ret;
-		if (str[i] == '\'')
-			i++;
 		if (str[i] == '\"')
-		{
 			i++;
-			continue;
-		}
 		ret[j] = str[i];
 		i++;
 		j++;
@@ -105,72 +86,147 @@ char *ret_in_double_quotes(char *str)
 	ret[j] = '\0';
 	return ret;
 }
-char **extand_variable(char **cmds)
+char *get_variable(char *str)
+{
+	int i = 0;
+	int j = 0;
+	char *ret;
+	int len = 0;
+	while (str[i] && str[i] == '$')
+		i++;
+	while(str[i] && ft_isalnum(str[i]))
+		i++;
+	ret = malloc(i + 1); 
+	i = 0;
+	while (str[i] && str[i] == '$')
+		i++;
+	while(str[i] && ft_isalnum(str[i]))
+	{
+		ret[j] = str[i];
+		j++;
+		i++;
+	}
+	ret[j] = 0;
+	return ret;
+}
+
+char *extand_variable(char *cmds)
 {
 	int i;
 	int j;
-	int flag = 0;
-	int len;
-	char *var_s;
-	char *var_e;
-	char *var_quote;
-	char *ret;
-	char *str;
-	i = 0;
-	while(cmds[i])
+	char *ret = NULL;
+	j = 0;
+	while(cmds[j])
 	{
-		j = 0;
-		str = NULL;
-		cmds[i] = ret_in_double_quotes(cmds[i]);
-		while(cmds[i][j])
+		// printf("-----%d-------> %c\n", j, cmds[j]);
+		if (cmds[j] == '\"')
 		{
-			// if (cmds[i][j] == '\'')
-			// {
-			// 	j++;
-			// 	while(cmds[i][j] && cmds[i][j] != '\'')
-			// 	{
-			// 		str = join_char(str, cmds[i][j] );
-			// 		j++;
-			// 	}
-			// }
-			// else   
-			if (cmds[i][j] == '$')
+			j++;
+			while(cmds[j] && cmds[j] != '\"')
 			{
-				var_s = &cmds[i][j];
-				var_e = ft_strchr(var_s + 1, '$');
-				if (var_e == NULL)
-					var_e = &cmds[i][ft_strlen(cmds[i])];
-				len = var_e - var_s;
-				j += len;
-				ret = malloc(len);
-				ft_strlcpy(ret, var_s + 1, len);
-				ret[len] = '\0';
-				printf("--->%s--->str %s\n", getenv(ret), str);
-				str = ft_strjoin(str, getenv(ret));
-				free(ret);
-			}
-			else
-			{
-				while(cmds[i][j] && cmds[i][j] != '$')
+				if (cmds[j] == '$')
 				{
-					str = join_char(str, cmds[i][j]);
+					j++;
+					ret = ft_strjoin(ret, ft_getenv(get_variable(cmds + j)));
+					j += ft_strlen(get_variable(cmds + j));
+				}
+				else
+				{
+					ret = join_char(ret, cmds[j]);
 					j++;
 				}
 			}
 		}
-		if (!str)
-			cmds[i] = ft_strdup("");
-		if (str)
+		else if (cmds[j] == '\'')
 		{
-			cmds[i] = ft_strdup(str);
+			printf("ss%dsss\n", j);
+			j++;
+			while(cmds[j] && cmds[j] != '\'')
+			{
+				ret = join_char(ret, cmds[j]);
+				j++;
+			}
 		}
-		
-		i++;
+		else
+		{
+			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
+			{
+				ret = join_char(ret, cmds[j]);
+				j++;
+			}
+			if (cmds[j] == '$')
+			{
+				j++;
+				ret = ft_strjoin(ret, ft_getenv(get_variable(cmds + j)));
+				j += ft_strlen(get_variable(cmds + j));
+			}
+		}
 	}
-	return cmds;
+	// printf("ret ---> %s\n", ret);
+	return ret;
 }
+// char **extand_variable(char **cmds)
+// {
+// 	int i;
+// 	int j;
+// 	char *ret;
+// 	i = 0;
+// 	while(cmds[i])
+// 	{
+// 		j = 0;
+// 		ret = NULL;
+// 		while(cmds[i][j])
+// 		{
+// 			if (cmds[i][j] == '\"')
+// 			{
+// 				j++;
+// 				while(cmds[i][j] && cmds[i][j] != '\"')
+// 				{
+// 					if (cmds[i][j] == '$')
+// 					{
+// 						j++;
+// 						ret = ft_strjoin(ret, ft_getenv(get_variable(cmds[i] + j)));
+// 						j += ft_strlen(get_variable(cmds[i] + j));
+// 					}
+// 					else
+// 					{
+// 						ret = join_char(ret, cmds[i][j]);
+// 						j++;
+// 					}
+// 				}
+// 			}
+// 			else if (cmds[i][j] == '\'')
+// 			{
+// 				j++;
+// 				while(cmds[i][j] && cmds[i][j] != '\'')
+// 				{
+// 					ret = join_char(ret, cmds[i][j]);
+// 					j++;
+// 				}
+// 			}
+// 			else
+// 			{
+// 				while(cmds[i][j] && cmds[i][j] != '$')
+// 				{
+// 					ret = join_char(ret, cmds[i][j]);
+// 					j++;
+// 				}
+// 				if (cmds[i][j] == '$')
+// 				{
+// 					j++;
+// 					ret = ft_strjoin(ret, ft_getenv(get_variable(cmds[i] + j)));
+// 					j += ft_strlen(get_variable(cmds[i] + j));
+// 				}
+// 			}
+// 		}
+// 		if (ret)
+// 			printf("ret ---> %s\n", ret);
+// 		i++;
+// 	}
+// 	return cmds;
+// }
 
-t_cmd_line * commands_struct(char **cmds)
+t_cmd_line *commands_struct(char **cmds)
 {
 	t_cmd_line *cmd_l = NULL;
 	t_cmd_line *tmp;
@@ -180,7 +236,9 @@ t_cmd_line * commands_struct(char **cmds)
 	char **temp;
 	while (cmds[i])
 	{
-		temp = splite_with_space(cmds[i]);
+		temp = splite_with_space(extand_variable(cmds[i]));
+		// exit(0);
+		printf("ret ---> %s\n", extand_variable(cmds[i]));
 		tmp = lst_init_cmds();
 		j = 0;
 		t1 = NULL;
@@ -214,7 +272,7 @@ t_cmd_line * commands_struct(char **cmds)
 			j++;
 		}
 		tmp->cmds = splite_with_space(t1);
-		tmp->cmds = extand_variable(tmp->cmds);
+		// tmp->cmds = extand_variable(tmp->cmds);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
 	}

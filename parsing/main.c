@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/09 23:29:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/10 22:36:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,31 +228,6 @@ void	extend_cmd(t_command **cmd)
 }
 
 
-char *join_char(char *str, char c)
-{
-	char *a;
-	if (!str)
-	{
-		a = malloc(sizeof(char) * 2);
-		if (!a)
-			return NULL;
-		a[0] = c;
-		a[1] = '\0';
-		return a;
-	}
-	int i = 0;
-	a = malloc(ft_strlen(str) + 2);
-	while(str[i])
-	{
-		a[i] = str[i];
-		i++;
-	}
-	a[i] = c;
-	i++;
-	a[i] = '\0';
-	return a;
-}
-
 char *ft_getenv(char *str)
 {
 	t_env *temp;
@@ -295,7 +270,7 @@ int	main(int ac, char **av, char **env)
 	pid_t id;
 	int status;
 	int			len;
-	t_command	*cmd;
+	t_command	*cmd = NULL;
 	t_command	*node;
 	t_command	*tmp;
 	t_cmd_line *cmd_l;
@@ -311,6 +286,7 @@ int	main(int ac, char **av, char **env)
 			tmp = init_cmd();
 			fill_types(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
+			printf("---%s--", tmp->content);
 			ft_lstadd_back(&cmd, tmp);
 		}
 		if (!check_close_qotes(str))
@@ -326,14 +302,15 @@ int	main(int ac, char **av, char **env)
 		}
 		ft_pwd(&cmd);
 		cmd_l = commands_struct(splite_with_pipes(&cmd));
+		system("leaks minishell");
 		// i = 0;
 		// while(cmd_l->cmds[i])
 		// {
 		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
 		// 	i++;
 		// }
-		display_pipe(cmd_l);
-		displayList(&cmd);
+		// display_pipe(cmd_l);
+		// displayList(&cmd);
 		cmd = NULL;
         free(str);
 	}

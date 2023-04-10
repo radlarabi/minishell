@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:25:21 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:13:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*change_quote_in_files(char *str)
 			i++;
 			while (str[i] && str[i] != '\"')
 			{
-				a = join_char(a, str[i]);
+				a = ft_join_char(a, str[i]);
 				i++;
 			}
 			if (!str[i])
@@ -84,7 +84,7 @@ char	*change_quote_in_files(char *str)
 			i++;
 			while (str[i] && str[i] != '\'')
 			{
-				a = join_char(a, str[i]);
+				a = ft_join_char(a, str[i]);
 				i++;
 			}
 			if (!str[i])
@@ -96,7 +96,7 @@ char	*change_quote_in_files(char *str)
 		}
 		else
 		{
-			a = join_char(a, str[i]);
+			a = ft_join_char(a, str[i]);
 			i++;
 		}
 	}

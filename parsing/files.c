@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 03:22:36 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/10 22:37:41 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,17 @@ char *extand_variable(char *cmds)
 	j = 0;
 	while(cmds[j])
 	{
-		// printf("-----%d-------> %c\n", j, cmds[j]);
 		if (cmds[j] == '\"')
 		{
 			j++;
-			while(cmds[j] && cmds[j] != '\"')
+			while(cmds[j])
 			{
-				if (cmds[j] == '$')
+				if (cmds[j] == '\"')
+				{
+					j++;
+					break;
+				}
+				else if (cmds[j] == '$')
 				{
 					j++;
 					ret = ft_strjoin(ret, ft_getenv(get_variable(cmds + j)));
@@ -132,18 +136,22 @@ char *extand_variable(char *cmds)
 				}
 				else
 				{
-					ret = join_char(ret, cmds[j]);
+					ret = ft_join_char(ret, cmds[j]);
 					j++;
 				}
 			}
 		}
 		else if (cmds[j] == '\'')
 		{
-			printf("ss%dsss\n", j);
 			j++;
-			while(cmds[j] && cmds[j] != '\'')
+			while(cmds[j])
 			{
-				ret = join_char(ret, cmds[j]);
+				if (cmds[j] == '\'')
+				{
+					j++;
+					break;
+				}
+				ret = ft_join_char(ret, cmds[j]);
 				j++;
 			}
 		}
@@ -151,7 +159,7 @@ char *extand_variable(char *cmds)
 		{
 			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
 			{
-				ret = join_char(ret, cmds[j]);
+				ret = ft_join_char(ret, cmds[j]);
 				j++;
 			}
 			if (cmds[j] == '$')
@@ -190,7 +198,7 @@ char *extand_variable(char *cmds)
 // 					}
 // 					else
 // 					{
-// 						ret = join_char(ret, cmds[i][j]);
+// 						ret = ft_join_char(ret, cmds[i][j]);
 // 						j++;
 // 					}
 // 				}
@@ -200,7 +208,7 @@ char *extand_variable(char *cmds)
 // 				j++;
 // 				while(cmds[i][j] && cmds[i][j] != '\'')
 // 				{
-// 					ret = join_char(ret, cmds[i][j]);
+// 					ret = ft_join_char(ret, cmds[i][j]);
 // 					j++;
 // 				}
 // 			}
@@ -208,7 +216,7 @@ char *extand_variable(char *cmds)
 // 			{
 // 				while(cmds[i][j] && cmds[i][j] != '$')
 // 				{
-// 					ret = join_char(ret, cmds[i][j]);
+// 					ret = ft_join_char(ret, cmds[i][j]);
 // 					j++;
 // 				}
 // 				if (cmds[i][j] == '$')
@@ -225,7 +233,18 @@ char *extand_variable(char *cmds)
 // 	}
 // 	return cmds;
 // }
+void	free_2d_table(char **t)
+{
+	int	i;
 
+	i = 0;
+	while (t[i])
+	{
+		free(t[i]);
+		i++;
+	}
+	free(t);
+}
 t_cmd_line *commands_struct(char **cmds)
 {
 	t_cmd_line *cmd_l = NULL;
@@ -237,7 +256,6 @@ t_cmd_line *commands_struct(char **cmds)
 	while (cmds[i])
 	{
 		temp = splite_with_space(extand_variable(cmds[i]));
-		// exit(0);
 		printf("ret ---> %s\n", extand_variable(cmds[i]));
 		tmp = lst_init_cmds();
 		j = 0;
@@ -272,21 +290,9 @@ t_cmd_line *commands_struct(char **cmds)
 			j++;
 		}
 		tmp->cmds = splite_with_space(t1);
-		// tmp->cmds = extand_variable(tmp->cmds);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
+		free_2d_table(temp);
 	}
-	// i = 0;
-	// while(cmd_l)
-	// {
-	// 	j = 0;
-	// 	printf("---> %d infile %s +++ outfile %s +++ \n", i++, cmd_l->infile, cmd_l->outfile);
-	// 	while (cmd_l->cmds[j])
-	// 	{
-	// 		printf("cmd [%d] %s\n", j+1, cmd_l->cmds[j]);
-	// 		j++;
-	// 	}
-	// 	cmd_l = cmd_l->next;
-	// }
 	return cmd_l;
 }

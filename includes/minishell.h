@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 03:03:37 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/10 22:13:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void					display_pipe(t_cmd_line *cmd_l);
 int						count_pipes(t_command **cmd);
 t_cmd_line				*lst_init_cmds();
 void					extend_cmd(t_command **cmd);
-char					*join_char(char *str, char c);
+char					*ft_join_char(char *str, char c);
 void					skip_and_fill_in_quotes(char *str, char **s, int a,
 							int *i);
 void					skip_in_quotes(char *str, int a, int *i);

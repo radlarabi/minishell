@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splite_pipe_space.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 01:26:05 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:39:17 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ char	**splite_with_pipes(t_command **cmd)
 {
 	t_command	*tmp;
 	char		*str;
-
+	char		*a;
 	tmp = *cmd;
 	extend_cmd(&tmp);
 	str = struct_to_str(&tmp);
-	return (ft_split(set_spliter(str, '|'), -1));
+	a = set_spliter(str, '|');
+	free(str);
+	return (ft_split(a, -1));
 }
 
 char	**splite_with_space(char *str)

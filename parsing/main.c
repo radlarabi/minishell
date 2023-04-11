@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 22:36:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/11 00:10:03 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,37 @@ int is_quots(char *str,int index)
 	}
 	return open;
 }
+static void	free_2d_table(char **t)
+{
+	int	i;
 
+	i = 0;
+	while (t[i])
+	{
+		free(t[i]);
+		i++;
+	}
+	free(t);
+}
+
+void	main_free(t_command **cmd, t_cmd_line **cmd_l)
+{
+	t_command *tmp;
+	t_cmd_line *tmp1;
+	tmp = *cmd;
+	while (tmp)
+	{
+		free(tmp->content);
+		tmp = tmp->next;
+	}
+	tmp1 = *cmd_l;
+	while(tmp1)
+	{
+		if (tmp1->fd_error)
+			free(tmp1->fd_error);
+		tmp1 = tmp1->next;
+	}
+}
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -274,6 +304,7 @@ int	main(int ac, char **av, char **env)
 	t_command	*node;
 	t_command	*tmp;
 	t_cmd_line *cmd_l;
+	char **temp;
 	g_gv = malloc(sizeof(t_gv));
 	g_gv->env = get_env(env);
 	while (1)
@@ -301,18 +332,15 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		ft_pwd(&cmd);
-		cmd_l = commands_struct(splite_with_pipes(&cmd));
-		system("leaks minishell");
-		// i = 0;
-		// while(cmd_l->cmds[i])
-		// {
-		// 	printf("cmd[%d]--->%s\n", i, cmd_l->cmds[i]);
-		// 	i++;
-		// }
+		temp = splite_with_pipes(&cmd);
+		cmd_l = commands_struct(temp);
+		free_2d_table(temp);
 		// display_pipe(cmd_l);
 		// displayList(&cmd);
-		cmd = NULL;
+		main_free(&cmd, &cmd_l);
         free(str);
+		cmd = NULL;
+		system("leaks minishell");
 	}
 	return (0);
 }

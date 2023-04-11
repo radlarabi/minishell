@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 22:39:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/11 00:05:28 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,25 @@ char	**splite_with_pipes(t_command **cmd)
 	t_command	*tmp;
 	char		*str;
 	char		*a;
+	char **temp;
 	tmp = *cmd;
 	extend_cmd(&tmp);
 	str = struct_to_str(&tmp);
 	a = set_spliter(str, '|');
 	free(str);
-	return (ft_split(a, -1));
+	temp = ft_split(a, -1);
+	free(a);
+	return (temp);
 }
 
 char	**splite_with_space(char *str)
 {
-	return (ft_split(set_spliter(str, ' '), -1));
+	char **temp;
+	char *tmp;
+
+	tmp = set_spliter(str, ' ');
+	free(str);
+	temp = ft_split(tmp, -1);
+	free(tmp);
+	return (temp);
 }

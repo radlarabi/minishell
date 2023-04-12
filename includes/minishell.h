@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 22:13:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/11 20:08:54 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void					commands(t_cmd_line **commands_v, t_command **cmd);
 int						ft_echo(t_cmd_line **commands_v, t_command **cmd);
 /* end */
 void					error_msg(void);
-t_command				*init_cmd();
+t_command	*init_cmd(t_command	*cmd);
 void					ft_lstadd_back(t_command **lst, t_command *new);
 void					ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
 void					displayList(t_command **node);

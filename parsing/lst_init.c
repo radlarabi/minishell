@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/08 00:14:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/11 20:30:31 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ t_cmd_line *lst_init_cmds()
 	return cmd_l;
 }
 
-t_command	*init_cmd()
+t_command	*init_cmd(t_command	*cmd)
 {
-	t_command	*cmd;
-
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		return (NULL);

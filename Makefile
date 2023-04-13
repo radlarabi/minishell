@@ -7,8 +7,9 @@ SRCS = 	parsing/main.c \
 		parsing/here_doc.c\
 		parsing/splite_pipe_space.c\
 		parsing/env_link.c\
-		exction/builtins/echo.c
-
+		exction/builtins/echo.c \
+		exction/execve/execution.c \
+	
 # CFLAGS =
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)

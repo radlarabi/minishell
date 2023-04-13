@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/11 00:09:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/13 16:43:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ t_cmd_line *commands_struct(char **cmds)
 	while (cmds[i])
 	{
 		temp = splite_with_space(extand_variable(cmds[i]));
-		printf("ret ---> %s\n", extand_variable(cmds[i]));
+		// printf("ret ---> %s\n", extand_variable(cmds[i]));
 		tmp = lst_init_cmds();
 		j = 0;
 		t1 = NULL;

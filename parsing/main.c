@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/11 00:10:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/13 17:03:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,21 +189,21 @@ void	display_pipe(t_cmd_line *cmd_l)
 		cmd_l = cmd_l->next;
 	}
 }
-int 	count_pipes(t_command **cmd)
-{
-	t_command *tmp;
-	int count;
+// int 	count_pipes(t_command **cmd)
+// {
+// 	t_command *tmp;
+// 	int count;
 
-	count = 0;
-	tmp = *cmd;
-	while(tmp)
-	{
-		if (tmp->type == PIPE && tmp->state == GENERAL)
-			count++;
-		tmp = tmp->next;
-	}
-	return count;
-}
+// 	count = 0;
+// 	tmp = *cmd;
+// 	while(tmp)
+// 	{
+// 		if (tmp->type == PIPE && tmp->state == GENERAL)
+// 			count++;
+// 		tmp = tmp->next;
+// 	}
+// 	return count;
+// }
 
 
 void	extend_cmd(t_command **cmd)
@@ -317,7 +317,6 @@ int	main(int ac, char **av, char **env)
 			tmp = init_cmd();
 			fill_types(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
-			printf("---%s--", tmp->content);
 			ft_lstadd_back(&cmd, tmp);
 		}
 		if (!check_close_qotes(str))
@@ -331,16 +330,15 @@ int	main(int ac, char **av, char **env)
 			cmd = NULL;
 			continue ;
 		}
-		ft_pwd(&cmd);
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
 		free_2d_table(temp);
+		execution(cmd_l);
+        free(str);
+		cmd_l = NULL;
+		cmd = NULL;
 		// display_pipe(cmd_l);
 		// displayList(&cmd);
-		main_free(&cmd, &cmd_l);
-        free(str);
-		cmd = NULL;
-		system("leaks minishell");
 	}
 	return (0);
 }

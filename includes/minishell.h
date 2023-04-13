@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 22:13:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/13 14:50:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
 void					ft_pwd(t_command **cmd);
 void					display_pipe(t_cmd_line *cmd_l);
-int						count_pipes(t_command **cmd);
+// int						count_pipes(t_command **cmd);
 t_cmd_line				*lst_init_cmds();
 void					extend_cmd(t_command **cmd);
 char					*ft_join_char(char *str, char c);
@@ -117,4 +117,5 @@ t_env *get_env(char **ev);
 char *ft_getenv(char *str);
 int is_quots(char *str,int index);
 char *extand_variable(char *cmds);
+void    execution(t_cmd_line *cmd);
 #endif

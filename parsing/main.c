@@ -6,11 +6,26 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/13 17:03:05 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/13 17:10:00 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void free_list(t_command **cmd)
+{
+	t_command *temp;
+	temp = *cmd;
+	t_command *content;
+	while (temp->next)
+	{
+		content = temp;
+		free(content->content);
+		free(content);
+		temp = temp->next;
+	}
+	*cmd = NULL;
+}
 void	ft_lstadd_back(t_command **lst, t_command *new)
 {
 	t_command	*temp;
@@ -32,6 +47,7 @@ void	ft_lstadd_back(t_command **lst, t_command *new)
 		temp->next = new;
 		new->prev = temp;
 	}
+	free_list(&new);
 }
 void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new)
 {
@@ -93,10 +109,12 @@ int	check_close_qotes(char *str)
 	int	i;
 
 	i = 0;
+	printf("=====>%p\n",str);
 	while (str[i])
 	{
 		if (!sub_check_qotes(str, &i, 39) || !sub_check_qotes(str, &i, 34))
 		{
+			free(str);
 			error_msg();
 			return (0);
 		}
@@ -125,12 +143,12 @@ void	ft_lstadd_middle(t_command **cmd)
 	t_command	*new;
 	t_command	*new1;
 
-	new = init_cmd();
+	new = init_cmd(new);
 	new->content = " ";
 	new->type = SPACE;
 	new->state = GENERAL;
 	new->len = 1;
-	new1 = init_cmd();
+	new1 = init_cmd(new1);
 	new1->state = GENERAL;
 	new1->content = " ";
 	new1->type = SPACE;
@@ -138,6 +156,7 @@ void	ft_lstadd_middle(t_command **cmd)
 	new->next = (*cmd)->next;
 	new->prev = (*cmd);
 	(*cmd)->next = new;
+	free_list(&new);
 	/*hada code dyal espace befor node*/
 	if ((*cmd)->prev != NULL)
 	{
@@ -145,18 +164,17 @@ void	ft_lstadd_middle(t_command **cmd)
 		new1->next = (*cmd);
 		(*cmd)->prev->next = new1;
 		(*cmd)->prev = new1;
+		free_list(&new1);
 	}
 	else
 	{
 		new1->prev = NULL;
 		new1->next = (*cmd);
 		(*cmd)->prev = new1;
+		free_list(&new1);
 	}
 	/*end*/
 }
-
-
-
 
 void	ft_pwd(t_command **cmd)
 {
@@ -232,7 +250,7 @@ char *ft_getenv(char *str)
 {
 	t_env *temp;
 
-	temp = g_gv->env; 
+	temp = g_gv->env;
 	while(temp)
 	{
 		if (!ft_strcmp(str, temp->var))
@@ -293,6 +311,8 @@ void	main_free(t_command **cmd, t_cmd_line **cmd_l)
 		tmp1 = tmp1->next;
 	}
 }
+
+
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -303,6 +323,7 @@ int	main(int ac, char **av, char **env)
 	t_command	*cmd = NULL;
 	t_command	*node;
 	t_command	*tmp;
+	t_command	*tmp_1;
 	t_cmd_line *cmd_l;
 	char **temp;
 	g_gv = malloc(sizeof(t_gv));
@@ -314,31 +335,30 @@ int	main(int ac, char **av, char **env)
 		add_history(str);
 		while (str[i])
 		{
-			tmp = init_cmd();
+			tmp = init_cmd(tmp);
 			fill_types(tmp, str[i], &i, str);
+			printf(" tmp ====> %p\n",tmp);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
+			free_list(&tmp);
+			tmp = NULL;
 		}
 		if (!check_close_qotes(str))
 		{
-			cmd = NULL;
+			free_list(&cmd);
 			continue ;
 		}
-		set_states(&cmd);
-		if (!check_syntax(&cmd))
-		{
-			cmd = NULL;
-			continue ;
-		}
+		ft_pwd(&cmd);
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
 		free_2d_table(temp);
+		
+		// display_pipe(cmd_l);
+		// displayList(&cmd);
 		execution(cmd_l);
         free(str);
 		cmd_l = NULL;
 		cmd = NULL;
-		// display_pipe(cmd_l);
-		// displayList(&cmd);
 	}
 	return (0);
 }

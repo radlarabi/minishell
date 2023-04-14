@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 14:52:42 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 22:13:19 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,11 @@ t_cmd_line *commands_struct(char **cmds)
 				printf("outfile --> %d\n", tmp->outfile);
 			}
 			else if (!ft_strncmp(temp[j], "<<", ft_strlen(temp[j])))
-				files_here_doc(temp, tmp, &j);
+			{
+				files_here_doc(temp, &tmp, &j);
+				printf("herdoce --> %d\n", tmp->infile);
+				
+			}
 			j++;
 		}
 		//tmp->cmds = splite_with_space(t1);

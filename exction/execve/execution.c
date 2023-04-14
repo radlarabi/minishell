@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:44:15 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 18:36:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 23:47:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int count_pipe_used_in_execve(t_cmd_line *cmd)
 }
 void    child(t_cmd_line *cmd, int **pipefd, int i)
 {
+	// printf("exec %d\n", cmd->infile);
     if (cmd->infile != -1)
 	{
 		dup2(cmd->infile, 0);
@@ -101,6 +102,7 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 	{
 		if (i != count_pipes(&cmd) - count_pipe_used_in_execve(cmd) - 1)
 		{
+			printf("sacsacascsacsacsacascascas\n");
 			dup2(pipefd[i][1], 1);
 			close(pipefd[i][1]);
 		}
@@ -126,14 +128,21 @@ void	close_pipes(t_cmd_line *cmd, int **pipefd, int num_pipes)
 	j = 0;
 	while (j < num_pipes)
 	{
-		if (cmd->infile != -1)
-			close(cmd->infile);
-		if (cmd->outfile != -1)
-			close(cmd->outfile);
 		close(pipefd[j][0]);
 		close(pipefd[j][1]);
-		cmd = cmd->next;
+		printf("sssssss\n");
 		j++;
+	}
+	while(cmd)
+	{	
+		if (cmd->infile != -1)
+		{
+			close(cmd->infile);
+			printf("close infile\n");
+		}
+		if (cmd->outfile != -1)
+			close(cmd->outfile);
+		cmd = cmd->next;
 	}
 }
 
@@ -165,6 +174,7 @@ void    execution(t_cmd_line *cmd)
 	if (!pids)
 		return ;
     i = 0;
+	printf("*****%d\n", num_pipes);
 	while (i < num_pipes)
 	{
 		if (pipe(pipefd[i]) == -1)
@@ -180,8 +190,13 @@ void    execution(t_cmd_line *cmd)
 			perror("fork");
 		else if (pids[i] == 0)
 			child(cmd, pipefd, i);
+		close(cmd->infile);
         cmd = cmd->next;
 	}
-	close_pipes(cmd, pipefd, num_pipes);
-	waitpid(-1, 0, 0);
+	// close_pipes(cmd, pipefd, num_pipes);
+	if (pids[0] == 0)
+		printf("oooooooooooooooooo\n");
+	// wait(0);
+	exit(0);
+	printf("hannnng\n");
 }

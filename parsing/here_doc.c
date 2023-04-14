@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 15:32:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 23:21:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,19 @@ void	sigint_handler(int sig)
 	exit(1);
 }
 
-int	files_here_doc(char **temp, t_cmd_line *tmp, int *j)
+int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 {
 	int		status;
 	pid_t	pid;
 	char	*stop;
+	int 	fd[2];
 
 	signal(SIGINT, SIG_IGN);
+	if (pipe(fd) < 0)
+	{
+		perror("pipe");
+		return -1;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -42,12 +48,16 @@ int	files_here_doc(char **temp, t_cmd_line *tmp, int *j)
 		if (!temp[++(*j)])
 			exit (1);
 		stop = get_stop_heredoc(temp[*j]);
-		if (tmp->infile != -1)
-			close(tmp->infile);
-		tmp->infile = fill_content_heredoc(stop);
-		exit(0);
+		if ((*tmp)->infile != -1)
+			close((*tmp)->infile);
+		(*tmp)->infile = fill_content_heredoc(stop, fd[1]);
+		// printf("file in child %d\n", (*tmp)->infile);
+		// exit(0);
 	}
+	(*tmp)->infile = fd[0];
 	waitpid(pid, &status, 0);
+	if (pid == 0)
+		exit(0);
 	return (0);
 }
 char	*change_quote_in_files(char *str)
@@ -99,25 +109,27 @@ char	*change_quote_in_files(char *str)
 	}
 	return (a);
 }
-int	fill_content_heredoc(char *stop)
+int	fill_content_heredoc(char *stop, int fd)
 {
 	char *str = NULL;
 	char *content = NULL;
-	int fd[2];
-	pipe(fd);
+	// int fd[2];
+	// if (pipe(fd) == -1)
+	// 	perror("pipe");
 	while (1)
 	{
 		str = readline(">");
+		content = NULL;
 		if (!ft_strcmp(str, stop))
 		{
-			close(fd[1]);
+			close(fd);
 			break ;
 		}
 		content = ft_strjoin(content, str);
 		content = ft_strjoin(content, "\n");
-		write(fd[1], content, ft_strlen(content));
+		write(fd, content, ft_strlen(content));
 		free(content);
 		free(str);
 	}
-	return (fd[0]);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/10 22:13:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 15:32:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,20 @@ int	files_here_doc(char **temp, t_cmd_line *tmp, int *j)
 {
 	int		status;
 	pid_t	pid;
-	char	*r;
 	char	*stop;
 
-	r = malloc(100);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, sigint_handler);
 		if (!temp[++(*j)])
-			return (1);
+			exit (1);
 		stop = get_stop_heredoc(temp[*j]);
 		if (tmp->infile != -1)
 			close(tmp->infile);
 		tmp->infile = fill_content_heredoc(stop);
-		read(tmp->infile, r, 100);
-		printf("%s", r);
+		exit(0);
 	}
 	waitpid(pid, &status, 0);
 	return (0);

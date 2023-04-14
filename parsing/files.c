@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 01:29:09 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:52:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if (!temp[++(*j)])
 		return 1;
 	infile = change_quote_in_files(ft_strdup(temp[(*j)]));
-	printf("INfile %s-\n", infile);
+	// printf("INfile %s-\n", infile);
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
@@ -192,7 +192,7 @@ char *extand_variable(char *cmds)
 			}
 		}
 	}
-	printf("ret ---> %s-\n", ret);
+	// printf("ret ---> %s-\n", ret);
 	return ret;
 }
 void	free_2d_table(char **t)
@@ -222,14 +222,14 @@ char **change_content_cmds(char **cmds)
 		i++;
 	}
 	ret = malloc(sizeof(char *) * (i - (count * 2) + 1));
-	printf("########%d\n", i - (count * 2) + 1);
+	// printf("########%d\n", i - (count * 2) + 1);
 	i = 0;
 	while(cmds[i])
 	{
 		while (cmds[i] && (!ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], "<")
 		|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
 			i += 2;
-		printf("*****%s\n", cmds[i]);
+		// printf("*****%s\n", cmds[i]);
 		if (!cmds[i])
 			break;
 		ret[j] = ft_strdup(cmds[i]);
@@ -261,12 +261,12 @@ t_cmd_line *commands_struct(char **cmds)
 		tmp->cmds = ft_split(cmds[i], -1);
 		tmp->cmds = change_content_cmds(tmp->cmds);
 		// exit(0);
-		k = 0;
-		while(tmp->cmds[k])
-		{
-			printf("cmd[%d] -%s-\n", k, tmp->cmds[k]);
-			k++;
-		}
+		// k = 0;
+		// while(tmp->cmds[k])
+		// {
+		// 	printf("cmd[%d] -%s-\n", k, tmp->cmds[k]);
+		// 	k++;
+		// }
 		temp = ft_split(cmds[i], -1);
 		j = 0;
 		while(temp[j])
@@ -294,7 +294,7 @@ t_cmd_line *commands_struct(char **cmds)
 			j++;
 		}
 		//tmp->cmds = splite_with_space(t1);
-		printf("t1 ----> %s\n", t1);
+		// printf("t1 ----> %s\n", t1);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
 		free_2d_table(temp);

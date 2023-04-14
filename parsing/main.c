@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 01:30:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 18:32:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_lstadd_back(t_command **lst, t_command *new)
 		temp->next = new;
 		new->prev = temp;
 	}
-	free_list(&new);
+	//free_list(&new);
 }
 void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new)
 {
@@ -113,7 +113,7 @@ int	check_close_qotes(char *str)
 	{
 		if (!sub_check_qotes(str, &i, 39) || !sub_check_qotes(str, &i, 34))
 		{
-			free(str);
+			//free(str);
 			error_msg();
 			return (0);
 		}
@@ -155,7 +155,7 @@ void	ft_lstadd_middle(t_command **cmd)
 	new->next = (*cmd)->next;
 	new->prev = (*cmd);
 	(*cmd)->next = new;
-	free_list(&new);
+	//free_list(&new);
 	/*hada code dyal espace befor node*/
 	if ((*cmd)->prev != NULL)
 	{
@@ -163,14 +163,14 @@ void	ft_lstadd_middle(t_command **cmd)
 		new1->next = (*cmd);
 		(*cmd)->prev->next = new1;
 		(*cmd)->prev = new1;
-		free_list(&new1);
+		//free_list(&new1);
 	}
 	else
 	{
 		new1->prev = NULL;
 		new1->next = (*cmd);
 		(*cmd)->prev = new1;
-		free_list(&new1);
+		//free_list(&new1);
 	}
 	/*end*/
 }
@@ -338,18 +338,26 @@ int	main(int ac, char **av, char **env)
 			fill_types(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
-			free_list(&tmp);
-			tmp = NULL;
+			//free_list(&tmp);
+			//tmp = NULL;
 		}
 		if (!check_close_qotes(str))
 		{
-			free_list(&cmd);
+			//free_list(&cmd);
+			cmd = NULL;
 			continue ;
 		}
-		ft_pwd(&cmd);
+		set_states(&cmd);
+		if (!check_syntax(&cmd))
+		{
+			//free_list(&cmd);
+			cmd  = NULL;
+			continue ;
+		}
+		// exit(0);
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
-		free_2d_table(temp);
+	//	free_2d_table(temp);
 		
 		// display_pipe(cmd_l);
 		// displayList(&cmd);

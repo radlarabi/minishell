@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 00:22:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 18:29:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char	**splite_with_pipes(t_command **cmd)
 	char		*str;
 	char		*a;
 	char **temp;
+
 	tmp = *cmd;
 	extend_cmd(&tmp);
 	str = struct_to_str(&tmp);

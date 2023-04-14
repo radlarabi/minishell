@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/11 00:05:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 00:22:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,50 @@ char	*set_spliter(char *str, char c)
 		return (NULL);
 	s = malloc(ft_strlen(str) + 1);
 	i = 0;
+	// printf("str->%s\n", str);
 	while (str[i])
 	{
 		if (str[i] == 39)
-			skip_and_fill_in_quotes(str, &s, 39, &i);
+		{
+			while (str[i])
+			{
+				// printf("%c+___%d\n", str[i], i);
+				s[i] = str[i];
+				i++;
+				if (str[i] == 39)
+					break ;
+			}
+		}
 		else if (str[i] == 34)
-			skip_and_fill_in_quotes(str, &s, 34, &i);
+		{
+			while (str[i])
+			{
+				// printf("%c-___%d\n", str[i], i);
+				s[i] = str[i];
+				i++;
+				if (str[i] == 34)
+                {
+                    s[i] = str[i];
+				    i++;
+					break ;
+                }
+			}
+		}
 		else if (str[i] == c)
+		{
+			// printf("c_%c__%d\n", str[i], i);
 			s[i] = -1;
+		    i++;
+		}
 		else
+		{
+			// printf("else_%c__%d\n",str[i], i);
 			s[i] = str[i];
-		i++;
+		    i++;
+		}
 	}
 	s[i] = 0;
+	// printf("----%s----\n\n\n\n\n",s);
 	return (s);
 }
 
@@ -71,9 +102,9 @@ char	**splite_with_pipes(t_command **cmd)
 	extend_cmd(&tmp);
 	str = struct_to_str(&tmp);
 	a = set_spliter(str, '|');
-	free(str);
+	// free(str);
 	temp = ft_split(a, -1);
-	free(a);
+	// free(a);
 	return (temp);
 }
 
@@ -83,8 +114,8 @@ char	**splite_with_space(char *str)
 	char *tmp;
 
 	tmp = set_spliter(str, ' ');
-	free(str);
+	// free(str);
 	temp = ft_split(tmp, -1);
-	free(tmp);
+	// free(tmp);
 	return (temp);
 }

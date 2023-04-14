@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/13 17:10:00 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/14 01:30:55 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	check_close_qotes(char *str)
 	int	i;
 
 	i = 0;
-	printf("=====>%p\n",str);
 	while (str[i])
 	{
 		if (!sub_check_qotes(str, &i, 39) || !sub_check_qotes(str, &i, 34))
@@ -337,7 +336,6 @@ int	main(int ac, char **av, char **env)
 		{
 			tmp = init_cmd(tmp);
 			fill_types(tmp, str[i], &i, str);
-			printf(" tmp ====> %p\n",tmp);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
 			free_list(&tmp);

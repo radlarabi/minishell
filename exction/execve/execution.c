@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:44:15 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/13 17:05:50 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/13 18:51:46 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ void    child(t_cmd_line *cmd, int *pipefd)
 		dup2(cmd->outfile, 1);
 		close(cmd->outfile);
 	}
+	if (access(get_path_command(get_path(g_gv->env), cmd->cmds[0]), F_OK) == -1)
+	{
+		printf("cmd note found %s\n", cmd->cmds[0]);
+		exit(0);
+	}
 	// printf("")
 	execve(get_path_command(get_path(g_gv->env), cmd->cmds[0]), cmd->cmds, NULL);
 	perror("execve");
@@ -112,15 +117,16 @@ void    execution(t_cmd_line *cmd)
 	// 	i++;
 	// }
     i = -1;
-	while (++i < num_pipes + 1 && cmd)
+	printf("num pipes %d\n", num_pipes);
+	while (cmd)
 	{
+		i++;
 		pids[i] = fork();
 		if (pids[i] == -1)
 			perror("fork");
 		else if (pids[i] == 0)
 			child(cmd, pipefd[i]);
         cmd = cmd->next;
-		// exit(0);
 	}
 	waitpid(-1, 0, 0);
 }

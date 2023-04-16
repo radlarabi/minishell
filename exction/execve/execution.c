@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:44:15 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 23:47:51 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/16 02:23:00 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,26 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 	// printf("exec %d\n", cmd->infile);
     if (cmd->infile != -1)
 	{
-		dup2(cmd->infile, 0);
-		close(cmd->infile);
+		if (cmd->index == 1)
+		{
+			printf(" herdo k ===> %d\n",cmd->index);
+			cmd->infile = open(cmd->here_f, O_RDONLY);
+			if (cmd->infile < 0)
+			{
+				perror(cmd->here_f);
+				exit(1);
+			}
+			dup2(cmd->infile, 0);
+			close(cmd->infile);
+		}	
+		if (!cmd->index)
+		{
+			printf("infile ===> %d\n",cmd->index);
+			dup2(cmd->infile, 0);
+			close(cmd->infile);
+		}
 	}
+	
 	else
 	{
 		if (i != 0)
@@ -102,7 +119,7 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 	{
 		if (i != count_pipes(&cmd) - count_pipe_used_in_execve(cmd) - 1)
 		{
-			printf("sacsacascsacsacsacascascas\n");
+			// printf("sacsacascsacsacsacascascas\n");
 			dup2(pipefd[i][1], 1);
 			close(pipefd[i][1]);
 		}
@@ -116,6 +133,7 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 		printf("%s: command not found\n", cmd->cmds[0]);
 		exit(0);
 	}
+	// exit(0);
 	execve(get_path_command(get_path(g_gv->env), cmd->cmds[0]), cmd->cmds, NULL);
 	perror("execve");
 }
@@ -130,7 +148,6 @@ void	close_pipes(t_cmd_line *cmd, int **pipefd, int num_pipes)
 	{
 		close(pipefd[j][0]);
 		close(pipefd[j][1]);
-		printf("sssssss\n");
 		j++;
 	}
 	while(cmd)
@@ -148,7 +165,8 @@ void	close_pipes(t_cmd_line *cmd, int **pipefd, int num_pipes)
 
 void    execution(t_cmd_line *cmd)
 {
-    int *pids;
+    pid_t *pids;
+	t_cmd_line *tmp;
     int i;
     int num_pipes;
     int **pipefd;
@@ -170,11 +188,12 @@ void    execution(t_cmd_line *cmd)
 		if (!pipefd[i])
 			return ;
 	}
-	pids = malloc(sizeof(int) * (num_pipes + 1));
+	pids = malloc(sizeof(pid_t) * (num_pipes + 1));
+	
 	if (!pids)
 		return ;
     i = 0;
-	printf("*****%d\n", num_pipes);
+	// printf("*****%d\n", num_pipes + 1);
 	while (i < num_pipes)
 	{
 		if (pipe(pipefd[i]) == -1)
@@ -182,6 +201,7 @@ void    execution(t_cmd_line *cmd)
 		i++;
 	}
     i = -1;
+	tmp = cmd;
 	while (cmd)
 	{
 		i++;
@@ -191,12 +211,13 @@ void    execution(t_cmd_line *cmd)
 		else if (pids[i] == 0)
 			child(cmd, pipefd, i);
 		close(cmd->infile);
+		// printf("%d\n",pids[i]);
         cmd = cmd->next;
 	}
-	// close_pipes(cmd, pipefd, num_pipes);
-	if (pids[0] == 0)
-		printf("oooooooooooooooooo\n");
+	waitpid(-1, 0, 0);
+	close_pipes(tmp, pipefd, num_pipes);
 	// wait(0);
-	exit(0);
-	printf("hannnng\n");
+	// printf("wait --> %d\n" , wait(NULL));
+	// exit(0);
+	// printf("hannnng\n");
 }

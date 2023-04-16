@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 22:13:19 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/16 02:20:17 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
+	(*tmp)->index = 0;
 	if ((*tmp)->infile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
@@ -251,6 +252,7 @@ t_cmd_line *commands_struct(char **cmds)
 	char *t1;
 	char *t2;
 	char **temp;
+	int flag;
 
 	while (cmds[i])
 	{
@@ -291,8 +293,9 @@ t_cmd_line *commands_struct(char **cmds)
 			}
 			else if (!ft_strncmp(temp[j], "<<", ft_strlen(temp[j])))
 			{
-				files_here_doc(temp, &tmp, &j);
-				printf("herdoce --> %d\n", tmp->infile);
+				flag = 1;
+				files_here_doc(temp, &tmp, &j,flag);
+				// printf("herdoce --> %d\n", tmp->infile);
 				
 			}
 			j++;

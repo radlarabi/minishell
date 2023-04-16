@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 22:40:57 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/16 01:59:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_cmd_line
 {
 	int					infile;
 	int					outfile;
+	char 				*here_f;
+	int					index;
 	char				*fd_error;
 	char				**cmds;
 	struct s_cmd_line	*next;
@@ -89,7 +91,7 @@ void					displayList(t_command **node);
 int						check_syntax(t_command **cmd);
 void					set_states(t_command **cmd);
 t_cmd_line				*commands_struct(char **cmds);
-int						files_here_doc(char **temp, t_cmd_line **tmp, int *j);
+int						files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag);
 int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);

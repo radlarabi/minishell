@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 18:32:24 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 21:49:34 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
 	}
 	
 }
-void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids)
+void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int		i;
 	char	**command;
@@ -199,16 +199,16 @@ void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids)
 		pids[i] = fork();
 		if (pids[i] == -1)
 			print_error("fork");
-		command = ft_split(cmd->cmds[i], ' ');
+		command = ft_split(cmd->cmds[i], -1);
 		if (pids[i] == 0)
-			child(cmd, i, pipefd, command);
+			child(cmd, i, pipefd, cmd_l->cmds);
 		waitpid(pids[i], 0, 0);
 		if (i != cmd->num_cmds - 1)
 			close(pipefd[i][1]);
 	}
 }
 
-void	pipex(t_cmd_line1 *cmd)
+void	pipex(t_cmd_line1 *cmd, t_cmd_line *cmd_l)
 {
 	int	*pids;
 	int	i;
@@ -228,5 +228,5 @@ void	pipex(t_cmd_line1 *cmd)
 	if (!pids)
 		exit(1);
 	open_pipes(cmd, pipefd);
-	sub2_pipex(cmd, pipefd, pids);
+	sub2_pipex(cmd, pipefd, pids, cmd_l);
 }

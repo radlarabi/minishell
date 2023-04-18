@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 14:17:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 21:48:18 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ typedef struct s_env
 	struct s_env		*next;
 }						t_env;
 
+typedef struct s_cmd_line1
+{
+	char	*infile;
+	char	*outfile;
+	int		num_cmds;
+	int		num_pipes;
+	char	**av;
+	char	**ev;
+	char	**cmds;
+	struct s_cmd_line	*cmds_p;
+	char	**path;
+}			t_cmd_line1;
+
 typedef struct s_cmd_line
 {
 	int					infile;
@@ -72,17 +85,7 @@ typedef struct s_cmd_line
 	char				**cmds;
 	struct s_cmd_line	*next;
 }						t_cmd_line;
-typedef struct s_cmd_line1
-{
-	char	*infile;
-	char	*outfile;
-	int		num_cmds;
-	int		num_pipes;
-	char	**av;
-	char	**ev;
-	char	**cmds;
-	char	**path;
-}			t_cmd_line1;
+
 typedef	struct s_gv
 {
 	t_env *env;
@@ -134,5 +137,5 @@ char *extand_variable(char *cmds);
 void    execution(t_cmd_line *cmd);
 
 char **get_path(t_env *env);
-void	pipex(t_cmd_line1 *cmd);
+void	pipex(t_cmd_line1 *cmd,t_cmd_line *cmd_l);
 #endif

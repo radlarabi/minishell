@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 15:41:12 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 21:49:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,17 +362,6 @@ t_cmd_line1	*nodes_to_struct(t_cmd_line *cmd_l, char **ev)
 	cmd_l1->path = get_path(g_gv->env);
 	cmd_l1->infile = ft_strdup("a.c");
 	cmd_l1->outfile = ft_strdup("oooooo");
-	// printf("%s %s %s %s\n", cmd_l1->path[0], cmd_l1->path[1], cmd_l1->path[2], cmd_l1->path[3]);
-	// i = 0;
-	// while(ev[i])
-	// 	i++;
-	// cmd_l1->ev = malloc(sizeof(char *) * i);
-	// i = 0;
-	// while(ev[i])
-	// {
-	// 	cmd_l1->ev[i] = ft_strdup(ev[i]);
-	// 	i++;
-	// }
 	cmd_l1->ev = ev;
 	
 	return cmd_l1;
@@ -424,7 +413,7 @@ int	main(int ac, char **av, char **env)
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
 		cmd_l1 = nodes_to_struct(cmd_l, env); 
-		pipex(cmd_l1);
+		pipex(cmd_l1, cmd_l);
 	//	free_2d_table(temp);
 		
 		// display_pipe(cmd_l);

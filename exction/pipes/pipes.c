@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 21:49:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 22:56:51 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,35 @@ void	open_pipes(t_cmd_line1 *cmd, int **pipefd)
 	}
 }
 
-void	open_infile(t_cmd_line1 *cmd)
-{
-	int	in;
+// void	open_infile(t_cmd_line1 *cmd)
+// {
+// 	int	in;
 
-	in = open(cmd->infile, O_RDONLY);
-	if (in == -1)
-		print_error(cmd->infile);
-	dup2(in, 0);
-	close(in);
-}
+// 	in = open(cmd->infile, O_RDONLY);
+// 	if (in == -1)
+// 		print_error(cmd->infile);
+// 	dup2(in, 0);
+// 	close(in);
+// }
 
-void	open_outfile(t_cmd_line1 *cmd)
-{
-	int	out;
+// void	open_outfile(t_cmd_line1 *cmd)
+// {
+// 	int	out;
 
-	out = open(cmd->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (out == -1)
-		print_error(cmd->outfile);
-	dup2(out, 1);
-	close(out);
-}
+// 	out = open(cmd->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+// 	if (out == -1)
+// 		print_error(cmd->outfile);
+// 	dup2(out, 1);
+// 	close(out);
+// }
 
-void	in_pipe(t_cmd_line1 *cmd, int i, int **pipefd)
-{
-	if (i == 0)
-		open_infile(cmd);
-	else
-		dup2(pipefd[i - 1][0], 0);
-}
+// void	in_pipe(t_cmd_line1 *cmd, int i, int **pipefd)
+// {
+// 	if (i == 0)
+// 		open_infile(cmd);
+// 	else
+// 		dup2(pipefd[i - 1][0], 0);
+// }
 
 
 char **get_path(t_env *env)
@@ -147,33 +147,59 @@ static void	free_2d_table(char **t)
 	}
 	// free(t);
 }
-void	out_pipe(t_cmd_line1 *cmd, int i, int **pipefd)
-{
-	if (i == cmd->num_pipes)
-		open_outfile(cmd);
-	else
-		dup2(pipefd[i][1], 1);
-}
+// void	out_pipe(t_cmd_line1 *cmd, int i, int **pipefd)
+// {
+// 	if (i == cmd->num_pipes)
+// 		open_outfile(cmd);
+// 	else
+// 		dup2(pipefd[i][1], 1);
+// }
 void	cmd_not_found(char *cmd)
 {
 	printf("command not found: %s\n", cmd);
 	exit(1);
 }
-void	child(t_cmd_line1 *cmd, int i, int **pipefd, char **command)
+void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 {
-	if (!check_command(cmd->path, command[0]))
-		cmd_not_found(command[0]);
-	if (i != cmd->num_pipes)
+	if (!check_command(cmd->path, cmd_l->cmds[0]))
+		cmd_not_found(cmd_l->cmds[0]);
+	if (cmd_l->infile != -1)
 	{
-		dup2(pipefd[i][1], 1);
-		close(pipefd[i][1]);
+		if (cmd_l->index == 1)
+		{
+			cmd_l->infile = open(cmd_l->here_f, O_RDONLY);
+			if (cmd_l->infile < 0)
+			{
+				perror(cmd_l->here_f);
+				exit(1);
+			}
+			dup2(cmd_l->infile, 0);
+			close(cmd_l->infile);
+		}
+		if (!cmd_l->index)
+		{
+			dup2(cmd_l->infile, 0);
+			close(cmd_l->infile);
+		}
+
 	}
-	if (i != 0)
+	else if (i != 0)
 	{
 		dup2(pipefd[i - 1][0], 0);
 		close(pipefd[i - 1][0]);
 	}
-	execve(get_path_command(get_path(g_gv->env), command[0]), command, NULL);
+	if (cmd_l->outfile != -1)
+	{
+		dup2(cmd_l->outfile, 1);
+		close(cmd_l->outfile);
+	}
+	else if (i != cmd->num_pipes)
+	{
+		dup2(pipefd[i][1], 1);
+		close(pipefd[i][1]);
+	}
+	execve(get_path_command(get_path(g_gv->env), cmd_l->cmds[0]), cmd_l->cmds, NULL);
+	perror("execve");
 }
 
 void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
@@ -186,7 +212,7 @@ void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
 		close(pipefd[j][1]);
 		j++;
 	}
-	
+
 }
 void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
@@ -199,9 +225,8 @@ void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids, t_cmd_line *cmd_l)
 		pids[i] = fork();
 		if (pids[i] == -1)
 			print_error("fork");
-		command = ft_split(cmd->cmds[i], -1);
 		if (pids[i] == 0)
-			child(cmd, i, pipefd, cmd_l->cmds);
+			child(cmd, i, pipefd, cmd_l);
 		waitpid(pids[i], 0, 0);
 		if (i != cmd->num_cmds - 1)
 			close(pipefd[i][1]);

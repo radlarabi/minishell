@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 21:49:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 22:42:12 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,10 +360,8 @@ t_cmd_line1	*nodes_to_struct(t_cmd_line *cmd_l, char **ev)
 		cmd_l1->num_pipes = 0;
 	cmd_l1->cmds[i] = 0;
 	cmd_l1->path = get_path(g_gv->env);
-	cmd_l1->infile = ft_strdup("a.c");
-	cmd_l1->outfile = ft_strdup("oooooo");
 	cmd_l1->ev = ev;
-	
+
 	return cmd_l1;
 }
 int	main(int ac, char **av, char **env)
@@ -412,10 +410,10 @@ int	main(int ac, char **av, char **env)
 		// exit(0);
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
-		cmd_l1 = nodes_to_struct(cmd_l, env); 
+		cmd_l1 = nodes_to_struct(cmd_l, env);
 		pipex(cmd_l1, cmd_l);
 	//	free_2d_table(temp);
-		
+
 		// display_pipe(cmd_l);
 		// displayList(&cmd);
 		// execution(cmd_l);

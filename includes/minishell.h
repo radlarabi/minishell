@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 21:48:18 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 22:46:13 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,11 @@ typedef struct s_env
 
 typedef struct s_cmd_line1
 {
-	char	*infile;
-	char	*outfile;
 	int		num_cmds;
 	int		num_pipes;
 	char	**av;
 	char	**ev;
 	char	**cmds;
-	struct s_cmd_line	*cmds_p;
 	char	**path;
 }			t_cmd_line1;
 

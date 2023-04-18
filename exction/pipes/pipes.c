@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 17:44:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 18:32:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	open_pipes(t_cmd_line1 *cmd, int **pipefd)
 	{
 		if (pipe(pipefd[i]) == -1)
 			print_error("");
-		// printf("pipe adress %p %x %x\n", pipefd[i], &pipefd[i][0], &pipefd[i][1]);
 		i++;
 	}
 }
@@ -113,29 +112,7 @@ char *get_path_command(char **path, char *cmd)
 	}
 	return NULL;
 }
-// char	*get_command(char **path, char *cmd)
-// {
-// 	int		i;
-// 	char	*a;
 
-// 	if (access(cmd, F_OK) != -1)
-// 		return (cmd);
-// 	i = 0;
-// 	while (path[i])
-// 	{
-// 		fprintf(stderr, "adrs %i    %p\n", i, path[i]);
-// 		// a = ft_strjoin(path[i], cmd);
-//         // exit(0);
-//         if (access(ft_strjoin(path[i], cmd), F_OK) != -1)
-// 		{
-// 			// free(a);
-// 			return (ft_strjoin(path[i], cmd));
-// 		}
-// 		// free(a);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
 int	check_command(char **path, char *cmd)
 {
 	int		i;
@@ -189,25 +166,28 @@ void	child(t_cmd_line1 *cmd, int i, int **pipefd, char **command)
 	if (i != cmd->num_pipes)
 	{
 		dup2(pipefd[i][1], 1);
-		close(pipefd[0][1]);
-		close(pipefd[0][0]);
+		close(pipefd[i][1]);
 	}
 	if (i != 0)
 	{
 		dup2(pipefd[i - 1][0], 0);
-		close(pipefd[0][1]);
-		close(pipefd[0][0]);
-		// close(pipefd[i - 1][0]);
-		printf("close 0\n");
+		close(pipefd[i - 1][0]);
 	}
-	// close_pipes(cmd, pipefd);
-	// close(pipefd[0][1]);
-	// close(pipefd[0][0]);
 	execve(get_path_command(get_path(g_gv->env), command[0]), command, NULL);
-	print_error("execve");
 }
 
+void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
+{
+	int	j;
 
+	j = 0;
+	while (j < cmd->num_pipes)
+	{
+		close(pipefd[j][1]);
+		j++;
+	}
+	
+}
 void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids)
 {
 	int		i;
@@ -223,11 +203,9 @@ void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids)
 		if (pids[i] == 0)
 			child(cmd, i, pipefd, command);
 		waitpid(pids[i], 0, 0);
-		close(pipefd[0][1]);
-		close(pipefd[0][0]);
-		printf("finish child %d\n", i);
+		if (i != cmd->num_cmds - 1)
+			close(pipefd[i][1]);
 	}
-	// close_pipes(cmd, pipefd);
 }
 
 void	pipex(t_cmd_line1 *cmd)
@@ -237,7 +215,6 @@ void	pipex(t_cmd_line1 *cmd)
 	int	**pipefd;
 
 	pipefd = malloc(sizeof(int *) * cmd->num_pipes);
-    printf("num_pipes %d\n", cmd->num_pipes);
 	if (!pipefd)
 		exit(1);
 	i = -1;

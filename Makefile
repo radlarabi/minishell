@@ -11,7 +11,7 @@ SRCS = 	parsing/main.c \
 		exction/execve/execution1.c \
 		exction/pipes/pipes.c \
 	
-# CFLAGS =
+# CFLAGS = -fsanitize=address
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 

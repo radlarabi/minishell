@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/16 02:20:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 10:16:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,7 @@ t_cmd_line *commands_struct(char **cmds)
 	{
 		tmp = lst_init_cmds();
 		t1 = NULL;
+		tmp->str_cmd = ft_strdup(cmds[i]);
 		cmds[i] = set_spliter(cmds[i], ' ');
 		cmds[i] = extand_variable(cmds[i]);
 		tmp->cmds = ft_split(cmds[i], -1);

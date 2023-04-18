@@ -9,6 +9,7 @@ SRCS = 	parsing/main.c \
 		parsing/env_link.c\
 		exction/builtins/echo.c \
 		exction/execve/execution1.c \
+		exction/pipes/pipes.c \
 	
 # CFLAGS =
 NAME = minishell

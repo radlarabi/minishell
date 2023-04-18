@@ -160,7 +160,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[++i])
 		ret[a_len + i] = s2[i];
 	ret[a_len + i] = '\0';
-	free((char *)s1);
+	// free((char *)s1);
 	return (ret);
 }
 int	fill_content_heredoc(char *stop, int fd)

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/16 01:59:49 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 14:17:28 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define OTHER 17
 # define AND 17
 # define ERROR_MSG "\033[0;31m syntax error \033[0m"
+# define MINISHELL "\033[0;32m minishell -> \033[0m"
 
 # define GENERAL 1
 # define IN_DC 2
@@ -65,12 +66,23 @@ typedef struct s_cmd_line
 	int					infile;
 	int					outfile;
 	char 				*here_f;
+	char 				*str_cmd;
 	int					index;
 	char				*fd_error;
 	char				**cmds;
 	struct s_cmd_line	*next;
 }						t_cmd_line;
-
+typedef struct s_cmd_line1
+{
+	char	*infile;
+	char	*outfile;
+	int		num_cmds;
+	int		num_pipes;
+	char	**av;
+	char	**ev;
+	char	**cmds;
+	char	**path;
+}			t_cmd_line1;
 typedef	struct s_gv
 {
 	t_env *env;
@@ -120,4 +132,7 @@ char *ft_getenv(char *str);
 int is_quots(char *str,int index);
 char *extand_variable(char *cmds);
 void    execution(t_cmd_line *cmd);
+
+char **get_path(t_env *env);
+void	pipex(t_cmd_line1 *cmd);
 #endif

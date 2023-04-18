@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/14 18:32:27 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 15:41:12 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,8 +310,73 @@ void	main_free(t_command **cmd, t_cmd_line **cmd_l)
 		tmp1 = tmp1->next;
 	}
 }
+char	*search_path(char **ev)
+{
+	int	i;
 
+	i = 0;
+	while (ev[i])
+	{
+		if (!ft_strncmp(ev[i], "PATH", 4))
+			return (ev[i]);
+		i++;
+	}
+	return (NULL);
+}
+char	**get_path_a(char **ev)
+{
+	int		i;
+	char	**path;
+	char	**temp;
+	char *a;
 
+	temp = ft_split(search_path(ev), '=');
+	path = ft_split(temp[1], ':');
+	// free_2d_table(temp);
+	i = 0;
+	while (path[i])
+	{
+		path[i] = ft_strjoin(path[i], "/");
+		i++;
+	}
+	return (path);
+}
+t_cmd_line1	*nodes_to_struct(t_cmd_line *cmd_l, char **ev)
+{
+	t_cmd_line1 *cmd_l1;
+	int i = 0;
+	cmd_l1 = malloc(sizeof(t_cmd_line1));
+	cmd_l1->cmds = malloc(sizeof(char *) * 5); //5 is temp , and it should be the size of the cmd_l !
+	while(cmd_l)
+	{
+		cmd_l1->cmds[i] = ft_strdup(cmd_l->str_cmd);
+		// printf("--> %s\n",cmd_l1->cmds[i]);
+		i++;
+		cmd_l = cmd_l->next;
+	}
+	cmd_l1->num_cmds = i;
+	cmd_l1->num_pipes = i - 1;
+	if (cmd_l1->num_pipes < 0)
+		cmd_l1->num_pipes = 0;
+	cmd_l1->cmds[i] = 0;
+	cmd_l1->path = get_path(g_gv->env);
+	cmd_l1->infile = ft_strdup("a.c");
+	cmd_l1->outfile = ft_strdup("oooooo");
+	// printf("%s %s %s %s\n", cmd_l1->path[0], cmd_l1->path[1], cmd_l1->path[2], cmd_l1->path[3]);
+	// i = 0;
+	// while(ev[i])
+	// 	i++;
+	// cmd_l1->ev = malloc(sizeof(char *) * i);
+	// i = 0;
+	// while(ev[i])
+	// {
+	// 	cmd_l1->ev[i] = ft_strdup(ev[i]);
+	// 	i++;
+	// }
+	cmd_l1->ev = ev;
+	
+	return cmd_l1;
+}
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -324,13 +389,14 @@ int	main(int ac, char **av, char **env)
 	t_command	*tmp;
 	t_command	*tmp_1;
 	t_cmd_line *cmd_l;
+	t_cmd_line1 *cmd_l1;
 	char **temp;
 	g_gv = malloc(sizeof(t_gv));
 	g_gv->env = get_env(env);
 	while (1)
 	{
 		i = 0;
-		str = readline("minishell -> ");
+		str = readline(MINISHELL);
 		add_history(str);
 		while (str[i])
 		{
@@ -357,13 +423,16 @@ int	main(int ac, char **av, char **env)
 		// exit(0);
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
+		cmd_l1 = nodes_to_struct(cmd_l, env); 
+		pipex(cmd_l1);
 	//	free_2d_table(temp);
 		
 		// display_pipe(cmd_l);
 		// displayList(&cmd);
-		execution(cmd_l);
+		// execution(cmd_l);
         free(str);
 		cmd_l = NULL;
+		cmd_l1 = NULL;
 		cmd = NULL;
 	}
 	return (0);

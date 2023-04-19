@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 22:46:13 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/18 23:42:44 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,12 @@ t_gv	*g_gv;
 
 /*  fonction builtins  */
 void					commands(t_cmd_line **commands_v, t_command **cmd);
-int						ft_echo(t_cmd_line **commands_v, t_command **cmd);
+int						ft_echo(t_cmd_line **commands_v);
 /* end */
+
+void ft_execution(t_cmd_line *cmd_l);
+
+
 void					error_msg(void);
 t_command	*init_cmd(t_command	*cmd);
 void					ft_lstadd_back(t_command **lst, t_command *new);
@@ -117,6 +121,7 @@ char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
 void					ft_pwd(t_command **cmd);
 void					display_pipe(t_cmd_line *cmd_l);
+char *get_path_command(char **path, char *cmd);
 // int						count_pipes(t_command **cmd);
 t_cmd_line				*lst_init_cmds();
 void					extend_cmd(t_command **cmd);

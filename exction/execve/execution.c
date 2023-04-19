@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:44:15 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/16 15:51:37 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/18 23:35:25 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 			}
 			dup2(cmd->infile, 0);
 			close(cmd->infile);
-		}	
+		}
 		if (!cmd->index)
 		{
 			printf("infile ===> %d\n",cmd->index);
@@ -101,7 +101,7 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 			close(cmd->infile);
 		}
 	}
-	
+
 	else
 	{
 		if (i != 0)
@@ -134,8 +134,8 @@ void    child(t_cmd_line *cmd, int **pipefd, int i)
 		exit(0);
 	}
 	// exit(0);
-	execve(get_path_command(get_path(g_gv->env), cmd->cmds[0]), cmd->cmds, NULL);
-	perror("execve");
+
+	ft_execution(cmd->cmds,cmd->cmds[0]);
 }
 
 
@@ -151,7 +151,7 @@ void	close_pipes(t_cmd_line *cmd, int **pipefd, int num_pipes)
 		j++;
 	}
 	while(cmd)
-	{	
+	{
 		if (cmd->infile != -1)
 		{
 			close(cmd->infile);
@@ -189,7 +189,7 @@ void    execution(t_cmd_line *cmd)
 			return ;
 	}
 	pids = malloc(sizeof(pid_t) * (num_pipes + 1));
-	
+
 	if (!pids)
 		return ;
     i = 0;

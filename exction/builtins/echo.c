@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 21:53:34 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/03/29 21:51:11 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:36:50 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ int line_cmd(char **cmd)
 	return len;
 }
 
-int	ft_echo(t_cmd_line **commands_v,t_command **cmd)
+int	ft_echo(t_cmd_line **commands_v)
 {
 	int			i;
 	int			flag;
-	(void)cmd;
 	t_cmd_line *tmp;
 	tmp = (*commands_v);
 	flag = 0;
@@ -40,6 +39,8 @@ int	ft_echo(t_cmd_line **commands_v,t_command **cmd)
 		while (tmp->cmds[i])
 		{
 			ft_putstr_fd(tmp->cmds[i],1);
+			if (tmp->cmds[i + 1] && tmp->cmds[i][0] != '\0')
+				write(1," ",1);
 			i++;
 		}
 	}

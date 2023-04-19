@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 22:56:51 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:37:06 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,8 +198,7 @@ void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 		dup2(pipefd[i][1], 1);
 		close(pipefd[i][1]);
 	}
-	execve(get_path_command(get_path(g_gv->env), cmd_l->cmds[0]), cmd_l->cmds, NULL);
-	perror("execve");
+	ft_execution(cmd_l);
 }
 
 void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)

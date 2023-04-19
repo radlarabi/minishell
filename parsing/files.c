@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 21:48:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/04/19 16:39:09 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 		(*tmp)->fd_error = ft_strdup(outfile);
 		return 1;
 	}
-	return 0;	
+	return 0;
 }
 char *ret_in_double_quotes(char *str)
 {
@@ -98,7 +98,7 @@ char *get_variable(char *str)
 		i++;
 	while(str[i] && ft_isalnum(str[i]))
 		i++;
-	ret = malloc(i + 1); 
+	ret = malloc(i + 1);
 	i = 0;
 	while (str[i] && str[i] == '$')
 		i++;
@@ -118,6 +118,7 @@ char *extand_variable(char *cmds)
 	int j;
 	char *ret = NULL;
 	j = 0;
+
 	while(cmds[j])
 	{
 		if (cmds[j] == '\"')
@@ -193,7 +194,7 @@ char *extand_variable(char *cmds)
 			}
 		}
 	}
-	// printf("ret ---> %s-\n", ret);
+	//printf("ret ---> %s-\n", ret);
 	return ret;
 }
 void	free_2d_table(char **t)
@@ -299,7 +300,7 @@ t_cmd_line *commands_struct(char **cmds)
 				flag = 1;
 				files_here_doc(temp, &tmp, &j,flag);
 				// printf("herdoce --> %d\n", tmp->infile);
-				
+
 			}
 			j++;
 		}

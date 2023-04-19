@@ -8,10 +8,10 @@ SRCS = 	parsing/main.c \
 		parsing/splite_pipe_space.c\
 		parsing/env_link.c\
 		exction/builtins/echo.c \
-		exction/execve/execution1.c \
+		exction/execve/execution_utils.c \
 		exction/pipes/pipes.c \
-	
-# CFLAGS = -fsanitize=address
+
+CFLAGS = -fsanitize=address
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 

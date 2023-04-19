@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 22:42:12 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:35:40 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,8 @@ void	extend_cmd(t_command **cmd)
 char *ft_getenv(char *str)
 {
 	t_env *temp;
-
+	char *tmp;
+	tmp = ft_strdup("");
 	temp = g_gv->env;
 	while(temp)
 	{
@@ -256,7 +257,7 @@ char *ft_getenv(char *str)
 			return temp->value;
 		temp = temp->next;
 	}
-	return NULL;
+	return (tmp);
 }
 
 int is_quots(char *str,int index)

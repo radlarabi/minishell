@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/19 16:35:40 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:58:56 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,23 +173,6 @@ void	ft_lstadd_middle(t_command **cmd)
 		//free_list(&new1);
 	}
 	/*end*/
-}
-
-void	ft_pwd(t_command **cmd)
-{
-	t_command *tmp;
-
-	tmp = *cmd;
-	if (tmp && !ft_strncmp(tmp->content, "pwd", 3))
-	{
-		char cwd[1024];
-		if (getcwd(cwd, sizeof(cwd)) != NULL) {
-			printf("%s\n", cwd);
-		} else {
-			perror("getcwd() error");
-			return ;
-		}
-	}
 }
 
 void	display_pipe(t_cmd_line *cmd_l)

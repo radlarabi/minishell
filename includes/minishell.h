@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 23:42:44 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:08:02 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sys/stat.h>
 
 # define WORD 1
 # define DASH 2
@@ -43,6 +44,23 @@
 # define GENERAL 1
 # define IN_DC 2
 # define IN_SC 3
+
+
+typedef struct s_env
+{
+	char				*value;
+	char				*var;
+	struct s_env		*next;
+}						t_env;
+
+typedef	struct s_gv
+{
+	t_env *env;
+	int	exit_status;
+}						t_gv;
+
+t_gv	*g_gv;
+
 typedef struct s_cmd
 {
 	char				*content;
@@ -53,13 +71,6 @@ typedef struct s_cmd
 	struct s_cmd		*next;
 	struct s_cmd		*prev;
 }						t_command;
-
-typedef struct s_env
-{
-	char				*value;
-	char				*var;
-	struct s_env		*next;
-}						t_env;
 
 typedef struct s_cmd_line1
 {
@@ -83,17 +94,12 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 }						t_cmd_line;
 
-typedef	struct s_gv
-{
-	t_env *env;
-	int	exit_status;
-}						t_gv;
 
-t_gv	*g_gv;
 
 /*  fonction builtins  */
-void					commands(t_cmd_line **commands_v, t_command **cmd);
+int						ft_pwd(t_cmd_line **commands_v);
 int						ft_echo(t_cmd_line **commands_v);
+int						ft_cd(t_cmd_line **cd_cmd);
 /* end */
 
 void ft_execution(t_cmd_line *cmd_l);
@@ -119,7 +125,6 @@ int						check_close_qotes(char *str);
 void					fill_types(t_command *tmp, char c, int *i, char *str);
 char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
-void					ft_pwd(t_command **cmd);
 void					display_pipe(t_cmd_line *cmd_l);
 char *get_path_command(char **path, char *cmd);
 // int						count_pipes(t_command **cmd);

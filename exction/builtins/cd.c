@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/04/08 23:47:32 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:09:48 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char *get_oldpwd(t_cmd_line **cd_cmd,t_env **env)
 	return NULL;
 }
 
-int	mini_cd(t_cmd_line **cd_cmd, t_command **cmd)
+int	ft_cd(t_cmd_line **cd_cmd)
 {
 
 	char		*directory;
@@ -45,12 +45,12 @@ int	mini_cd(t_cmd_line **cd_cmd, t_command **cmd)
 		if(!j)
 		{
 			j = 1;
-			get_oldpwd(cd_cmd,&g_env);
+			get_oldpwd(cd_cmd,&g_gv->env);
 			//g->value = getcwd(cwd, sizeof(cwd));
 			ft_putendl_fd("cd: OLDPWD not set",1);
 		}
 		else
-			chdir(g_env->value);
+			chdir(g_gv->env->value);
 	}
 	else if (!directory || !ft_strcmp(directory, "~") || !ft_strcmp(directory, " "))
 		chdir(getenv("HOME"));

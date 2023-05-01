@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/19 16:37:06 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:44:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids, t_cmd_line *cmd_l)
 		if (pids[i] == 0)
 			child(cmd, i, pipefd, cmd_l);
 		waitpid(pids[i], 0, 0);
+		cmd_l  = cmd_l->next;
 		if (i != cmd->num_cmds - 1)
 			close(pipefd[i][1]);
 	}

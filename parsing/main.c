@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/19 16:58:56 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:31:29 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,7 +396,7 @@ int	main(int ac, char **av, char **env)
 		cmd_l = commands_struct(temp);
 		cmd_l1 = nodes_to_struct(cmd_l, env);
 		pipex(cmd_l1, cmd_l);
-	//	free_2d_table(temp);
+		//	free_2d_table(temp);
 
 		// display_pipe(cmd_l);
 		// displayList(&cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/19 16:39:09 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:28:41 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ char *extand_variable(char *cmds)
 			}
 		}
 	}
-	//printf("ret ---> %s-\n", ret);
 	return ret;
 }
 void	free_2d_table(char **t)
@@ -228,6 +227,7 @@ char **change_content_cmds(char **cmds)
 	i = 0;
 	while(cmds[i])
 	{
+		printf("---%s-------> %d\n", cmds[i], i);
 		while (cmds[i] && (!ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], "<")
 		|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
 			i += 2;

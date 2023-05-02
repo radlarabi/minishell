@@ -9,6 +9,7 @@ SRCS = 	parsing/main.c \
 		parsing/env_link.c\
 		exction/builtins/echo.c \
 		exction/builtins/pwd.c \
+		exction/builtins/env.c \
 		exction/builtins/cd.c \
 		exction/execve/execution_utils.c \
 		exction/pipes/pipes.c \

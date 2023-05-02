@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:15:05 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/04/19 16:55:42 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/02 13:00:14 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int	ft_pwd(t_cmd_line **commands_v)
 		perror("getcwd() error");
 			return 1;
 	}
+	exit(0);
 	return 1;
 }

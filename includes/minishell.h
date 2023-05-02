@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/19 17:08:02 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:56:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,4 +145,5 @@ void    execution(t_cmd_line *cmd);
 
 char **get_path(t_env *env);
 void	pipex(t_cmd_line1 *cmd,t_cmd_line *cmd_l);
+void    ft_env();
 #endif

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 21:11:49 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/03 23:01:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,10 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *infile;
 
-	if (!temp[++(*j)])
-	{
-		(*tmp)->fd_error = ft_strdup("");
-		// printf("no such file or directory: \n");
+	++(*j);
+	if (!temp[*j])
 		return 1;
-	}
-	infile = change_quote_in_files(ft_strdup(temp[(*j)]));
+	infile = change_quote_in_files(ft_strdup(temp[*j]));
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
@@ -40,12 +37,9 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
 
-	if (!temp[++(*j)])
-	{
-		// printf("no such file or directory: \n");
-		
+	++(*j);
+	if (!temp[*j])
 		return 1;
-	}
 	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
@@ -62,11 +56,9 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
 
-	if (!temp[++(*j)])
-	{
-		// printf("no such file or directory: \n");
+	++(*j);
+	if (!temp[*j])
 		return 1;
-	}
 	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
@@ -270,20 +262,6 @@ t_cmd_line *commands_struct(char **cmds)
 	char **temp;
 	int flag;
 
-	// cmds[i] = set_spliter(cmds[i], ' ');
-	// printf("set splite : %s\n", cmds[i]);
-	// temp = ft_split(cmds[i], -1);
-	// j = 0;
-	// while(temp[j])
-	// {
-	// 	if (!ft_strcmp(temp[j], "\"\""))
-	// 		temp[j] = ft_strdup("");
-	// 	else
-	// 		temp[j] = extand_variable(temp[j]);
-	// 	printf("temp[%d] %s\n", j, temp[j]);
-	// 	j++;
-	// }
-	// exit(0);
 	while (cmds[i])
 	{
 		tmp = lst_init_cmds();
@@ -305,9 +283,11 @@ t_cmd_line *commands_struct(char **cmds)
 		}
 		tmp->str_cmd = ft_strdup(cmds[i]);
 		tmp->cmds = change_content_cmds(tmp->cmds);
+		k = j;
 		j = 0;
-		while(temp[j])
+		while(j < k)
 		{
+			printf("temp[%d] %s\n", j, temp[j]);
 			if (!ft_strncmp(temp[j], "<", ft_strlen(temp[j])))
 			{
 				if (files_red_in(temp, &tmp, &j))
@@ -330,7 +310,6 @@ t_cmd_line *commands_struct(char **cmds)
 			{
 				flag = 1;
 				files_here_doc(temp, &tmp, &j,flag);
-
 			}
 			j++;
 		}

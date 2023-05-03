@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 21:11:19 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/03 23:14:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,16 @@ char *get_path_command(char **path, char *cmd)
 	return NULL;
 }
 
-int	check_command(char **path, char *cmd)
+int	check_command(t_cmd_line *cmd_l, char **path, char *cmd)
 {
 	int		i;
 	char	*a;
-
-	if (cmd[0] == '\0')
+	if (cmd_l->index == 1)
+	{
+		printf("%d\n",cmd_l->index);
+		return 1;
+	}	
+	if (!cmd || !cmd[0])
 		return 0;
 	if (access(cmd, F_OK) != -1 )
 	{
@@ -157,12 +161,13 @@ void	cmd_not_found(char *cmd)
 void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 {
 	// printf("command %s -%s-\n", cmd_l->cmds[0], cmd_l->fd_error);
+	printf("cmd_l->cmds[0] -%s-\n", cmd_l->cmds[0]);
 	if (cmd_l->fd_error)
 	{
 		printf("%s : No such file or directory\n", cmd_l->fd_error);
 		exit(1);
 	}
-	if (!check_command(cmd->path, cmd_l->cmds[0]))
+	if (!check_command(cmd_l,cmd->path, cmd_l->cmds[0]))
 		cmd_not_found(cmd_l->cmds[0]);
 	
 	if (cmd_l->infile != -1)

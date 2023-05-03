@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 17:23:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/03 23:17:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,20 +391,23 @@ int	main(int ac, char **av, char **env)
 			cmd  = NULL;
 			continue ;
 		}
-		// exit(0);
+		
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
 		cmd_l1 = nodes_to_struct(cmd_l, env);
 		pipex(cmd_l1, cmd_l);
+		
 		//	free_2d_table(temp);
 
 		// display_pipe(cmd_l);
 		// displayList(&cmd);
 		// execution(cmd_l);
-        free(str);
+		
+        
 		cmd_l = NULL;
 		cmd_l1 = NULL;
 		cmd = NULL;
+		free(str);
 	}
 	return (0);
 }

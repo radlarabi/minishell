@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/02 21:27:57 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/03 21:11:19 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,20 +117,20 @@ int	check_command(char **path, char *cmd)
 {
 	int		i;
 	char	*a;
-	// if (!cmd)
-	// 	exit(0);
-	if (access(cmd, F_OK) != -1 || !ft_strcmp(cmd, "exit"))
+
+	if (cmd[0] == '\0')
+		return 0;
+	if (access(cmd, F_OK) != -1 )
+	{
 		return (1);
+	}
 	i = 0;
 	while (path[i])
 	{
-		// a = ft_strjoin(path[i], cmd);
 		if (access(ft_strjoin(path[i], cmd), F_OK) != -1)
 		{
-			// free(a);
 			return (1);
 		}
-		// free(a);
 		i++;
 	}
 	return (0);
@@ -148,13 +148,7 @@ static void	free_2d_table(char **t)
 	}
 	// free(t);
 }
-// void	out_pipe(t_cmd_line1 *cmd, int i, int **pipefd)
-// {
-// 	if (i == cmd->num_pipes)
-// 		open_outfile(cmd);
-// 	else
-// 		dup2(pipefd[i][1], 1);
-// }
+
 void	cmd_not_found(char *cmd)
 {
 	printf("command not found: %s\n", cmd);
@@ -162,29 +156,19 @@ void	cmd_not_found(char *cmd)
 }
 void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 {
-	// if (!cmd_l->cmds[0])
-	// 	exit(0);
+	// printf("command %s -%s-\n", cmd_l->cmds[0], cmd_l->fd_error);
+	if (cmd_l->fd_error)
+	{
+		printf("%s : No such file or directory\n", cmd_l->fd_error);
+		exit(1);
+	}
 	if (!check_command(cmd->path, cmd_l->cmds[0]))
 		cmd_not_found(cmd_l->cmds[0]);
+	
 	if (cmd_l->infile != -1)
 	{
-		// if (cmd_l->index == 1)
-		// {
-		// 	cmd_l->infile = open(cmd_l->here_f, O_RDONLY);
-		// 	if (cmd_l->infile < 0)
-		// 	{
-		// 		perror(cmd_l->here_f);
-		// 		exit(1);
-		// 	}
-		// 	dup2(cmd_l->infile, 0);
-		// 	close(cmd_l->infile);
-		// }
-		// if (!cmd_l->index)
-		// {
-			dup2(cmd_l->infile, 0);
-			close(cmd_l->infile);
-		// }
-
+		dup2(cmd_l->infile, 0);
+		close(cmd_l->infile);
 	}
 	else if (i != 0)
 	{

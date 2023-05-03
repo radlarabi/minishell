@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/02 15:28:41 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/03 21:11:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	char *infile;
 
 	if (!temp[++(*j)])
+	{
+		(*tmp)->fd_error = ft_strdup("");
+		// printf("no such file or directory: \n");
 		return 1;
+	}
 	infile = change_quote_in_files(ft_strdup(temp[(*j)]));
-	// printf("INfile %s-\n", infile);
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
 	(*tmp)->index = 0;
+	(*tmp)->fd_error  = NULL;
 	if ((*tmp)->infile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
@@ -37,7 +41,11 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 	char *outfile;
 
 	if (!temp[++(*j)])
+	{
+		// printf("no such file or directory: \n");
+		
 		return 1;
+	}
 	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
@@ -55,7 +63,10 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 	char *outfile;
 
 	if (!temp[++(*j)])
+	{
+		// printf("no such file or directory: \n");
 		return 1;
+	}
 	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
@@ -203,44 +214,48 @@ void	free_2d_table(char **t)
 	i = 0;
 	while (t[i])
 	{
-		free(t[i]);
+		// free(t[i]);
 		i++;
 	}
-	free(t);
+	// free(t);
 }
 
 char **change_content_cmds(char **cmds)
 {
-	int i = 0;
-	int j = 0;
-	int count = 0;
+	int i;
+	int j;
+	int len;
 	char **ret;
+
+	i = 0;
+	j = 0;
 	while(cmds[i])
 	{
-		if (!ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], "<")
-		|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>"))
-			count++;
+		if (ft_strcmp(cmds[i], "<") || ft_strcmp(cmds[i], "<<") || ft_strcmp(cmds[i], ">") || ft_strcmp(cmds[i], ">>"))
+			j++;
 		i++;
 	}
-	ret = malloc(sizeof(char *) * (i - (count * 2) + 1));
-	// printf("########%d\n", i - (count * 2) + 1);
+	len = j;
+	ret = malloc(sizeof(char *) * (j + 1));
+	if (!ret)
+		return NULL;
+	printf("---> len %d\n", j);
 	i = 0;
+	j = 0;
 	while(cmds[i])
 	{
-		printf("---%s-------> %d\n", cmds[i], i);
-		while (cmds[i] && (!ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], "<")
-		|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
+		while ( (i < len) && (!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
 			i += 2;
-		// printf("*****%s\n", cmds[i]);
-		if (!cmds[i])
+		if (i >= len)
 			break;
 		ret[j] = ft_strdup(cmds[i]);
-	// exit(0);
-		i++;
+		printf("ret[%d] --> %s\n", j, ret[j]);
 		j++;
+		i++;
 	}
 	ret[j] = 0;
 	return ret;
+	// exit(0);
 }
 
 t_cmd_line *commands_struct(char **cmds)
@@ -255,25 +270,41 @@ t_cmd_line *commands_struct(char **cmds)
 	char **temp;
 	int flag;
 
+	// cmds[i] = set_spliter(cmds[i], ' ');
+	// printf("set splite : %s\n", cmds[i]);
+	// temp = ft_split(cmds[i], -1);
+	// j = 0;
+	// while(temp[j])
+	// {
+	// 	if (!ft_strcmp(temp[j], "\"\""))
+	// 		temp[j] = ft_strdup("");
+	// 	else
+	// 		temp[j] = extand_variable(temp[j]);
+	// 	printf("temp[%d] %s\n", j, temp[j]);
+	// 	j++;
+	// }
+	// exit(0);
 	while (cmds[i])
 	{
 		tmp = lst_init_cmds();
 		t1 = NULL;
 		cmds[i] = set_spliter(cmds[i], ' ');
-		cmds[i] = extand_variable(cmds[i]);
-		tmp->str_cmd = ft_strdup(cmds[i]);
+		printf("set splite : %s\n", cmds[i]);
 		tmp->cmds = ft_split(cmds[i], -1);
-		tmp->cmds = change_content_cmds(tmp->cmds);
-		// tmp->cmds_p->cmds = change_content_cmds(tmp->cmds);
-
-		// exit(0);
-		// k = 0;
-		// while(tmp->cmds[k])
-		// {
-		// 	printf("cmd[%d] -%s-\n", k, tmp->cmds[k]);
-		// 	k++;
-		// }
 		temp = ft_split(cmds[i], -1);
+		j = 0;
+		while(tmp->cmds[j])
+		{
+			if (!ft_strcmp(tmp->cmds[j], "\"\""))
+				tmp->cmds[j] = ft_strdup("");
+			else
+				tmp->cmds[j] = extand_variable(tmp->cmds[j]);
+			printf("tmp->cmds[%d] %s\n", j, tmp->cmds[j]);
+			temp[j] = ft_strdup(tmp->cmds[j]);
+			j++;
+		}
+		tmp->str_cmd = ft_strdup(cmds[i]);
+		tmp->cmds = change_content_cmds(tmp->cmds);
 		j = 0;
 		while(temp[j])
 		{
@@ -299,7 +330,6 @@ t_cmd_line *commands_struct(char **cmds)
 			{
 				flag = 1;
 				files_here_doc(temp, &tmp, &j,flag);
-				// printf("herdoce --> %d\n", tmp->infile);
 
 			}
 			j++;
@@ -310,5 +340,7 @@ t_cmd_line *commands_struct(char **cmds)
 		i++;
 		free_2d_table(temp);
 	}
+	if (!cmd_l->cmds[0])
+		cmd_l->flag = 1;
 	return cmd_l;
 }

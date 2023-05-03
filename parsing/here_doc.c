@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/02 16:34:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/03 20:54:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 			exit (1);
 		}
 		stop = get_stop_heredoc(temp[*j]);
-		// if ((*tmp)->infile != -1)
-		// 	close((*tmp)->infile);
 		fill_content_heredoc(stop, fd[1]);
 		close(fd[1]);
 		close(fd[0]);
@@ -61,10 +59,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	}
 	waitpid(pid, &status, 0);
 	(*tmp)->infile = fd[0];
-	(*tmp)->index = flag;
 	close(fd[1]);
-	if (pid == 0)
-		exit(0);
 	return (0);
 }
 char	*change_quote_in_files(char *str)

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/04 19:25:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:26:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@ void ft_execution(t_cmd_line *cmd_l)
 
 			
 			path = get__path(cmd_l->cmds[0]);
-			if (access(path, F_OK) == -1)
+			printf("path is %s\n", path);
+			if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
 			{
 				printf("command not found : %s\n", cmd_l->cmds[0]);
 				exit(127);
 			}
 			printf("main execve\n");
-			execve(path , cmd_l->cmds, NULL);
+			execve(path , cmd_l->cmds, get_path(&g_gv->env));
 			perror("execve");
 		}
 	}

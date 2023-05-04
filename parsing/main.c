@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 18:59:27 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:51:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,19 +396,11 @@ int	main(int ac, char **av, char **env)
 		}
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
-		// printf("main ----> %d\n", getpid());
-		cmd_l1 = nodes_to_struct(cmd_l, env);
-		pipex(cmd_l1, cmd_l);
-		
-		//	free_2d_table(temp);
+		// cmd_l1 = nodes_to_struct(cmd_l, env);
+		pipex(cmd_l);
 
-		// display_pipe(cmd_l);
-		// displayList(&cmd);
-		// execution(cmd_l);
-		
-        
 		cmd_l = NULL;
-		cmd_l1 = NULL;
+		// cmd_l1 = NULL;
 		// continue;
 		cmd = NULL;
 		free(str);

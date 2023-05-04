@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 17:11:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:56:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	print_error(char *a)
 	perror(a);
 	exit(1);
 }
-void	open_pipes(t_cmd_line1 *cmd, int **pipefd)
+void	open_pipes(int num_pipes, int **pipefd)
 {
 	int	i;
 
 	i = 0;
-	while (i < cmd->num_pipes)
+	while (i < num_pipes)
 	{
 		if (pipe(pipefd[i]) == -1)
 			print_error("");
@@ -170,25 +170,15 @@ void	cmd_not_found(char *cmd)
 	printf("command not found: %s\n", cmd);
 	exit(127);
 }
-void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
+void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 {
-	// printf("command %s -%s-\n", cmd_l->cmds[0], cmd_l->fd_error);
-	// printf("----> child %d\n", getpid());
-	// printf("cmd_l->cmds[0] -%s-\n", cmd_l->cmds[0]);
 	if (cmd_l->fd_error)
 	{
 		printf("%s : No such file or directory\n", cmd_l->fd_error);
 		exit(1);
 	}
-	if (!cmd_l->cmds[0])
+	if (!cmd_l->cmds)
 		exit(0);
-	// if (access(cmd_l->cmds[0], F_OK) != -1)
-	// {
-	// 	execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
-	// }
-	// if (!check_command(cmd_l,cmd->path, cmd_l->cmds[0]))
-	// 	cmd_not_found(cmd_l->cmds[0]);
-	
 	if (cmd_l->infile != -1)
 	{
 		dup2(cmd_l->infile, 0);
@@ -204,7 +194,7 @@ void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 		dup2(cmd_l->outfile, 1);
 		close(cmd_l->outfile);
 	}
-	else if (i != cmd->num_pipes)
+	else if (i != num_pipes)
 	{
 		dup2(pipefd[i][1], 1);
 		close(pipefd[i][1]);
@@ -212,57 +202,73 @@ void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 	ft_execution(cmd_l);
 }
 
-void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
-{
-	int	j;
+// void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
+// {
+// 	int	j;
 
-	j = 0;
-	while (j < cmd->num_pipes)
-	{
-		close(pipefd[j][1]);
-		j++;
-	}
+// 	j = 0;
+// 	while (j < cmd->num_pipes)
+// 	{
+// 		close(pipefd[j][1]);
+// 		j++;
+// 	}
 
-}
-void	sub2_pipex(t_cmd_line1 *cmd, int **pipefd, int *pids, t_cmd_line *cmd_l)
+// }
+void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int		i;
 	char	**command;
 
 	i = -1;
-	while (++i < cmd->num_cmds)
+	while (++i < num_cmds)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
 			print_error("fork");
 		if (pids[i] == 0)
-			child(cmd, i, pipefd, cmd_l);
+			child(num_pipes , i, pipefd, cmd_l);
 		waitpid(pids[i], 0, 0);
 		cmd_l  = cmd_l->next;
-		if (i != cmd->num_cmds - 1)
+		if (i != num_cmds - 1)
 			close(pipefd[i][1]);
 	}
 }
-
-void	pipex(t_cmd_line1 *cmd, t_cmd_line *cmd_l)
+int 	count_pipes(t_cmd_line *cmd_l)
+{
+	int i = 0;
+	while(cmd_l)
+	{
+		cmd_l = cmd_l->next;
+		i++;
+	}
+	return i;
+}
+void	pipex(t_cmd_line *cmd_l)
 {
 	int	*pids;
 	int	i;
 	int	**pipefd;
+	int num_pipes;
+	int num_cmds;
 
-	pipefd = malloc(sizeof(int *) * cmd->num_pipes);
+	num_cmds = count_pipes(cmd_l);
+	num_pipes = count_pipes(cmd_l) - 1;
+	printf("num_cmds %d\nnum_pipes%d\n", num_cmds, num_pipes);
+	if (num_pipes < 0)
+		num_pipes = 0;
+	pipefd = malloc(sizeof(int *) * num_pipes);
 	if (!pipefd)
 		exit(1);
 	i = -1;
-	while (++i < cmd->num_pipes)
+	while (++i < num_pipes)
 	{
 		pipefd[i] = malloc(sizeof(int) * 2);
 		if (!pipefd[i])
 			exit(1);
 	}
-	pids = malloc(sizeof(int) * cmd->num_cmds);
+	pids = malloc(sizeof(int) * num_cmds);
 	if (!pids)
 		exit(1);
-	open_pipes(cmd, pipefd);
-	sub2_pipex(cmd, pipefd, pids, cmd_l);
+	open_pipes(num_pipes, pipefd);
+	sub2_pipex(num_pipes, num_cmds, pipefd, pids, cmd_l);
 }

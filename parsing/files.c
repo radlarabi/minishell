@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 23:01:42 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 12:09:38 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,17 +267,15 @@ t_cmd_line *commands_struct(char **cmds)
 		tmp = lst_init_cmds();
 		t1 = NULL;
 		cmds[i] = set_spliter(cmds[i], ' ');
-		printf("set splite : %s\n", cmds[i]);
 		tmp->cmds = ft_split(cmds[i], -1);
 		temp = ft_split(cmds[i], -1);
 		j = 0;
 		while(tmp->cmds[j])
 		{
-			if (!ft_strcmp(tmp->cmds[j], "\"\""))
+			if (!ft_strcmp(tmp->cmds[j], "\"\"") || !ft_strcmp(tmp->cmds[j], "\'\'"))
 				tmp->cmds[j] = ft_strdup("");
 			else
 				tmp->cmds[j] = extand_variable(tmp->cmds[j]);
-			printf("tmp->cmds[%d] %s\n", j, tmp->cmds[j]);
 			temp[j] = ft_strdup(tmp->cmds[j]);
 			j++;
 		}
@@ -287,24 +285,20 @@ t_cmd_line *commands_struct(char **cmds)
 		j = 0;
 		while(j < k)
 		{
-			printf("temp[%d] %s\n", j, temp[j]);
 			if (!ft_strncmp(temp[j], "<", ft_strlen(temp[j])))
 			{
 				if (files_red_in(temp, &tmp, &j))
 					break;
-				printf("infile --> %d\n", tmp->infile);
 			}
 			else if (!ft_strncmp(temp[j], ">", ft_strlen(temp[j])))
 			{
 				if (files_red_out(temp, &tmp, &j))
 					break;
-				printf("outfile --> %d\n", tmp->outfile);
 			}
 			else if (!ft_strncmp(temp[j], ">>", ft_strlen(temp[j])))
 			{
 				if (files_append(temp, &tmp, &j))
 					break;
-				printf("outfile --> %d\n", tmp->outfile);
 			}
 			else if (!ft_strncmp(temp[j], "<<", ft_strlen(temp[j])))
 			{
@@ -313,13 +307,9 @@ t_cmd_line *commands_struct(char **cmds)
 			}
 			j++;
 		}
-		//tmp->cmds = splite_with_space(t1);
-		// printf("t1 ----> %s\n", t1);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
 		free_2d_table(temp);
 	}
-	if (!cmd_l->cmds[0])
-		cmd_l->flag = 1;
 	return cmd_l;
 }

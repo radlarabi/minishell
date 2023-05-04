@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 17:23:46 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 12:16:15 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define OTHER 17
 # define AND 17
 # define ERROR_MSG "\033[0;31m syntax error \033[0m"
-# define MINISHELL "\033[0;32m minishell -> \033[0m"
+# define MINISHELL "minishell -> "
 
 # define GENERAL 1
 # define IN_DC 2

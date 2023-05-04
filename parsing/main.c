@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 23:17:49 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 12:39:59 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,6 +352,7 @@ int	main(int ac, char **av, char **env)
 {
 	char		*str;
 	int			i;
+	int			j = 0;
 	pid_t id;
 	int status;
 	int			len;
@@ -367,10 +368,12 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		i = 0;
-		str = readline(MINISHELL);
+		str = readline("MINISHELL -> ");
 		add_history(str);
-		while (str[i])
+		while (str && str[i])
 		{
+		// if (j == 1)
+		// 	exit(0);
 			tmp = init_cmd(tmp);
 			fill_types(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
@@ -378,12 +381,12 @@ int	main(int ac, char **av, char **env)
 			//free_list(&tmp);
 			//tmp = NULL;
 		}
-		if (!check_close_qotes(str))
-		{
-			//free_list(&cmd);
-			cmd = NULL;
-			continue ;
-		}
+		// if (!check_close_qotes(str))
+		// {
+		// 	//free_list(&cmd);
+		// 	cmd = NULL;
+		// 	continue ;
+		// }
 		set_states(&cmd);
 		if (!check_syntax(&cmd))
 		{
@@ -391,9 +394,9 @@ int	main(int ac, char **av, char **env)
 			cmd  = NULL;
 			continue ;
 		}
-		
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
+		printf("main ----> %d\n", getpid());
 		cmd_l1 = nodes_to_struct(cmd_l, env);
 		pipex(cmd_l1, cmd_l);
 		
@@ -408,6 +411,7 @@ int	main(int ac, char **av, char **env)
 		cmd_l1 = NULL;
 		cmd = NULL;
 		free(str);
+		j++;
 	}
 	return (0);
 }

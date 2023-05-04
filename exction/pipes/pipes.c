@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 23:14:09 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 16:40:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,19 @@ char **get_path(t_env *env)
 	}
 	return path;
 }
-char *get_path_command(char **path, char *cmd)
+char *get_path_command(t_cmd_line *cmd_l, char **path, char *cmd)
 {
 	int		i;
 	char	*a;
 
-	if (access(cmd, F_OK) != -1)
-		return (cmd);
+	printf("command %s\n", cmd_l->cmds[0]);
+	if (ft_strchr(cmd_l->cmds[0], '/'))
+	{
+		printf("execve --- > \n");
+		execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
+		perror("execve");
+		exit(0);
+	}
 	i = 0;
 	while (path[i])
 	{
@@ -117,19 +123,19 @@ int	check_command(t_cmd_line *cmd_l, char **path, char *cmd)
 {
 	int		i;
 	char	*a;
+
 	if (cmd_l->index == 1)
-	{
-		printf("%d\n",cmd_l->index);
 		return 1;
-	}	
 	if (!cmd || !cmd[0])
 		return 0;
+
 	if (access(cmd, F_OK) != -1 )
 	{
 		return (1);
 	}
 	i = 0;
-	while (path[i])
+	// exit(0);
+	while (path && path[i])
 	{
 		if (access(ft_strjoin(path[i], cmd), F_OK) != -1)
 		{
@@ -137,6 +143,7 @@ int	check_command(t_cmd_line *cmd_l, char **path, char *cmd)
 		}
 		i++;
 	}
+	// exit(0);
 	return (0);
 }
 
@@ -161,14 +168,21 @@ void	cmd_not_found(char *cmd)
 void	child(t_cmd_line1 *cmd, int i, int **pipefd, t_cmd_line *cmd_l)
 {
 	// printf("command %s -%s-\n", cmd_l->cmds[0], cmd_l->fd_error);
-	printf("cmd_l->cmds[0] -%s-\n", cmd_l->cmds[0]);
+	// printf("----> child %d\n", getpid());
+	// printf("cmd_l->cmds[0] -%s-\n", cmd_l->cmds[0]);
 	if (cmd_l->fd_error)
 	{
 		printf("%s : No such file or directory\n", cmd_l->fd_error);
 		exit(1);
 	}
-	if (!check_command(cmd_l,cmd->path, cmd_l->cmds[0]))
-		cmd_not_found(cmd_l->cmds[0]);
+	if (!cmd_l->cmds[0])
+		exit(0);
+	// if (access(cmd_l->cmds[0], F_OK) != -1)
+	// {
+	// 	execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
+	// }
+	// if (!check_command(cmd_l,cmd->path, cmd_l->cmds[0]))
+	// 	cmd_not_found(cmd_l->cmds[0]);
 	
 	if (cmd_l->infile != -1)
 	{

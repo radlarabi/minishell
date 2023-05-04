@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:44:15 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/18 23:35:25 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:31:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,26 @@ char **get_path(t_env *env)
 	return path;
 }
 
-char *get_path_command(char **path, char *cmd)
-{
-	int		i;
-	char	*a;
+// char *get_path_command(char **path, char *cmd)
+// {
+// 	int		i;
+// 	char	*a;
 
-	if (access(cmd, F_OK) != -1)
-		return (cmd);
-	i = 0;
-	while (path[i])
-	{
-		path[i] = ft_strjoin(path[i], cmd);
-		if (access(path[i], F_OK) != -1)
-			return (path[i]);
-		i++;
-	}
-	return (NULL);
-}
+// 	if (access(cmd, F_OK) != -1)
+// 	{
+// 		execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
+// 	}
+// 		// return (cmd);
+// 	i = 0;
+// 	while (path[i])
+// 	{
+// 		path[i] = ft_strjoin(path[i], cmd);
+// 		if (access(path[i], F_OK) != -1)
+// 			return (path[i]);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
 int count_pipe_used_in_execve(t_cmd_line *cmd)
 {
 	int i = 0;

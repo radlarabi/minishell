@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 12:16:15 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 16:32:25 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void					fill_types(t_command *tmp, char c, int *i, char *str);
 char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
 void					display_pipe(t_cmd_line *cmd_l);
-char *get_path_command(char **path, char *cmd);
+char					*get_path_command(t_cmd_line *cmd_l, char **path, char *cmd);
 // int						count_pipes(t_command **cmd);
 t_cmd_line				*lst_init_cmds();
 void					extend_cmd(t_command **cmd);

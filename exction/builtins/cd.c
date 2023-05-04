@@ -3,61 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/02 13:00:26 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 20:42:55 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *get_oldpwd(t_cmd_line **cd_cmd,t_env **env)
+char	*get_oldpwd(t_cmd_line **cd_cmd, t_env **env)
 {
-	t_env *temp;
+	t_env	*temp;
+	char	cwd[1024];
+
 	temp = (*env);
-	char		cwd[1024];
 	while (temp->next)
 	{
 		//printf("%s\n",temp->var);
-		if (!ft_strcmp(temp->var,"OLDPWD"))
-		 	temp->value = ft_strdup(getcwd(cwd, sizeof(cwd)));
+		if (!ft_strcmp(temp->var, "OLDPWD"))
+			temp->value = ft_strdup(getcwd(cwd, sizeof(cwd)));
 		temp = temp->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
 int	ft_cd(t_cmd_line **cd_cmd)
 {
-
-	char		*directory;
-	struct stat	st;
-	int			i;
-	char		cwd[1024];
-	static int j;
-
-	i = 0;
-	directory = (*cd_cmd)->cmds[1];
-	if (directory && !ft_strcmp(directory, "/"))
-		chdir(directory);
-	else if((directory && !ft_strcmp(directory, "-")))
+	char	*home_dir;
+	char	*prev_dir;
+	char	cwd[1024];
+	char *path;
+	home_dir = ft_getenv("HOME");
+	prev_dir = ft_getenv("OLDPWD");
+	path = (*cd_cmd)->cmds[1];
+	if (!path|| *path == '~')
+		path = home_dir;
+	else if (*path == '-')
 	{
-		if(!j)
+		if (!prev_dir)
 		{
-			j = 1;
-			get_oldpwd(cd_cmd,&g_gv->env);
-			//g->value = getcwd(cwd, sizeof(cwd));
-			ft_putendl_fd("cd: OLDPWD not set",1);
+			printf("set old\n");
+			return (-1);
 		}
-		else
-			chdir(g_gv->env->value);
+		path = getcwd(cwd, sizeof(cwd));
 	}
-	else if (!directory || !ft_strcmp(directory, "~") || !ft_strcmp(directory, " "))
-		chdir(getenv("HOME"));
-	else if (stat(directory, &st) == -1)
-		perror("Error");
-	else if ((chdir(directory)) != 0)
-		perror("Error");
-	exit(0);
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("getcwd");
+		return (-1);
+	}
+	if (chdir(path) == -1)
+	{
+		perror("chdir");
+		return (-1);
+	}
 	return (0);
 }

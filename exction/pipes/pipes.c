@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 16:40:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 17:11:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,20 @@ void	open_pipes(t_cmd_line1 *cmd, int **pipefd)
 // }
 
 
-char **get_path(t_env *env)
+char **get_path(t_env **env)
 {
 	char **path = NULL;
 	int i = 0;
-	while(env)
+	t_env *tmp;
+	tmp = *env;
+	while(tmp)
 	{
-		if (!ft_strcmp(env->var, "PATH"))
+		if (!ft_strcmp(tmp->var, "PATH"))
 		{
-			path = ft_split(env->value, ':');
+			path = ft_split(tmp->value, ':');
 			break;
 		}
-		env = env->next;
+		tmp = tmp->next;
 	}
 	if (path)
 	{
@@ -101,7 +103,7 @@ char *get_path_command(t_cmd_line *cmd_l, char **path, char *cmd)
 	char	*a;
 
 	printf("command %s\n", cmd_l->cmds[0]);
-	if (ft_strchr(cmd_l->cmds[0], '/'))
+	if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
 	{
 		printf("execve --- > \n");
 		execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
@@ -109,11 +111,14 @@ char *get_path_command(t_cmd_line *cmd_l, char **path, char *cmd)
 		exit(0);
 	}
 	i = 0;
-	while (path[i])
+	printf("path[] ---> %p\n", path);
+	while (path && path[i])
 	{
 		path[i] = ft_strjoin(path[i], cmd);
 		if (access(path[i], F_OK) != -1)
+		{
 			return (path[i]);
+		}
 		i++;
 	}
 	return NULL;

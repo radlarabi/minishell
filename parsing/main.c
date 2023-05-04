@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 15:53:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 18:59:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,7 @@ t_cmd_line1	*nodes_to_struct(t_cmd_line *cmd_l, char **ev)
 	if (cmd_l1->num_pipes < 0)
 		cmd_l1->num_pipes = 0;
 	cmd_l1->cmds[i] = 0;
-	cmd_l1->path = get_path(g_gv->env);
+	cmd_l1->path = get_path(&(g_gv->env));
 	cmd_l1->ev = ev;
 
 	return cmd_l1;
@@ -381,12 +381,12 @@ int	main(int ac, char **av, char **env)
 			//free_list(&tmp);
 			//tmp = NULL;
 		}
-		// if (!check_close_qotes(str))
-		// {
-		// 	//free_list(&cmd);
-		// 	cmd = NULL;
-		// 	continue ;
-		// }
+		if (!check_close_qotes(str))
+		{
+			//free_list(&cmd);
+			cmd = NULL;
+			continue ;
+		}
 		set_states(&cmd);
 		if (!check_syntax(&cmd))
 		{

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:44:15 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 16:31:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 17:03:14 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,32 @@ int count_pipes(t_cmd_line **cmd)
     }
     return i;
 }
-char **get_path(t_env *env)
-{
-	char **path = NULL;
-	int i = 0;
-	while(env)
-	{
-		if (!ft_strcmp(env->var, "PATH"))
-		{
-			path = ft_split(env->value, ':');
-			break;
-		}
-		env = env->next;
-	}
-	if (path)
-	{
-		while(path[i])
-		{
-			path[i] = ft_strjoin(path[i], "/");
-			i++;
-		}
-	}
-	return path;
-}
+// char **get_path(t_env *env)
+// {
+// 	char **path = NULL;
+// 	int i = 0;
+// 	t_env *tmp;
+// 	tmp = env;
+// 	while(tmp)
+// 	{
+// 		printf("--> %s\n", tmp->var);
+// 		if (!ft_strcmp(tmp->var, "PATH"))
+// 		{
+// 			path = ft_split(tmp->value, ':');
+// 			break;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	if (path)
+// 	{
+// 		while(path[i])
+// 		{
+// 			path[i] = ft_strjoin(path[i], "/");
+// 			i++;
+// 		}
+// 	}
+// 	return path;
+// }
 
 // char *get_path_command(char **path, char *cmd)
 // {

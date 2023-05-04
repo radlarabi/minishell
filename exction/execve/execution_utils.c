@@ -6,11 +6,47 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/04 16:34:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 19:25:34 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+
+
+char *get__path(char *cmd)
+{
+	t_env *tmp = g_gv->env;
+	int i = 0;
+	int j = 0;
+	char **path;
+	while(tmp)
+	{
+		printf("tmp->var %s\n", tmp->var);
+		if (!ft_strcmp(tmp->var, "PATH"))
+		{
+			path = ft_split(tmp->value, ':');
+			break;	
+		}
+		tmp = tmp->next;
+	}
+	while(path && path[i])
+	{
+		path[i] = ft_strjoin(path[i], "/");
+		i++;
+	}
+	i = 0;
+	while(path && path[i])
+	{
+		if (access(ft_strjoin(path[i], cmd), F_OK) != -1)
+		{
+			return ft_strjoin(path[i], cmd);
+		}
+		i++;
+	}
+	return NULL;
+}
 
 void ft_execution(t_cmd_line *cmd_l)
 {
@@ -29,8 +65,24 @@ void ft_execution(t_cmd_line *cmd_l)
 			exit(0);
 		else
 		{
-			// printf("--------> %s\n", get_path_command(get_path(g_gv->env), cmd_l->cmds[0]));
-			path = get_path_command(cmd_l, get_path(g_gv->env), cmd_l->cmds[0]);
+			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
+			{
+				printf("sec execve\n");
+				execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
+				perror("execve cmd[0]");
+			}
+			
+			
+
+
+			
+			path = get__path(cmd_l->cmds[0]);
+			if (access(path, F_OK) == -1)
+			{
+				printf("command not found : %s\n", cmd_l->cmds[0]);
+				exit(127);
+			}
+			printf("main execve\n");
 			execve(path , cmd_l->cmds, NULL);
 			perror("execve");
 		}

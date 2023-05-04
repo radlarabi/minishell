@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 19:56:03 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/04/14 18:16:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 19:07:50 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ static int	sub_check_syntax_error(t_command **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
-		if (tmp->state == GENERAL && (!ft_strncmp(tmp->content, "&&",
-					ft_strlen(tmp->content)) || !ft_strncmp(tmp->content, ";",
-					ft_strlen(tmp->content)) || !ft_strncmp(tmp->content, ")",
-					ft_strlen(tmp->content)) || !ft_strncmp(tmp->content, "(",
-					ft_strlen(tmp->content)) || !ft_strncmp(tmp->content, "&",
-					ft_strlen(tmp->content)) || !ft_strncmp(tmp->content, "\\",
-					ft_strlen(tmp->content))))
+		if (tmp->state == GENERAL && (!ft_strcmp(tmp->content, "&&") 
+			|| !ft_strcmp(tmp->content, ";" ) || !ft_strcmp(tmp->content, ")" ) 
+			|| !ft_strcmp(tmp->content, "(" ) || !ft_strcmp(tmp->content, "&" ) 
+			|| !ft_strcmp(tmp->content, "\\" )))
 		{
 			error_msg();
 			return (0);
@@ -40,7 +37,7 @@ static int	sub_check_syntax_error(t_command **cmd)
 		else if (!ft_strcmp(tmp->content, "*"))
 		{
 			t1 = tmp->prev;
-			while (t1->type == SPACE || t1->type == DOUBLE_Q || t1->type == SINGLE_Q)
+			while (t1 && (t1->type == SPACE || t1->type == DOUBLE_Q || t1->type == SINGLE_Q))
 			{
 				if (t1->type == HERDOC && t1->state == GENERAL)
 					return 1;

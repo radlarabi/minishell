@@ -6,23 +6,12 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 21:56:10 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:01:08 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-void	close_pipes(t_cmd_line1 *cmd, int **pipefd)
-{
-	int	j;
 
-	j = 0;
-	while (j < cmd->num_pipes)
-	{
-		close(pipefd[j][0]);
-		close(pipefd[j][1]);
-		j++;
-	}
-}
 void	print_error(char *a)
 {
 	perror(a);
@@ -40,37 +29,6 @@ void	open_pipes(int num_pipes, int **pipefd)
 		i++;
 	}
 }
-
-// void	open_infile(t_cmd_line1 *cmd)
-// {
-// 	int	in;
-
-// 	in = open(cmd->infile, O_RDONLY);
-// 	if (in == -1)
-// 		print_error(cmd->infile);
-// 	dup2(in, 0);
-// 	close(in);
-// }
-
-// void	open_outfile(t_cmd_line1 *cmd)
-// {
-// 	int	out;
-
-// 	out = open(cmd->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-// 	if (out == -1)
-// 		print_error(cmd->outfile);
-// 	dup2(out, 1);
-// 	close(out);
-// }
-
-// void	in_pipe(t_cmd_line1 *cmd, int i, int **pipefd)
-// {
-// 	if (i == 0)
-// 		open_infile(cmd);
-// 	else
-// 		dup2(pipefd[i - 1][0], 0);
-// }
-
 
 char **get_path(t_env **env)
 {
@@ -177,8 +135,6 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 		printf("%s : No such file or directory\n", cmd_l->fd_error);
 		exit(1);
 	}
-	if (!cmd_l->cmds)
-		exit(0);
 	if (cmd_l->infile != -1)
 	{
 		dup2(cmd_l->infile, 0);
@@ -202,18 +158,6 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 	ft_execution(cmd_l);
 }
 
-// void	close_pipes_1(t_cmd_line1 *cmd, int **pipefd)
-// {
-// 	int	j;
-
-// 	j = 0;
-// 	while (j < cmd->num_pipes)
-// 	{
-// 		close(pipefd[j][1]);
-// 		j++;
-// 	}
-
-// }
 void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int		i;
@@ -253,7 +197,7 @@ void	pipex(t_cmd_line *cmd_l)
 
 	num_cmds = count_pipes(cmd_l);
 	num_pipes = count_pipes(cmd_l) - 1;
-	printf("num_cmds %d\nnum_pipes%d\n", num_cmds, num_pipes);
+	// printf("num_cmds %d\nnum_pipes%d\n", num_cmds, num_pipes);
 	if (num_pipes < 0)
 		num_pipes = 0;
 	pipefd = malloc(sizeof(int *) * num_pipes);

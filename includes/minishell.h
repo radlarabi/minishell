@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 21:41:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:58:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,7 @@ typedef struct s_cmd
 	struct s_cmd		*prev;
 }						t_command;
 
-typedef struct s_cmd_line1
-{
-	int		num_cmds;
-	int		num_pipes;
-	char	**av;
-	char	**ev;
-	char	**cmds;
-	char	**path;
-}			t_cmd_line1;
+
 
 typedef struct s_cmd_line
 {

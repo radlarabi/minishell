@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 21:51:13 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 21:58:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,29 +325,7 @@ char	**get_path_a(char **ev)
 	}
 	return (path);
 }
-t_cmd_line1	*nodes_to_struct(t_cmd_line *cmd_l, char **ev)
-{
-	t_cmd_line1 *cmd_l1;
-	int i = 0;
-	cmd_l1 = malloc(sizeof(t_cmd_line1));
-	cmd_l1->cmds = malloc(sizeof(char *) * 5); //5 is temp , and it should be the size of the cmd_l !
-	while(cmd_l)
-	{
-		cmd_l1->cmds[i] = ft_strdup(cmd_l->str_cmd);
-		// printf("--> %s\n",cmd_l1->cmds[i]);
-		i++;
-		cmd_l = cmd_l->next;
-	}
-	cmd_l1->num_cmds = i;
-	cmd_l1->num_pipes = i - 1;
-	if (cmd_l1->num_pipes < 0)
-		cmd_l1->num_pipes = 0;
-	cmd_l1->cmds[i] = 0;
-	cmd_l1->path = get_path(&(g_gv->env));
-	cmd_l1->ev = ev;
 
-	return cmd_l1;
-}
 int	main(int ac, char **av, char **env)
 {
 	char		*str;
@@ -361,7 +339,6 @@ int	main(int ac, char **av, char **env)
 	t_command	*tmp;
 	t_command	*tmp_1;
 	t_cmd_line *cmd_l;
-	t_cmd_line1 *cmd_l1;
 	char **temp;
 	g_gv = malloc(sizeof(t_gv));
 	g_gv->env = get_env(env);

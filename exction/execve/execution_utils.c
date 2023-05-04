@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/04 21:26:56 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:00:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *get__path(char *cmd)
 	char **path;
 	while(tmp)
 	{
-		printf("tmp->var %s\n", tmp->var);
+		// printf("tmp->var %s\n", tmp->var);
 		if (!ft_strcmp(tmp->var, "PATH"))
 		{
 			path = ft_split(tmp->value, ':');
@@ -67,9 +67,9 @@ void ft_execution(t_cmd_line *cmd_l)
 		{
 			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
 			{
-				printf("sec execve\n");
+				// printf("sec execve\n");
 				execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
-				perror("execve cmd[0]");
+				// perror("execve cmd[0]");
 			}
 			
 			
@@ -77,13 +77,13 @@ void ft_execution(t_cmd_line *cmd_l)
 
 			
 			path = get__path(cmd_l->cmds[0]);
-			printf("path is %s\n", path);
+			// printf("path is %s\n", path);
 			if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
 			{
 				printf("command not found : %s\n", cmd_l->cmds[0]);
 				exit(127);
 			}
-			printf("main execve\n");
+			// printf("main execve\n");
 			execve(path , cmd_l->cmds, get_path(&g_gv->env));
 			perror("execve");
 		}

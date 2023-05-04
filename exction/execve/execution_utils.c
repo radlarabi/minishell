@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/04 22:00:48 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:27:52 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ char *get__path(char *cmd)
 		if (!ft_strcmp(tmp->var, "PATH"))
 		{
 			path = ft_split(tmp->value, ':');
-			break;	
+			if (!path)
+				return NULL;
+			break;
 		}
 		tmp = tmp->next;
 	}
@@ -46,6 +48,33 @@ char *get__path(char *cmd)
 		i++;
 	}
 	return NULL;
+}
+
+char **get__env()
+{
+	t_env *tmp;
+	char **ret;
+	int i = 0;
+    tmp = g_gv->env;
+    while(tmp)
+    {
+		i++;
+        tmp = tmp->next;
+    }
+	ret = malloc(sizeof(char *) * (i + 1));
+	tmp = g_gv->env;
+	i = 0;
+	while(tmp)
+	{
+		ret[i] = NULL;
+		ret[i] = ft_strjoin(ret[i], tmp->var);
+		ret[i] = ft_strjoin(ret[i], "=");
+		ret[i] = ft_strjoin(ret[i], tmp->value);
+		tmp = tmp->next;
+		i++;
+	}
+	ret[i] = 0;
+	return ret;
 }
 
 void ft_execution(t_cmd_line *cmd_l)
@@ -68,14 +97,14 @@ void ft_execution(t_cmd_line *cmd_l)
 			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
 			{
 				// printf("sec execve\n");
-				execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
+				execve(cmd_l->cmds[0], cmd_l->cmds, get__env());
 				// perror("execve cmd[0]");
 			}
-			
-			
 
 
-			
+
+
+
 			path = get__path(cmd_l->cmds[0]);
 			// printf("path is %s\n", path);
 			if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
@@ -84,7 +113,7 @@ void ft_execution(t_cmd_line *cmd_l)
 				exit(127);
 			}
 			// printf("main execve\n");
-			execve(path , cmd_l->cmds, get_path(&g_gv->env));
+			execve(path , cmd_l->cmds, get__env());
 			perror("execve");
 		}
 	}

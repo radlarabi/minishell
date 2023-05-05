@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/05 19:12:38 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 21:21:52 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void ft_execution(t_cmd_line *cmd_l)
 					exit(126);	
 				}
 				execve(cmd_l->cmds[0], cmd_l->cmds, get__env());
-				perror("execve cmd[0]");
+				perror("execve");
 				exit(1);
 			}
 

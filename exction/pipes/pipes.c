@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 18:40:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 21:33:55 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line
 	int		i;
 	char	**command;
 
+	// printf("%d\n", cmd_l);
+	// exit(0);
+	
 	i = -1;
 	while (++i < num_cmds)
 	{
@@ -139,6 +142,11 @@ void	pipex(t_cmd_line *cmd_l)
 	int num_pipes;
 	int num_cmds;
 
+	if (cmd_l && !ft_strcmp(cmd_l->cmds[0], "exit"))
+	{
+		printf("exit\n");
+		exit(0);
+	}
 	num_cmds = count_pipes(cmd_l);
 	num_pipes = count_pipes(cmd_l) - 1;
 	if (num_pipes < 0)

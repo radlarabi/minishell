@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 21:58:56 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 22:43:34 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,10 @@ int	check_close_qotes(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (!sub_check_qotes(str, &i, 39) || !sub_check_qotes(str, &i, 34))
 		{
-			//free(str);
 			error_msg();
 			return (0);
 		}
@@ -189,21 +188,6 @@ void	display_pipe(t_cmd_line *cmd_l)
 		cmd_l = cmd_l->next;
 	}
 }
-// int 	count_pipes(t_command **cmd)
-// {
-// 	t_command *tmp;
-// 	int count;
-
-// 	count = 0;
-// 	tmp = *cmd;
-// 	while(tmp)
-// 	{
-// 		if (tmp->type == PIPE && tmp->state == GENERAL)
-// 			count++;
-// 		tmp = tmp->next;
-// 	}
-// 	return count;
-// }
 
 
 void	extend_cmd(t_command **cmd)
@@ -316,7 +300,6 @@ char	**get_path_a(char **ev)
 
 	temp = ft_split(search_path(ev), '=');
 	path = ft_split(temp[1], ':');
-	// free_2d_table(temp);
 	i = 0;
 	while (path[i])
 	{
@@ -349,36 +332,27 @@ int	main(int ac, char **av, char **env)
 		add_history(str);
 		while (str && str[i])
 		{
-		// if (j == 1)
-		// 	exit(0);
 			tmp = init_cmd(tmp);
 			fill_types(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
-			//free_list(&tmp);
-			//tmp = NULL;
 		}
 		if (!check_close_qotes(str))
 		{
-			//free_list(&cmd);
 			cmd = NULL;
 			continue ;
 		}
 		set_states(&cmd);
 		if (!check_syntax(&cmd))
 		{
-			//free_list(&cmd);
 			cmd  = NULL;
 			continue ;
 		}
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
-		// cmd_l1 = nodes_to_struct(cmd_l, env);
 		pipex(cmd_l);
 
 		cmd_l = NULL;
-		// cmd_l1 = NULL;
-		// continue;
 		cmd = NULL;
 		free(str);
 		j++;

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 15:52:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 11:58:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	pid = fork();
 	if (pid == 0)
 	{
-	// printf("----here---------> %d\n", getpid());
 		signal(SIGINT, sigint_handler);
 		if (!temp[++(*j)])
 		{
@@ -61,10 +60,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	waitpid(pid, &status, 0);
 	(*tmp)->infile = fd[0];
 	(*tmp)->index = flag;
-	// printf("-------------> %d\n", getpid());
 	close(fd[1]);
-	// exit(0);
-	// sleep(5);
 	return (0);
 }
 char	*change_quote_in_files(char *str)

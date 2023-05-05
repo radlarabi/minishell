@@ -11,3 +11,6 @@ HERDOC ====> [<< 456] [>> """""] ogaa3 dok char lokhriin .....
 < cs | sc  syntax error
 abcd | ""  syntax error
 
+
+
+

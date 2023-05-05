@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 21:58:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/04 23:05:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,6 @@ void    execution(t_cmd_line *cmd);
 char **get_path(t_env **env);
 void	pipex(t_cmd_line *cmd_l);
 void    ft_env();
+char **get__env();
+char *get__path(char *cmd);
 #endif

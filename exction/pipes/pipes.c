@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 22:01:08 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:25:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char *get_path_command(t_cmd_line *cmd_l, char **path, char *cmd)
 	int		i;
 	char	*a;
 
-	printf("command %s\n", cmd_l->cmds[0]);
+	// printf("command %s\n", cmd_l->cmds[0]);
 	if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
 	{
 		printf("execve --- > \n");
@@ -135,6 +135,12 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 		printf("%s : No such file or directory\n", cmd_l->fd_error);
 		exit(1);
 	}
+	char *path = get__path(cmd_l->cmds[0]);
+	if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
+	{
+		printf("command not found : %s\n", cmd_l->cmds[0]);
+		exit(127);
+	}
 	if (cmd_l->infile != -1)
 	{
 		dup2(cmd_l->infile, 0);
@@ -197,7 +203,6 @@ void	pipex(t_cmd_line *cmd_l)
 
 	num_cmds = count_pipes(cmd_l);
 	num_pipes = count_pipes(cmd_l) - 1;
-	// printf("num_cmds %d\nnum_pipes%d\n", num_cmds, num_pipes);
 	if (num_pipes < 0)
 		num_pipes = 0;
 	pipefd = malloc(sizeof(int *) * num_pipes);

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 14:45:53 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:06:53 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <sys/stat.h>
+#include <dirent.h>
 
 # define WORD 1
 # define DASH 2
@@ -119,8 +120,6 @@ void					fill_types(t_command *tmp, char c, int *i, char *str);
 char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
 void					display_pipe(t_cmd_line *cmd_l);
-char					*get_path_command(t_cmd_line *cmd_l, char **path, char *cmd);
-// int						count_pipes(t_command **cmd);
 t_cmd_line				*lst_init_cmds();
 void					extend_cmd(t_command **cmd);
 char					*ft_join_char(char *str, char c);

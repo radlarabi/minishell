@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 13:25:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:06:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,7 @@ char **get_path(t_env **env)
 	}
 	return path;
 }
-char *get_path_command(t_cmd_line *cmd_l, char **path, char *cmd)
-{
-	int		i;
-	char	*a;
 
-	// printf("command %s\n", cmd_l->cmds[0]);
-	if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
-	{
-		printf("execve --- > \n");
-		execve(cmd_l->cmds[0], cmd_l->cmds, NULL);
-		perror("execve");
-		exit(0);
-	}
-	i = 0;
-	printf("path[] ---> %p\n", path);
-	while (path && path[i])
-	{
-		path[i] = ft_strjoin(path[i], cmd);
-		if (access(path[i], F_OK) != -1)
-		{
-			return (path[i]);
-		}
-		i++;
-	}
-	return NULL;
-}
 
 int	check_command(t_cmd_line *cmd_l, char **path, char *cmd)
 {
@@ -131,13 +106,12 @@ void	cmd_not_found(char *cmd)
 void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 {
 	if (cmd_l->fd_error)
-	{
-		printf("%s : No such file or directory\n", cmd_l->fd_error);
 		exit(1);
-	}
 	char *path = get__path(cmd_l->cmds[0]);
-	if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
+	if (!ft_strchr(cmd_l->cmds[0], '/') && (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], "")))
 	{
+		if (!cmd_l->cmds[0])
+			exit(0);
 		printf("command not found : %s\n", cmd_l->cmds[0]);
 		exit(127);
 	}

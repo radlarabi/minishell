@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 13:49:38 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:04:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *infile;
 
-	// ++(*j);
 	if (!temp[*j])
 		return 1;
 	infile = change_quote_in_files(ft_strdup(temp[*j]));
-	// printf("infile --> %s\n", infile);
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
@@ -29,6 +27,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->infile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
+		perror((*tmp)->fd_error);
 		return 1;
 	}
 	return 0;
@@ -38,11 +37,9 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
 
-	// ++(*j);
 	if (!temp[*j])
 		return 1;
 	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
-	// printf("oufile %s\n", outfile);
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -51,6 +48,7 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->outfile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(outfile);
+		perror((*tmp)->fd_error);
 		return 1;
 	}
 	return 0;
@@ -60,7 +58,6 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
 
-	// ++(*j);
 	if (!temp[*j])
 		return 1;
 	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
@@ -70,6 +67,7 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->outfile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(outfile);
+		perror((*tmp)->fd_error);
 		return 1;
 	}
 	return 0;
@@ -227,7 +225,6 @@ char **change_content_cmds(char **cmds)
 	j = 0;
 	while(cmds[i])
 	{
-		// printf("cmd[%d] %s\n", i, cmds[i]);
 		if (ft_strcmp(cmds[i], "<") || ft_strcmp(cmds[i], "<<") || ft_strcmp(cmds[i], ">") || ft_strcmp(cmds[i], ">>"))
 			j++;
 		i++;
@@ -236,7 +233,6 @@ char **change_content_cmds(char **cmds)
 	ret = malloc(sizeof(char *) * (j + 1));
 	if (!ret)
 		return NULL;
-	// printf("---> len %d\n", j);
 	i = 0;
 	j = 0;
 	while(cmds[i])
@@ -246,13 +242,11 @@ char **change_content_cmds(char **cmds)
 		if (i >= len)
 			break;
 		ret[j] = ft_strdup(cmds[i]);
-		// printf("ret[%d] --> %s\n", j, ret[j]);
 		j++;
 		i++;
 	}
 	ret[j] = 0;
 	return ret;
-	// exit(0);
 }
 
 t_cmd_line *commands_struct(char **cmds)

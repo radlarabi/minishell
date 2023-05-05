@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/05 14:47:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 15:59:39 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,25 +96,22 @@ void ft_execution(t_cmd_line *cmd_l)
 		{
 			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
 			{
-				// printf("sec execve\n");
+				DIR *dir;
+				dir = opendir(cmd_l->cmds[0]);
+				if (dir != NULL)
+				{
+					printf("%s : is a directory\n", cmd_l->cmds[0]);
+					exit(126);	
+				}
 				execve(cmd_l->cmds[0], cmd_l->cmds, get__env());
 				perror("execve cmd[0]");
+				exit(1);
 			}
 
-
-
-
-
 			path = get__path(cmd_l->cmds[0]);
-			// printf("cmd_l->cmds[0] is %s\n", cmd_l->cmds[0]);
-			// if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
-			// {
-			// 	printf("command not found : %s\n", cmd_l->cmds[0]);
-			// 	exit(127);
-			// }
-			// printf("main execve\n");
 			execve(path , cmd_l->cmds, get__env());
 			perror("execve");
+			exit(1);
 		}
 	}
 }

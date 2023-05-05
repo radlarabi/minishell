@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 14:46:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 17:25:06 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 			close(fd[0]);
 			exit (1);
 		}
-		// printf("stop %s\n", temp[*j]);
-		// stop = get_stop_heredoc(temp[*j]);
 		in_q = is_in_qotes(temp[*j]);
 		fill_content_heredoc(change_quote_in_files(temp[*j]), fd[1], in_q);
 		close(fd[1]);

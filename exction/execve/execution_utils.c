@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/05 15:59:39 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 19:12:38 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ char *get__path(char *cmd)
 		i++;
 	}
 	i = 0;
+	cmd = set_spliter(cmd, ' ');
+	char **temp = ft_split(cmd, -1);
 	while(path && path[i])
 	{
-		if (access(ft_strjoin(path[i], cmd), F_OK) != -1)
+		if (access(ft_strjoin(path[i], temp[0]), F_OK) != -1)
 		{
-			return ft_strjoin(path[i], cmd);
+			return ft_strjoin(path[i], temp[0]);
 		}
 		i++;
 	}
@@ -90,8 +92,8 @@ void ft_execution(t_cmd_line *cmd_l)
 			ft_cd(&cmd_l);
 		else if (!ft_strcmp(cmd_l->cmds[0],"env"))
 			ft_env(&cmd_l);
-		else if (!ft_strcmp(cmd_l->cmds[0],"exit"))
-			exit(0);
+		else if (!ft_strcmp(cmd_l->cmds[0],"export"))
+			ft_export(&cmd_l);
 		else
 		{
 			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))

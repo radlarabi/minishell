@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 16:19:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 17:49:35 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,6 @@ void	pipex(t_cmd_line *cmd_l);
 void    ft_env();
 char **get__env();
 char *get__path(char *cmd);
+int	is_in_qotes(char *str);
+int    ft_export(t_cmd_line **commands_v);
 #endif

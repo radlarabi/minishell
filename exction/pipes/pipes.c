@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 16:25:12 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 18:40:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,32 @@ void	cmd_not_found(char *cmd)
 	printf("command not found: %s\n", cmd);
 	exit(127);
 }
-
+int check_command_builtins(char *command)
+{
+	if (command)
+	{
+		if (!ft_strcmp(command,"echo"))
+			return 0;
+		else if (!ft_strcmp(command,"pwd"))
+			return 0;
+		else if (!ft_strcmp(command,"cd"))
+			return 0;
+		else if (!ft_strcmp(command,"env"))
+			return 0;
+		else if (!ft_strcmp(command,"exit"))
+			return 0;
+		else if (!ft_strcmp(command,"export"))
+			return 0;
+	}
+	return 1;
+}
 void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 {
 	if (cmd_l->fd_error)
 		exit(1);
 	char *path = get__path(cmd_l->cmds[0]);
-	if (cmd_l->cmds[0] && !ft_strchr(cmd_l->cmds[0], '/') 
+	int flag_command =  check_command_builtins(cmd_l->cmds[0]);
+	if (flag_command && cmd_l->cmds[0] && !ft_strchr(cmd_l->cmds[0], '/')
 			&& (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], "")))
 		cmd_not_found(cmd_l->cmds[0]);
 	if (!cmd_l->cmds[0])

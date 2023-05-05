@@ -11,6 +11,7 @@ SRCS = 	parsing/main.c \
 		exction/builtins/pwd.c \
 		exction/builtins/env.c \
 		exction/builtins/cd.c \
+		exction/builtins/export.c \
 		exction/execve/execution_utils.c \
 		exction/pipes/pipes.c \
 

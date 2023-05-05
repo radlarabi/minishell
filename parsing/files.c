@@ -6,19 +6,36 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 16:04:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 18:39:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int		is_ambiguous(char  *str)
+{
+	int i = 0;
+	if (str && ft_strchr(str, 32))
+		return 1;
+	return 0;
+}
 int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *infile;
+	int in_q;
 
 	if (!temp[*j])
 		return 1;
-	infile = change_quote_in_files(ft_strdup(temp[*j]));
+	in_q = is_in_qotes(temp[*j]);
+	infile = extand_variable(temp[*j]);
+	if (!infile)
+		infile = ft_strdup("");
+	if (in_q && is_ambiguous(infile))
+	{
+		(*tmp)->fd_error = ft_strdup(infile);
+		printf("ambiguous redirect\n");
+		return 1;
+	}
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
@@ -36,10 +53,20 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
+	int in_q;
 
 	if (!temp[*j])
 		return 1;
-	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
+	in_q = is_in_qotes(temp[*j]);
+	outfile = extand_variable(temp[*j]);
+	if (!outfile)
+		outfile = ft_strdup("");
+	if (in_q && is_ambiguous(outfile))
+	{
+		(*tmp)->fd_error = ft_strdup(outfile);
+		printf("ambiguous redirect\n");
+		return 1;
+	}
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -57,10 +84,20 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 int	files_append(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
+	int in_q;
 
 	if (!temp[*j])
 		return 1;
-	outfile = change_quote_in_files(ft_strdup(temp[(*j)]));
+	in_q = is_in_qotes(temp[*j]);
+	outfile = extand_variable(temp[*j]);
+	if (!outfile)
+		outfile = ft_strdup("");
+	if (in_q && is_ambiguous(outfile))
+	{
+		(*tmp)->fd_error = ft_strdup(outfile);
+		printf("ambiguous redirect\n");
+		return 1;
+	}
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
@@ -278,7 +315,24 @@ t_cmd_line *commands_struct(char **cmds)
 				tmp->cmds[j] = ft_strdup("<<");
 				j++;
 				tmp->cmds[j] = ft_strdup(tmp->cmds[j]);
-				// j++;
+			}
+			else if (!ft_strcmp(tmp->cmds[j] , "<"))
+			{
+				tmp->cmds[j] = ft_strdup("<");
+				j++;
+				tmp->cmds[j] = ft_strdup(tmp->cmds[j]);
+			}
+			else if (!ft_strcmp(tmp->cmds[j] , ">"))
+			{
+				tmp->cmds[j] = ft_strdup(">");
+				j++;
+				tmp->cmds[j] = ft_strdup(tmp->cmds[j]);
+			}
+			else if (!ft_strcmp(tmp->cmds[j] , ">>"))
+			{
+				tmp->cmds[j] = ft_strdup(">>");
+				j++;
+				tmp->cmds[j] = ft_strdup(tmp->cmds[j]);
 			}
 			else
 				tmp->cmds[j] = extand_variable(tmp->cmds[j]);

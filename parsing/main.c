@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 22:43:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:19:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,23 +291,7 @@ char	*search_path(char **ev)
 	}
 	return (NULL);
 }
-char	**get_path_a(char **ev)
-{
-	int		i;
-	char	**path;
-	char	**temp;
-	char *a;
 
-	temp = ft_split(search_path(ev), '=');
-	path = ft_split(temp[1], ':');
-	i = 0;
-	while (path[i])
-	{
-		path[i] = ft_strjoin(path[i], "/");
-		i++;
-	}
-	return (path);
-}
 
 int	main(int ac, char **av, char **env)
 {

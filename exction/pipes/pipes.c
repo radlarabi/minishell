@@ -6,17 +6,12 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 16:06:48 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 16:25:12 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_error(char *a)
-{
-	perror(a);
-	exit(1);
-}
 void	open_pipes(int num_pipes, int **pipefd)
 {
 	int	i;
@@ -25,64 +20,12 @@ void	open_pipes(int num_pipes, int **pipefd)
 	while (i < num_pipes)
 	{
 		if (pipe(pipefd[i]) == -1)
-			print_error("");
-		i++;
-	}
-}
-
-char **get_path(t_env **env)
-{
-	char **path = NULL;
-	int i = 0;
-	t_env *tmp;
-	tmp = *env;
-	while(tmp)
-	{
-		if (!ft_strcmp(tmp->var, "PATH"))
 		{
-			path = ft_split(tmp->value, ':');
-			break;
-		}
-		tmp = tmp->next;
-	}
-	if (path)
-	{
-		while(path[i])
-		{
-			path[i] = ft_strjoin(path[i], "/");
-			i++;
-		}
-	}
-	return path;
-}
-
-
-int	check_command(t_cmd_line *cmd_l, char **path, char *cmd)
-{
-	int		i;
-	char	*a;
-
-	if (cmd_l->index == 1)
-		return 1;
-	if (!cmd || !cmd[0])
-		return 0;
-
-	if (access(cmd, F_OK) != -1 )
-	{
-		return (1);
-	}
-	i = 0;
-	// exit(0);
-	while (path && path[i])
-	{
-		if (access(ft_strjoin(path[i], cmd), F_OK) != -1)
-		{
-			return (1);
+			perror("pipe");
+			return ;
 		}
 		i++;
 	}
-	// exit(0);
-	return (0);
 }
 
 static void	free_2d_table(char **t)
@@ -103,18 +46,17 @@ void	cmd_not_found(char *cmd)
 	printf("command not found: %s\n", cmd);
 	exit(127);
 }
+
 void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 {
 	if (cmd_l->fd_error)
 		exit(1);
 	char *path = get__path(cmd_l->cmds[0]);
-	if (!ft_strchr(cmd_l->cmds[0], '/') && (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], "")))
-	{
-		if (!cmd_l->cmds[0])
-			exit(0);
-		printf("command not found : %s\n", cmd_l->cmds[0]);
-		exit(127);
-	}
+	if (cmd_l->cmds[0] && !ft_strchr(cmd_l->cmds[0], '/') 
+			&& (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], "")))
+		cmd_not_found(cmd_l->cmds[0]);
+	if (!cmd_l->cmds[0])
+		exit(0);
 	if (cmd_l->infile != -1)
 	{
 		dup2(cmd_l->infile, 0);
@@ -148,7 +90,10 @@ void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
-			print_error("fork");
+		{
+			perror("fork");
+			return ;
+		}
 		if (pids[i] == 0)
 			child(num_pipes , i, pipefd, cmd_l);
 		waitpid(pids[i], 0, 0);

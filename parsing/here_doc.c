@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 11:58:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 14:46:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,25 @@ void	sigint_handler(int sig)
 	exit(1);
 }
 
+int	is_in_qotes(char *str)
+{
+	int i;
+
+	i = 0;
+	if (ft_strchr(str, '\"') || ft_strchr(str, '\''))
+		return 0;
+	return 1;
+}
+
 int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 {
 	int		status;
 	pid_t	pid;
+	int		in_q;
 	char	*stop;
 	int 	fd[2];
 
+	in_q = 1;
 	signal(SIGINT, SIG_IGN);
 	if (pipe(fd) < 0)
 	{
@@ -51,8 +63,10 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 			close(fd[0]);
 			exit (1);
 		}
-		stop = get_stop_heredoc(temp[*j]);
-		fill_content_heredoc(stop, fd[1]);
+		// printf("stop %s\n", temp[*j]);
+		// stop = get_stop_heredoc(temp[*j]);
+		in_q = is_in_qotes(temp[*j]);
+		fill_content_heredoc(change_quote_in_files(temp[*j]), fd[1], in_q);
 		close(fd[1]);
 		close(fd[0]);
 		exit(0);
@@ -112,7 +126,7 @@ char	*change_quote_in_files(char *str)
 	}
 	return (a);
 }
-int	fill_content_heredoc(char *stop, int fd)
+int	fill_content_heredoc(char *stop, int fd, int in_q)
 {
 	char *str = NULL;
 	char *content = NULL;
@@ -127,7 +141,8 @@ int	fill_content_heredoc(char *stop, int fd)
 		}
 		content = ft_strjoin(content, str);
 		content = ft_strjoin(content, "\n");
-		content = extand_variable(content);
+		if (in_q)
+			content = extand_variable(content);
 		write(fd, content, ft_strlen(content));
 		free(content);
 		free(str);

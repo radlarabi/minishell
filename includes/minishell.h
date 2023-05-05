@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/04 23:05:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 14:45:53 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);
 char					*change_quote_in_files(char *str);
 char					*get_stop_heredoc(char *str);
-int						fill_content_heredoc(char *stop, int fd);
+int						fill_content_heredoc(char *stop, int fd, int in_q);
 int						sub_check_qotes(char *str, int *i, int a);
 int						check_close_qotes(char *str);
 void					fill_types(t_command *tmp, char c, int *i, char *str);

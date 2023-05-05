@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 13:20:52 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 13:49:38 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,13 @@ t_cmd_line *commands_struct(char **cmds)
 		{
 			if (!ft_strcmp(tmp->cmds[j], "\"\"") || !ft_strcmp(tmp->cmds[j], "\'\'"))
 				tmp->cmds[j] = ft_strdup("");
+			else if (!ft_strcmp(tmp->cmds[j] , "<<"))
+			{
+				tmp->cmds[j] = ft_strdup("<<");
+				j++;
+				tmp->cmds[j] = ft_strdup(tmp->cmds[j]);
+				// j++;
+			}
 			else
 				tmp->cmds[j] = extand_variable(tmp->cmds[j]);
 			temp[j] = ft_strdup(tmp->cmds[j]);

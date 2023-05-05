@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/04 23:14:37 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/05 14:47:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void ft_execution(t_cmd_line *cmd_l)
 
 
 			path = get__path(cmd_l->cmds[0]);
-			printf("cmd_l->cmds[0] is %s\n", cmd_l->cmds[0]);
+			// printf("cmd_l->cmds[0] is %s\n", cmd_l->cmds[0]);
 			// if (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], ""))
 			// {
 			// 	printf("command not found : %s\n", cmd_l->cmds[0]);

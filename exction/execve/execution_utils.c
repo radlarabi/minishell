@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 13:51:51 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:04:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ char *get__path(char *cmd)
 {
 	t_env *tmp = g_gv->env;
 	int i = 0;
-	int j = 0;
 	char **path;
+
+	path = NULL;
 	while(tmp)
 	{
 		// printf("tmp->var %s\n", tmp->var);

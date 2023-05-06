@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 13:51:45 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:03:26 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_syntax_cmd(char *cmd)
 		{
 			cont += 1;
 		}
-		if (ft_strlen(cmd) == cont)
+		if ((int) ft_strlen(cmd) == cont)
 			return (0);
 		i++;
 	}
@@ -77,7 +77,7 @@ int	ft_export(t_cmd_line **commands_v)
 	{
 		i = 0;
 		value_of_var = temp->cmds[j];
-		while (value_of_var && i < ft_strlen(value_of_var))
+		while (value_of_var && i < (int) ft_strlen(value_of_var))
 		{
 			if (value_of_var[i] == '=')
 			{

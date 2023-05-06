@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 12:57:59 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:07:20 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ void	ft_lstadd_middle(t_command **cmd)
 	t_command	*new;
 	t_command	*new1;
 
+	new = NULL;
+	new1 = NULL;
 	new = init_cmd(new);
 	new->content = " ";
 	new->type = SPACE;
@@ -193,7 +195,6 @@ void	display_pipe(t_cmd_line *cmd_l)
 void	extend_cmd(t_command **cmd)
 {
 	t_command	*tmp;
-	t_command	*node;
 	int			i;
 
 	i = 0;
@@ -247,18 +248,7 @@ int is_quots(char *str,int index)
 	}
 	return open;
 }
-static void	free_2d_table(char **t)
-{
-	int	i;
 
-	i = 0;
-	while (t[i])
-	{
-		free(t[i]);
-		i++;
-	}
-	free(t);
-}
 
 void	main_free(t_command **cmd, t_cmd_line **cmd_l)
 {
@@ -298,15 +288,13 @@ int	main(int ac, char **av, char **env)
 	char		*str;
 	int			i;
 	int			j = 0;
-	pid_t id;
-	int status;
-	int			len;
 	t_command	*cmd = NULL;
-	t_command	*node;
 	t_command	*tmp;
-	t_command	*tmp_1;
 	t_cmd_line *cmd_l;
 	char **temp;
+
+	(void)ac;
+	(void)av;
 	g_gv = malloc(sizeof(t_gv));
 	g_gv->env = get_env(env);
 	g_gv->exit_status = 0;

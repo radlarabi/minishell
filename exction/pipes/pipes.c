@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 13:51:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:07:06 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ void	open_pipes(int num_pipes, int **pipefd)
 	}
 }
 
-static void	free_2d_table(char **t)
-{
-	int	i;
-
-	i = 0;
-	while (t[i])
-	{
-		// free(t[i]);
-		i++;
-	}
-	// free(t);
-}
 
 void	cmd_not_found(char *cmd)
 {
@@ -102,9 +90,8 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int		i;
-	char	**command;
-	int		status;
-	
+	int status;
+
 	i = -1;
 	while (++i < num_cmds)
 	{

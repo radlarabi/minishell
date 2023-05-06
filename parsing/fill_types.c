@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_types.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/04/11 21:35:14 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/06 14:01:25 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	fill_types4(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void	fill_types5(t_command *tmp, char c, int *i, char *str)
+void	fill_types5(t_command *tmp, char c, int *i)
 {
 	if (c == '?')
 	{
@@ -138,7 +138,7 @@ void	fill_types(t_command *tmp, char c, int *i, char *str)
 				+ 1] != '.') || c == '|')
 		fill_types4(tmp, c, i, str);
 	else if (c == '?' || c == '$')
-		fill_types5(tmp, c, i, str);
+		fill_types5(tmp, c, i);
 	else
 	{
 		tmp->opr = N_OPER;

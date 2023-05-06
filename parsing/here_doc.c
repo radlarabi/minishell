@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 13:25:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:02:36 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*get_stop_heredoc(char *str)
 
 void	sigint_handler(int sig)
 {
+	(void)sig;
 	write(1, "\n", 1);
 	exit(1);
 }
@@ -43,7 +44,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	int		status;
 	pid_t	pid;
 	int		in_q;
-	char	*stop;
 	int 	fd[2];
 
 	in_q = 1;

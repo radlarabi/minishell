@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 13:18:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:07:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int		is_ambiguous(char  *str)
 {
-	int i = 0;
 	if (str && ft_strchr(str, 32))
 		return 1;
 	return 0;
@@ -136,7 +135,6 @@ char *get_variable(char *str)
 	int i = 0;
 	int j = 0;
 	char *ret;
-	int len = 0;
 	while (str[i] && str[i] == '$')
 		i++;
 	while(str[i] && ft_isalnum(str[i]))
@@ -157,7 +155,6 @@ char *get_variable(char *str)
 
 char *extand_variable(char *cmds)
 {
-	int i;
 	int j;
 	char *ret = NULL;
 	j = 0;
@@ -249,18 +246,6 @@ char *extand_variable(char *cmds)
 	}
 	return ret;
 }
-void	free_2d_table(char **t)
-{
-	int	i;
-
-	i = 0;
-	while (t[i])
-	{
-		// free(t[i]);
-		i++;
-	}
-	// free(t);
-}
 
 char **change_content_cmds(char **cmds)
 {
@@ -305,7 +290,6 @@ t_cmd_line *commands_struct(char **cmds)
 	int j = 0;
 	int k = 0;
 	char *t1;
-	char *t2;
 	char **temp;
 	int flag;
 
@@ -383,7 +367,6 @@ t_cmd_line *commands_struct(char **cmds)
 		}
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;
-		free_2d_table(temp);
 	}
 	return cmd_l;
 }

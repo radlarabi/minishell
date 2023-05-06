@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/04/10 22:14:50 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:02:43 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ t_env *get_env(char **ev)
 	i = 0;
 	t_env *l_env;
 	t_env *tmp;
-	int j;
 	l_env = NULL;
 	while (ev[i])
 	{

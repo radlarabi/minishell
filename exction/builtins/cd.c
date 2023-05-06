@@ -6,13 +6,13 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 13:51:35 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 14:02:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_oldpwd(t_cmd_line **cd_cmd, t_env **env)
+char	*get_oldpwd(t_env **env)
 {
 	t_env	*temp;
 	char	cwd[1024];

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 21:33:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 12:57:59 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ int	main(int ac, char **av, char **env)
 	char **temp;
 	g_gv = malloc(sizeof(t_gv));
 	g_gv->env = get_env(env);
+	g_gv->exit_status = 0;
 	while (1)
 	{
 		i = 0;

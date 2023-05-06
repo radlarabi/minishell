@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/05 15:37:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 13:51:35 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*get_oldpwd(t_cmd_line **cd_cmd, t_env **env)
 	temp = (*env);
 	while (temp->next)
 	{
-		//printf("%s\n",temp->var);
 		if (!ft_strcmp(temp->var, "OLDPWD"))
 			temp->value = ft_strdup(getcwd(cwd, sizeof(cwd)));
 		temp = temp->next;

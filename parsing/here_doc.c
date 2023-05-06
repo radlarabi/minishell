@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 17:25:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 13:25:33 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
+	g_gv->exit_status = WEXITSTATUS(status);
 	(*tmp)->infile = fd[0];
 	(*tmp)->index = flag;
 	close(fd[1]);

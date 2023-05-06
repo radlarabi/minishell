@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 19:56:03 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/04 19:07:50 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 13:15:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	error_msg(void)
 {
 	printf(ERROR_MSG "\n");
+	g_gv->exit_status = 258;
 }
 
 static int	sub_check_syntax_error(t_command **cmd)

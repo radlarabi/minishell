@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 18:39:21 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/06 13:18:03 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
 		printf("ambiguous redirect\n");
+		g_gv->exit_status = 1;
 		return 1;
 	}
 	if ((*tmp)->infile != -1)
@@ -173,6 +174,11 @@ char *extand_variable(char *cmds)
 					j++;
 					break;
 				}
+				else if (cmds[j] == '$' && cmds[j + 1] == '?')
+				{
+					ret = ft_strjoin(ret, ft_itoa(g_gv->exit_status));
+					j += 2;
+				}
 				else if (cmds[j] == '$')
 				{
 					j++;
@@ -222,6 +228,11 @@ char *extand_variable(char *cmds)
 					if(cmds[j] == ' ')
 						break;
 				}
+			}
+			else if (cmds[j] == '$' && cmds[j + 1] == '?')
+			{
+				ret = ft_strjoin(ret, ft_itoa(g_gv->exit_status));
+				j += 2;
 			}
 			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
 			{

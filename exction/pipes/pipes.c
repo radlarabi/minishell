@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 14:07:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 16:50:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,24 @@ int 	count_pipes(t_cmd_line *cmd_l)
 	}
 	return i;
 }
+
+void	free_int(int **pipefd, int *pids, int num_pipes)
+{
+	int i;
+
+	i = 0;
+	if (pids)
+		free(pids);
+	while (num_pipes && pipefd && pipefd[i])
+	{
+		if (pipefd[i])
+			free(pipefd[i]);
+		i++;
+		num_pipes--;
+	}
+	if (pipefd)
+		free(pipefd);
+}
 void	pipex(t_cmd_line *cmd_l)
 {
 	int	*pids;
@@ -152,4 +170,5 @@ void	pipex(t_cmd_line *cmd_l)
 		exit(1);
 	open_pipes(num_pipes, pipefd);
 	sub2_pipex(num_pipes, num_cmds, pipefd, pids, cmd_l);
+	free_int(pipefd, pids, num_pipes);
 }

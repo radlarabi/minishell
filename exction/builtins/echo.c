@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 21:53:34 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 13:51:40 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/07 12:29:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_echo(t_cmd_line **commands_v)
 	i = 1;
 	while (i < line_cmd(tmp->cmds))
 	{
-		while (tmp->cmds[i] && !ft_strncmp(tmp->cmds[i],"-n",ft_strlen(tmp->cmds[i])))
+		while (tmp->cmds[i] && !ft_strcmp(tmp->cmds[i],"-n"))
 		{
 			flag = 1;
 			i++;
@@ -46,5 +46,6 @@ int	ft_echo(t_cmd_line **commands_v)
 	}
 	if (!flag)
 		write(1,"\n",1);
+	exit(0);
 	return (0);
 }

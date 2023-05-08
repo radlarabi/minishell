@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 14:02:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 13:10:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	ft_cd(t_cmd_line **cd_cmd)
 		if (!prev_dir)
 		{
 			printf("set old\n");
+			exit(1);
 			return (-1);
 		}
 		path = getcwd(cwd, sizeof(cwd));
@@ -50,12 +51,15 @@ int	ft_cd(t_cmd_line **cd_cmd)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("getcwd");
+		exit(1);
 		return (-1);
 	}
 	if (chdir(path) == -1)
 	{
 		perror("chdir");
+		exit(1);
 		return (-1);
 	}
+	// exit(0);
 	return (0);
 }

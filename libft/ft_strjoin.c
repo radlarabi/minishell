@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:18:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/03 20:41:41 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 16:17:16 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[++i])
 		ret[a_len + i] = s2[i];
 	ret[a_len + i] = '\0';
-	// free((char *)s1);
+	free((char *)s1);
 	return (ret);
 }

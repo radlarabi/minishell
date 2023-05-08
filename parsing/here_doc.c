@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 14:02:36 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 22:20:47 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	pid_t	pid;
 	int		in_q;
 	int 	fd[2];
-
+	char *tab;
 	in_q = 1;
 	signal(SIGINT, SIG_IGN);
 	if (pipe(fd) < 0)
@@ -57,14 +57,19 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	if (pid == 0)
 	{
 		signal(SIGINT, sigint_handler);
-		if (!temp[++(*j)])
+		//printf("======================>%p\n",temp[*j]);
+		if (!temp[(*j)])
 		{
 			close(fd[1]);
 			close(fd[0]);
+			free(tab);
 			exit (1);
 		}
 		in_q = is_in_qotes(temp[*j]);
-		fill_content_heredoc(change_quote_in_files(temp[*j]), fd[1], in_q);
+		tab = change_quote_in_files(temp[*j]);
+		fill_content_heredoc(tab, fd[1], in_q);
+		free(tab);
+		free(temp[*j]);
 		close(fd[1]);
 		close(fd[0]);
 		exit(0);
@@ -74,6 +79,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	(*tmp)->infile = fd[0];
 	(*tmp)->index = flag;
 	close(fd[1]);
+	free(temp[(*j)++]);
 	return (0);
 }
 char	*change_quote_in_files(char *str)
@@ -129,11 +135,12 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 {
 	char *str = NULL;
 	char *content = NULL;
+	char *temp;
 	while (1)
 	{
 		str = readline(">");
 		content = NULL;
-		if (!str || !ft_strcmp(str, stop)) // !str is temp
+		if (!str || !ft_strcmp(str, stop))
 		{
 			close(fd);
 			exit(0);
@@ -141,7 +148,11 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 		content = ft_strjoin(content, str);
 		content = ft_strjoin(content, "\n");
 		if (in_q)
+		{
+			temp = content;
 			content = extand_variable(content);
+			free(temp);
+		}
 		write(fd, content, ft_strlen(content));
 		free(content);
 		free(str);

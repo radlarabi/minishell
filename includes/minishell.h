@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/05 17:49:35 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 20:54:29 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ typedef struct s_cmd_line
 {
 	int					infile;
 	int					outfile;
-	char 				*here_f;
-	int flag;
-	char 				*str_cmd;
+	int					flag;
 	int					index;
 	char				*fd_error;
 	char				**cmds;
@@ -129,14 +127,15 @@ void					skip_in_quotes(char *str, int a, int *i);
 char					*set_spliter(char *str, char c);
 char					**splite_with_pipes(t_command **cmd);
 char					**splite_with_space(char *str);
-t_env *get_env(char **ev);
-char *ft_getenv(char *str);
-int is_quots(char *str,int index);
-char *extand_variable(char *cmds);
-void	pipex(t_cmd_line *cmd_l);
-void    ft_env();
-char **get__env();
-char *get__path(char *cmd);
-int	is_in_qotes(char *str);
-int    ft_export(t_cmd_line **commands_v);
+t_env					*get_env(char **ev);
+char					*ft_getenv(char *str);
+int						is_quots(char *str,int index);
+char					*extand_variable(char *cmds);
+void					pipex(t_cmd_line *cmd_l);
+void					ft_env();
+char					**get__env();
+char					*get__path(char *cmd);
+int						is_in_qotes(char *str);
+int						ft_export(t_cmd_line **commands_v);
+void					free_2d_table(char **temp);
 #endif

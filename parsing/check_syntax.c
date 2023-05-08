@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 19:56:03 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 13:15:23 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 16:29:40 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	sub_check_syntax_error(t_command **cmd)
 		if (tmp->state == GENERAL && (!ft_strcmp(tmp->content, "&&") 
 			|| !ft_strcmp(tmp->content, ";" ) || !ft_strcmp(tmp->content, ")" ) 
 			|| !ft_strcmp(tmp->content, "(" ) || !ft_strcmp(tmp->content, "&" ) 
-			|| !ft_strcmp(tmp->content, "\\" )))
+			|| !ft_strcmp(tmp->content, "\\" )|| !ft_strcmp(tmp->content, "!" )))
 		{
 			error_msg();
 			return (0);
@@ -107,6 +107,7 @@ int	check_syntax_2(t_command *tmp, t_command *t1, t_command *t2)
 int	check_syntax(t_command **cmd)
 {
 	t_command	*tmp;
+	t_command	*tmp1;
 	t_command	*t1;
 	t_command	*t2;
 

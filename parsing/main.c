@@ -6,26 +6,12 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 14:07:20 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 21:49:19 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void free_list(t_command **cmd)
-{
-	t_command *temp;
-	temp = *cmd;
-	t_command *content;
-	while (temp->next)
-	{
-		content = temp;
-		free(content->content);
-		free(content);
-		temp = temp->next;
-	}
-	*cmd = NULL;
-}
 void	ft_lstadd_back(t_command **lst, t_command *new)
 {
 	t_command	*temp;
@@ -47,7 +33,6 @@ void	ft_lstadd_back(t_command **lst, t_command *new)
 		temp->next = new;
 		new->prev = temp;
 	}
-	//free_list(&new);
 }
 void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new)
 {
@@ -144,36 +129,33 @@ void	ft_lstadd_middle(t_command **cmd)
 	new = NULL;
 	new1 = NULL;
 	new = init_cmd(new);
-	new->content = " ";
+	new->content = ft_strdup(" ");
 	new->type = SPACE;
 	new->state = GENERAL;
 	new->len = 1;
+
 	new1 = init_cmd(new1);
 	new1->state = GENERAL;
-	new1->content = " ";
+	new1->content = ft_strdup(" ");
 	new1->type = SPACE;
 	new1->len = 1;
+	
 	new->next = (*cmd)->next;
 	new->prev = (*cmd);
 	(*cmd)->next = new;
-	//free_list(&new);
-	/*hada code dyal espace befor node*/
+
 	if ((*cmd)->prev != NULL)
 	{
 		new1->prev = (*cmd)->prev;
 		new1->next = (*cmd);
 		(*cmd)->prev->next = new1;
 		(*cmd)->prev = new1;
-		//free_list(&new1);
 	}
 	else
 	{
-		new1->prev = NULL;
-		new1->next = (*cmd);
-		(*cmd)->prev = new1;
-		//free_list(&new1);
+		free(new1->content);
+		free(new1);
 	}
-	/*end*/
 }
 
 void	display_pipe(t_cmd_line *cmd_l)
@@ -250,24 +232,7 @@ int is_quots(char *str,int index)
 }
 
 
-void	main_free(t_command **cmd, t_cmd_line **cmd_l)
-{
-	t_command *tmp;
-	t_cmd_line *tmp1;
-	tmp = *cmd;
-	while (tmp)
-	{
-		free(tmp->content);
-		tmp = tmp->next;
-	}
-	tmp1 = *cmd_l;
-	while(tmp1)
-	{
-		if (tmp1->fd_error)
-			free(tmp1->fd_error);
-		tmp1 = tmp1->next;
-	}
-}
+
 char	*search_path(char **ev)
 {
 	int	i;
@@ -282,6 +247,50 @@ char	*search_path(char **ev)
 	return (NULL);
 }
 
+void	free_2d_table(char **temp)
+{
+	int i;
+
+	i = 0;
+	while(temp && temp[i])
+	{
+		if (temp[i])
+			free(temp[i]);
+		i++;
+	}
+	if(temp)
+		free(temp);		
+}
+void	free_t_command(t_command **cmd)
+{
+	t_command *tmp;
+
+	while(*cmd)
+	{
+		printf("cmd tmp %p |%s|\n", (*cmd)->content,  (*cmd)->content);
+		tmp = (*cmd)->next;
+		if ((*cmd)->content)
+			free((*cmd)->content);
+		free((*cmd));
+		(*cmd) = tmp;
+	}
+}
+void	free_t_cmd_line(t_cmd_line **cmd)
+{
+	t_cmd_line *tmp;
+
+	
+	while(*cmd)
+	{
+		tmp = (*cmd)->next;
+		if ((*cmd)->fd_error)
+			free((*cmd)->fd_error);
+		if ((*cmd)->cmds)
+			free_2d_table((*cmd)->cmds);
+		free((*cmd));
+		(*cmd) = tmp;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -289,8 +298,9 @@ int	main(int ac, char **av, char **env)
 	int			i;
 	int			j = 0;
 	t_command	*cmd = NULL;
-	t_command	*tmp;
-	t_cmd_line *cmd_l;
+	t_command	*tmp = NULL;
+	t_cmd_line *cmd_l = NULL;
+	t_cmd_line *cmd_l_tmp= NULL;
 	char **temp;
 
 	(void)ac;
@@ -300,6 +310,10 @@ int	main(int ac, char **av, char **env)
 	g_gv->exit_status = 0;
 	while (1)
 	{
+		
+		cmd = NULL;
+		cmd_l = NULL;
+		tmp = NULL;
 		i = 0;
 		str = readline("MINISHELL -> ");
 		add_history(str);
@@ -309,25 +323,32 @@ int	main(int ac, char **av, char **env)
 			fill_types(tmp, str[i], &i, str);
 			tmp->content = ft_substr(str, i - tmp->len, tmp->len);
 			ft_lstadd_back(&cmd, tmp);
+			// printf("addrs %p\n", tmp->content);
 		}
 		if (!check_close_qotes(str))
 		{
-			cmd = NULL;
+			free_t_command(&cmd);
+			if (str)
+				free(str);
 			continue ;
 		}
 		set_states(&cmd);
 		if (!check_syntax(&cmd))
 		{
-			cmd  = NULL;
+			free_t_command(&cmd);
+			if (str)
+				free(str);
 			continue ;
 		}
 		temp = splite_with_pipes(&cmd);
 		cmd_l = commands_struct(temp);
+		free(temp);
 		pipex(cmd_l);
-
-		cmd_l = NULL;
-		cmd = NULL;
-		free(str);
+		free_t_command(&cmd);
+		free_t_cmd_line(&cmd_l);
+		if (str)
+			free(str);
+		system("leaks minishell");
 		j++;
 	}
 	return (0);

@@ -6,14 +6,11 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 14:04:09 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 16:22:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-
-
 
 char *get__path(char *cmd)
 {
@@ -24,7 +21,6 @@ char *get__path(char *cmd)
 	path = NULL;
 	while(tmp)
 	{
-		// printf("tmp->var %s\n", tmp->var);
 		if (!ft_strcmp(tmp->var, "PATH"))
 		{
 			path = ft_split(tmp->value, ':');
@@ -44,10 +40,10 @@ char *get__path(char *cmd)
 	char **temp = ft_split(cmd, -1);
 	while(path && path[i])
 	{
-		if (access(ft_strjoin(path[i], temp[0]), F_OK) != -1)
-		{
-			return ft_strjoin(path[i], temp[0]);
-		}
+		char *ttt;
+		path[i] = ft_strjoin(path[i], temp[0]);
+		if (access(path[i], F_OK) != -1)
+			return path[i];
 		i++;
 	}
 	return NULL;

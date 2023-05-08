@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/06 14:02:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/08 16:47:22 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char *ft_join_char(char *str, char c)
 			return NULL;
 		a[0] = c;
 		a[1] = '\0';
+		free(str);
 		return a;
 	}
 	int i = 0;
@@ -92,7 +93,7 @@ t_env *fill_env_node(char *env,t_env *t_env)
 	int i;
 	i = 0;
 	char *value = NULL;
-	char *var;
+	char *var = NULL;
 	var = fill_env_var(env,&i);
 	t_env->var = var;
 	while (env[i])

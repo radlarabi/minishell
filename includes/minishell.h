@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 13:52:56 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:45:58 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,12 @@ int						ft_cd(t_cmd_line **cd_cmd);
 void					ft_env(t_cmd_line **commands_v);
 int						ft_export(t_cmd_line **commands_v);
 int						ft_exit(t_cmd_line **commands_v, int flag_exit);
-	/* end */
+int						ft_unset(t_cmd_line **commands_v);
+/* end */
+void					ft_strncpy(char *dest, const char *src, size_t n);
+int						ft_cherch_node(char *exp_var);
+int						check_syntax_cmd(char *cmd);
+char					**splitre_whit_pos(char *str, size_t pos);
 void					ft_execution(t_cmd_line *cmd_l);
 void					error_msg(void);
 t_command				*init_cmd(t_command *cmd);

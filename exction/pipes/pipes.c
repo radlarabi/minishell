@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 13:52:16 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:52:33 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,11 @@ void	pipex(t_cmd_line *cmd_l)
 	num_pipes = count_pipes(cmd_l) - 1;
 	if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "exit"))
 		ft_exit(&cmd_l,0);
+	else if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "export"))
+	{
+		ft_export(&cmd_l);
+		return ;
+	}
 	if (num_pipes < 0)
 		num_pipes = 0;
 	pipefd = malloc(sizeof(int *) * num_pipes);

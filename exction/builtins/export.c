@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 13:07:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 19:03:17 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,102 +15,26 @@
 void	add_node(t_env **env, char *env_var, char *env_val)
 {
 	t_env	*new_node;
-
-	new_node = malloc(sizeof(t_env));
-	new_node->value = env_val;
-	new_node->var = env_var;
-	new_node->next = (*env);
-	(*env) = new_node;
-}
-
-int	check_class(char *name_of_varaibl)
-{
-	int	i;
-
-	i = 0;
-	while (name_of_varaibl[i])
+	char *tab;
+	if (env_var)
 	{
-		i++;
-	}
-	return (1);
-}
-int	check_syntax_cmd(char *cmd)
-{
-	int		i;
-	size_t	cont;
-
-	cont = 0;
-	i = 0;
-	if (ft_strchr("0123456789", cmd[0]))
-		return (1);
-	while (cmd && cmd[i])
-	{
-		if (ft_strchr("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_",
-						cmd[i]))
-			cont += 1;
-		if (ft_strlen(cmd) == cont)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	ft_strncpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n && src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (i < n)
-		dest[i++] = '\0';
-}
-char	**splitre_whit_pos(char *str, size_t pos)
-{
-	size_t	length;
-	char	**result;
-
-	result = malloc(2 * sizeof(char *));
-	length = ft_strlen(str);
-	if (str[pos] == '=')
-	{
-		if (pos >= 0 && pos < length)
+		new_node = malloc(sizeof(t_env));
+		if (!env_val)
 		{
-			result[0] = malloc((pos + 1) * sizeof(char));
-			ft_strncpy(result[0], str, pos);
-			result[0][pos] = '\0';
-			result[1] = malloc((length - pos + 1) * sizeof(char));
-			ft_strncpy(result[1], str + pos, length - pos);
-			result[1][length - pos] = '\0';
+			new_node->value = ft_strdup("");
+			new_node->var = ft_strdup(env_var);
+			new_node->next = (*env);
+			(*env) = new_node;
 		}
 		else
 		{
-			result[0] = ft_strdup(str);
-			result[1] = NULL;
+			new_node->value = env_val;
+			new_node->var = env_var;
+			new_node->next = (*env);
+			(*env) = new_node;
 		}
 	}
-	return (result);
 }
-
-int	ft_cherch_node(char *exp_var)
-{
-	int		i;
-	t_env	*temp;
-
-	i = 0;
-	temp = g_gv->env;
-	while (temp)
-	{
-		if (!ft_strcmp(temp->var, exp_var))
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
-
 char	*remove_char(char *string, char c, int pos)
 {
 	int	length;
@@ -161,6 +85,21 @@ void join_value(t_env **env, char *env_var, char *new_env_val)
 	}
 }
 
+t_env *dup_env(t_env *env_list)
+{
+	t_env *new_dup;
+	if (!env_list)
+		return NULL;
+	else
+	{
+		new_dup = malloc(sizeof(t_env));
+		new_dup->value = env_list->value;
+		new_dup->var = env_list->var;
+		new_dup->next = dup_env(env_list->next);
+		return new_dup;
+	}
+}
+
 int	ft_export(t_cmd_line **commands_v)
 {
 	t_env		*tmp;
@@ -171,6 +110,7 @@ int	ft_export(t_cmd_line **commands_v)
 	size_t		i;
 	int			j;
 	int			flag;
+	char *tab;
 
 	flag = 0;
 	temp = (*commands_v);
@@ -202,10 +142,10 @@ int	ft_export(t_cmd_line **commands_v)
 				}
 				else if (check_syntax_cmd(export_value[0]))
 				{
-					ft_putstr_fd("export: ", 2);
-					ft_putstr_fd(value_of_var, 2);
-					ft_putendl_fd(" : not a valid identifier", 2);
-					exit(1);
+					ft_putstr_fd("export: ", 1);
+					ft_putstr_fd(value_of_var, 1);
+					ft_putendl_fd(" : not a valid identifier", 1);
+					g_gv->exit_status = 1;
 				}
 			}
 			else if (!flag && value_of_var[i] == '+' && value_of_var[i
@@ -224,11 +164,16 @@ int	ft_export(t_cmd_line **commands_v)
 				}
 				else if (check_syntax_cmd(export_value[0]))
 				{
-					ft_putstr_fd("export: ", 2);
-					ft_putstr_fd(value_of_var, 2);
-					ft_putendl_fd(" : not a valid identifier", 2);
-					exit(1);
+					ft_putstr_fd("export: ", 1);
+					ft_putstr_fd(value_of_var, 1);
+					ft_putendl_fd(" : not a valid identifier", 1);
+					g_gv->exit_status = 1;
 				}
+				flag = 1;
+			}
+			else if (!flag && len == 2 && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+') ))
+			{
+				add_node(&g_gv->env, value_of_var,NULL);
 				flag = 1;
 			}
 			i++;
@@ -237,18 +182,25 @@ int	ft_export(t_cmd_line **commands_v)
 		{
 			while (tmp)
 			{
-				ft_putstr_fd("declare -x ", 1);
-				ft_putstr_fd(tmp->var, 1);
-				ft_putstr_fd("=", 1);
-				ft_putstr_fd("\"", 1);
-				ft_putstr_fd(tmp->value, 1);
-				ft_putendl_fd("\"", 1);
+				if (!ft_strcmp(tmp->value,""))
+				{
+					ft_putstr_fd("declare -x ", 1);
+					ft_putendl_fd(tmp->var, 1);
+				}
+				else
+				{
+					ft_putstr_fd("declare -x ", 1);
+					ft_putstr_fd(tmp->var, 1);
+					ft_putstr_fd("=", 1);
+					ft_putstr_fd("\"", 1);
+					ft_putstr_fd(tmp->value, 1);
+					ft_putendl_fd("\"", 1);
+				}
 				tmp = tmp->next;
-			}	
-			exit(0);
+			}
+			g_gv->exit_status = 0;
 		}
 		j++;
 	}
-	exit(0);
 	return (0);
 }

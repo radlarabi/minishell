@@ -13,12 +13,14 @@ SRCS = 	parsing/main.c \
 		exction/builtins/cd.c \
 		exction/builtins/export.c \
 		exction/builtins/exit.c \
+		exction/builtins/utils_builtins.c\
+		exction/builtins/unset.c\
 		exction/execve/execution_utils.c \
 		exction/pipes/pipes.c \
 		# parsing/check_leaks.c\
 
 # CFLAGS = -Wall -Wextra -Werror
-# CFLAGS = -fsanitize=address -g3
+CFLAGS = -fsanitize=address -g3
 # CFLAGS = -g
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)

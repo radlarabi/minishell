@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 13:04:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 13:52:01 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void ft_execution(t_cmd_line *cmd_l)
 			ft_env(&cmd_l);
 		else if (!ft_strcmp(cmd_l->cmds[0],"export"))
 			ft_export(&cmd_l);
+		else if (!ft_strcmp(cmd_l->cmds[0],"exit"))
+			ft_exit(&cmd_l,1);
 		else
 		{
 			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
@@ -100,7 +102,7 @@ void ft_execution(t_cmd_line *cmd_l)
 				if (dir != NULL)
 				{
 					printf("%s : is a directory\n", cmd_l->cmds[0]);
-					exit(126);	
+					exit(126);
 				}
 				execve(cmd_l->cmds[0], cmd_l->cmds, get__env());
 				perror("execve");

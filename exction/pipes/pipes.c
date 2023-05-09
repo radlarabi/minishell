@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/08 16:50:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 13:52:16 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int check_command_builtins(char *command)
 		else if (!ft_strcmp(command,"exit"))
 			return 0;
 		else if (!ft_strcmp(command,"export"))
+			return 0;
+		else if (!ft_strcmp(command,"unset"))
 			return 0;
 	}
 	return 1;
@@ -146,13 +148,10 @@ void	pipex(t_cmd_line *cmd_l)
 	int num_pipes;
 	int num_cmds;
 
-	// if (cmd_l && !ft_strcmp(cmd_l->cmds[0], "exit"))
-	// {
-	// 	printf("exit\n");
-	// 	exit(0);
-	// }
 	num_cmds = count_pipes(cmd_l);
 	num_pipes = count_pipes(cmd_l) - 1;
+	if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "exit"))
+		ft_exit(&cmd_l,0);
 	if (num_pipes < 0)
 		num_pipes = 0;
 	pipefd = malloc(sizeof(int *) * num_pipes);

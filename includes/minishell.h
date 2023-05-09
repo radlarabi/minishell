@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 12:10:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 13:52:56 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <sys/stat.h>
-#include <dirent.h>
 
 # define WORD 1
 # define DASH 2
@@ -46,7 +46,6 @@
 # define IN_DC 2
 # define IN_SC 3
 
-
 typedef struct s_env
 {
 	char				*value;
@@ -54,13 +53,13 @@ typedef struct s_env
 	struct s_env		*next;
 }						t_env;
 
-typedef	struct s_gv
+typedef struct s_gv
 {
-	t_env *env;
-	int	exit_status;
+	t_env				*env;
+	int					exit_status;
 }						t_gv;
 
-t_gv	*g_gv;
+t_gv					*g_gv;
 
 typedef struct s_cmd
 {
@@ -73,8 +72,6 @@ typedef struct s_cmd
 	struct s_cmd		*prev;
 }						t_command;
 
-
-
 typedef struct s_cmd_line
 {
 	int					infile;
@@ -86,24 +83,24 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 }						t_cmd_line;
 
-
-
 /*  fonction builtins  */
 int						ft_pwd(t_cmd_line **commands_v);
 int						ft_echo(t_cmd_line **commands_v);
 int						ft_cd(t_cmd_line **cd_cmd);
-void					ft_env();
+void					ft_env(t_cmd_line **commands_v);
 int						ft_export(t_cmd_line **commands_v);
-/* end */
+int						ft_exit(t_cmd_line **commands_v, int flag_exit);
+	/* end */
 void					ft_execution(t_cmd_line *cmd_l);
 void					error_msg(void);
-t_command	*init_cmd(t_command	*cmd);
+t_command				*init_cmd(t_command *cmd);
 void					ft_lstadd_back(t_command **lst, t_command *new);
 void					ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
 int						check_syntax(t_command **cmd);
 void					set_states(t_command **cmd);
 t_cmd_line				*commands_struct(char **cmds);
-int						files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag);
+int						files_here_doc(char **temp, t_cmd_line **tmp, int *j,
+							int flag);
 int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);
@@ -126,7 +123,7 @@ char					**splite_with_pipes(t_command **cmd);
 char					**splite_with_space(char *str);
 t_env					*get_env(char **ev);
 char					*ft_getenv(char *str);
-int						is_quots(char *str,int index);
+int						is_quots(char *str, int index);
 char					*extand_variable(char *cmds);
 void					pipex(t_cmd_line *cmd_l);
 char					**get__env();

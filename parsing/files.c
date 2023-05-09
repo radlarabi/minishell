@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/08 21:12:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 12:58:16 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,10 @@ char *extand_variable(char *cmds)
 	int j;
 	char *ret = NULL;
 	j = 0;
+	char *var;
+	char *var_env;
+	char *exit;
+
 
 	while(cmds[j])
 	{
@@ -198,14 +202,23 @@ char *extand_variable(char *cmds)
 				}
 				else if (cmds[j] == '$' && cmds[j + 1] == '?')
 				{
-					ret = ft_strjoin(ret, ft_itoa(g_gv->exit_status));
+					exit = ft_itoa(g_gv->exit_status);
+					ret = ft_strjoin(ret, exit);
+					if (exit)
+						free(exit);
 					j += 2;
 				}
 				else if (cmds[j] == '$')
 				{
 					j++;
-					ret = ft_strjoin(ret, ft_getenv(get_variable(cmds + j)));
-					j += ft_strlen(get_variable(cmds + j));
+					var = get_variable(cmds + j);
+					var_env = ft_getenv(var);
+					ret = ft_strjoin(ret, var_env);
+					j += ft_strlen(var);
+					if (var)
+						free(var);
+					// if (var_env)
+					// 	free(var_env);
 				}
 				else
 				{
@@ -253,7 +266,10 @@ char *extand_variable(char *cmds)
 			}
 			else if (cmds[j] == '$' && cmds[j + 1] == '?')
 			{
-				ret = ft_strjoin(ret, ft_itoa(g_gv->exit_status));
+				exit = ft_itoa(g_gv->exit_status);
+				ret = ft_strjoin(ret, exit);
+				if (exit)
+					free(exit);
 				j += 2;
 			}
 			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
@@ -264,8 +280,14 @@ char *extand_variable(char *cmds)
 			if (cmds[j] == '$')
 			{
 				j++;
-				ret = ft_strjoin(ret, ft_getenv(get_variable(cmds + j)));
-				j += ft_strlen(get_variable(cmds + j));
+				var = get_variable(cmds + j);
+				var_env = ft_getenv(var);
+				ret = ft_strjoin(ret, var_env);
+				j += ft_strlen(var);
+				if (var)
+					free(var);
+				// if (var_env).
+				// 	free(var_env);
 			}
 		}
 	}

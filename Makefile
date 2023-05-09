@@ -18,7 +18,7 @@ SRCS = 	parsing/main.c \
 
 # CFLAGS = -Wall -Wextra -Werror
 # CFLAGS = -fsanitize=address -g3
-CFLAGS = -g
+# CFLAGS = -g
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 

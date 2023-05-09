@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/08 16:47:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 13:11:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ t_env *init_env()
 char *ft_join_char(char *str, char c)
 {
 	char *a;
+	int i;
+
+	i = 0;
 	if (!str)
 	{
 		a = malloc(sizeof(char) * 2);
@@ -55,7 +58,6 @@ char *ft_join_char(char *str, char c)
 		free(str);
 		return a;
 	}
-	int i = 0;
 	a = malloc(ft_strlen(str) + 2);
 	while(str[i])
 	{

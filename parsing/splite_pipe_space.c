@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/08 19:02:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 12:08:06 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,7 @@ char	**splite_with_space(char *str)
 
 	tmp = set_spliter(str, ' ');
 	temp = ft_split(tmp, -1);
+	if (tmp)
+		free(tmp);
 	return (temp);
 }

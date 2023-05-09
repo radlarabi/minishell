@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/08 20:54:29 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 12:10:22 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,14 @@ typedef struct s_cmd_line
 int						ft_pwd(t_cmd_line **commands_v);
 int						ft_echo(t_cmd_line **commands_v);
 int						ft_cd(t_cmd_line **cd_cmd);
+void					ft_env();
+int						ft_export(t_cmd_line **commands_v);
 /* end */
-
-void ft_execution(t_cmd_line *cmd_l);
-
-
+void					ft_execution(t_cmd_line *cmd_l);
 void					error_msg(void);
 t_command	*init_cmd(t_command	*cmd);
 void					ft_lstadd_back(t_command **lst, t_command *new);
 void					ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
-void					displayList(t_command **node);
 int						check_syntax(t_command **cmd);
 void					set_states(t_command **cmd);
 t_cmd_line				*commands_struct(char **cmds);
@@ -117,7 +115,6 @@ int						check_close_qotes(char *str);
 void					fill_types(t_command *tmp, char c, int *i, char *str);
 char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
-void					display_pipe(t_cmd_line *cmd_l);
 t_cmd_line				*lst_init_cmds();
 void					extend_cmd(t_command **cmd);
 char					*ft_join_char(char *str, char c);
@@ -132,10 +129,8 @@ char					*ft_getenv(char *str);
 int						is_quots(char *str,int index);
 char					*extand_variable(char *cmds);
 void					pipex(t_cmd_line *cmd_l);
-void					ft_env();
 char					**get__env();
 char					*get__path(char *cmd);
 int						is_in_qotes(char *str);
-int						ft_export(t_cmd_line **commands_v);
 void					free_2d_table(char **temp);
 #endif

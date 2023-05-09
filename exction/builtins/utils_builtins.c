@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:26:22 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 15:30:32 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/09 22:41:55 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_cherch_node(char *exp_var)
 	temp = g_gv->env;
 	while (temp)
 	{
-		if (!ft_strcmp(temp->var, exp_var))
+		if (exp_var && !ft_strcmp(temp->var, exp_var))
 			return (1);
 		temp = temp->next;
 	}

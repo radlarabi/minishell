@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_link.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 13:11:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/09 20:37:14 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_env *init_env()
 		return NULL;
 	env_var->value = NULL;
 	env_var->var = NULL;
+	env_var->flag = 0;
 	env_var->next = NULL;
 	return env_var;
 }

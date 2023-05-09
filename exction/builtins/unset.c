@@ -6,28 +6,50 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 15:50:29 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:18:36 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// void remove_node(t_env *env)
-// {
-
-// }
-
-int ft_unset(t_cmd_line **commands_v)
+void	remove_node(t_env **head_ref, char *key, char *key1)
 {
-	t_env *temp;
-	temp = g_gv->env;
-	char *var;
-	var = (*commands_v)->cmds[1];
-	while(temp)
+	t_env	*temp;
+	t_env	 *prev;
+
+	temp = *head_ref;
+	if (temp != NULL && temp->var == key &&  temp->value == key1)
 	{
-		if(ft_cherch_node(var))
-			printf("fdfdf\n");
+		*head_ref = temp->next;
+		free(temp);
+		return ;
+	}
+	while (temp != NULL && (temp->var != key || temp->value != key1))
+	{
+		prev = temp;
 		temp = temp->next;
 	}
-	return 0;
+	if (!temp)
+		return ;
+	prev->next = temp->next;
+	free(temp);
+}
+
+int	ft_unset(t_cmd_line **commands_v)
+{
+	t_env	*temp;
+	char	*var;
+
+	temp = g_gv->env;
+	var = (*commands_v)->cmds[1];
+	while (temp)
+	{
+		if (ft_cherch_node(var))
+		{
+			remove_node(&g_gv->env,temp->var,temp->value);
+			break ;
+		}
+		temp = temp->next;
+	}
+	return (0);
 }

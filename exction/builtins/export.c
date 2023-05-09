@@ -6,13 +6,13 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 19:03:17 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:24:18 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	add_node(t_env **env, char *env_var, char *env_val)
+void	add_node(t_env **env, char *env_var, char *env_val, int a)
 {
 	t_env	*new_node;
 	char *tab;
@@ -23,13 +23,18 @@ void	add_node(t_env **env, char *env_var, char *env_val)
 		{
 			new_node->value = ft_strdup("");
 			new_node->var = ft_strdup(env_var);
+			if (a)
+				new_node->flag = 2;
+			else if (!a)
+				new_node->flag = 1;
 			new_node->next = (*env);
 			(*env) = new_node;
 		}
-		else
+		else if (!a)
 		{
 			new_node->value = env_val;
 			new_node->var = env_var;
+			new_node->flag = 0;
 			new_node->next = (*env);
 			(*env) = new_node;
 		}
@@ -114,7 +119,7 @@ int	ft_export(t_cmd_line **commands_v)
 
 	flag = 0;
 	temp = (*commands_v);
-	tmp = g_gv->env;
+	tmp = dup_env(g_gv->env);
 	j = 1;
 	i = 0;
 	while (temp->cmds[i])
@@ -124,6 +129,7 @@ int	ft_export(t_cmd_line **commands_v)
 	{
 		i = 0;
 		flag = 0;
+		tmp->flag = 0;
 		value_of_var = temp->cmds[j];
 		while (value_of_var && i < ft_strlen(value_of_var))
 		{
@@ -138,7 +144,7 @@ int	ft_export(t_cmd_line **commands_v)
 					if (ft_cherch_node(export_value[0]))
 						change_value(&g_gv->env, export_value[0], export_value[1]);
 					else
-						add_node(&g_gv->env, export_value[0], export_value[1]);
+						add_node(&g_gv->env, export_value[0], export_value[1],0);
 				}
 				else if (check_syntax_cmd(export_value[0]))
 				{
@@ -160,7 +166,7 @@ int	ft_export(t_cmd_line **commands_v)
 					if (ft_cherch_node(export_value[0]))
 						join_value(&g_gv->env, export_value[0], export_value[1]);
 					else
-						add_node(&g_gv->env, export_value[0], export_value[1]);
+						add_node(&g_gv->env, export_value[0], export_value[1],0);
 				}
 				else if (check_syntax_cmd(export_value[0]))
 				{
@@ -173,7 +179,7 @@ int	ft_export(t_cmd_line **commands_v)
 			}
 			else if (!flag && len == 2 && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+') ))
 			{
-				add_node(&g_gv->env, value_of_var,NULL);
+				add_node(&g_gv->env, value_of_var,NULL,1);
 				flag = 1;
 			}
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 23:13:37 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:03:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ t_env					*get_env(char **ev);
 char					*ft_getenv(char *str);
 int						is_quots(char *str, int index);
 char					*extand_variable(char *cmds);
+char					*extand_var(char *cmds);
 void					pipex(t_cmd_line *cmd_l);
 char					**get__env();
 char					*get__path(char *cmd);

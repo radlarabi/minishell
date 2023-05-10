@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 12:58:16 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/10 20:31:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,8 +217,6 @@ char *extand_variable(char *cmds)
 					j += ft_strlen(var);
 					if (var)
 						free(var);
-					// if (var_env)
-					// 	free(var_env);
 				}
 				else
 				{
@@ -293,6 +291,121 @@ char *extand_variable(char *cmds)
 	}
 	return ret;
 }
+char *extand_var(char *cmds)
+{
+	int j;
+	char *ret = NULL;
+	j = 0;
+	char *var;
+	char *var_env;
+	char *exit;
+
+
+	while(cmds[j])
+	{
+		if (cmds[j] == '\"')
+		{
+			ret = ft_join_char(ret, cmds[j]);
+			j++;
+			while(cmds[j])
+			{
+				if (cmds[j] == '\"')
+				{
+					ret = ft_join_char(ret, cmds[j]);
+					j++;
+					break;
+				}
+				else if (cmds[j] == '$' && cmds[j + 1] == '?')
+				{
+					exit = ft_itoa(g_gv->exit_status);
+					ret = ft_strjoin(ret, exit);
+					if (exit)
+						free(exit);
+					j += 2;
+				}
+				else if (cmds[j] == '$')
+				{
+					j++;
+					var = get_variable(cmds + j);
+					var_env = ft_getenv(var);
+					ret = ft_strjoin(ret, var_env);
+					j += ft_strlen(var);
+					if (var)
+						free(var);
+				}
+				else
+				{
+					ret = ft_join_char(ret, cmds[j]);
+					j++;
+				}
+			}
+		}
+		else if (cmds[j] == '\'')
+		{
+			ret = ft_join_char(ret, cmds[j]);
+			j++;
+			while(cmds[j])
+			{
+				if (cmds[j] == '\'')
+				{
+					ret = ft_join_char(ret, cmds[j]);
+					j++;
+					break;
+				}
+				ret = ft_join_char(ret, cmds[j]);
+				j++;
+			}
+		}
+		else
+		{
+			if (cmds[j] == '<' && cmds[j + 1] == '<')
+			{
+				ret = ft_join_char(ret, cmds[j]);
+				j++;
+				ret = ft_join_char(ret, cmds[j]);
+				j++;
+				while(cmds[j])
+				{
+					ret = ft_join_char(ret, cmds[j]);
+					j++;
+					if(cmds[j] != ' ')
+						break;
+				}
+				while(cmds[j])
+				{
+				ret = ft_join_char(ret, cmds[j]);
+					j++;
+					if(cmds[j] == ' ')
+						break;
+				}
+			}
+			else if (cmds[j] == '$' && cmds[j + 1] == '?')
+			{
+				exit = ft_itoa(g_gv->exit_status);
+				ret = ft_strjoin(ret, exit);
+				if (exit)
+					free(exit);
+				j += 2;
+			}
+			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
+			{
+				ret = ft_join_char(ret, cmds[j]);
+				j++;
+			}
+			if (cmds[j] == '$')
+			{
+				j++;
+				var = get_variable(cmds + j);
+				var_env = ft_getenv(var);
+				ret = ft_strjoin(ret, var_env);
+				j += ft_strlen(var);
+				if (var)
+					free(var);
+			}
+		}
+	}
+	return ret;
+}
 
 char **change_content_cmds(char **cmds)
 {
@@ -303,9 +416,9 @@ char **change_content_cmds(char **cmds)
 
 	i = 0;
 	j = 0;
-	while(cmds[i])
+	while(cmds && cmds[i])
 	{
-		if (ft_strcmp(cmds[i], "<") || ft_strcmp(cmds[i], "<<") || ft_strcmp(cmds[i], ">") || ft_strcmp(cmds[i], ">>"))
+		if ((ft_strcmp(cmds[i], "<") || ft_strcmp(cmds[i], "<<") || ft_strcmp(cmds[i], ">") || ft_strcmp(cmds[i], ">>")))
 			j++;
 		i++;
 	}
@@ -329,6 +442,97 @@ char **change_content_cmds(char **cmds)
 	free_2d_table(cmds);
 	return ret;
 }
+char	*remove_quotes(char *str)
+{
+	int i;
+	int j;
+	int count;
+	char *ret;
+	
+	count = 0;
+	i = 0;
+	if (str)
+	{
+		while(str[i])
+		{
+			if (str[i] == '\"')
+				count++;
+			i++;
+		}
+		ret = malloc(ft_strlen(str) - count + 1);
+		i = 0;
+		j = 0;
+		while(str[i])
+		{
+			if (str[i] == '\"')
+			{
+				i++;
+				while(str[i] && str[i] != '\"')
+				{	
+					ret[j] = str[i];
+					j++;
+					i++;
+				}
+			}
+			else if (str[i] == '\'')
+			{
+				i++;
+				while(str[i] && str[i] != '\'')
+				{	
+					ret[j] = str[i];
+					j++;
+					i++;
+				}
+			}
+			else
+			{
+				ret[j] = str[i];
+				j++;
+				i++;
+			}
+		}
+		ret[j] = 0;
+	}
+	return ret;
+}
+
+char  **ft_join_2d(char **tab1, char **tab2, int p)
+{
+	
+	char  **new_tab;
+	int cont;
+	int cont1;
+	cont = 0;
+	cont1 = 0;
+	int i;
+	int j;
+	j =  0;
+	i = 0;
+	while (tab1 && tab1[i])
+		i++;
+	while (tab2 && tab2[j])
+		j++;
+	new_tab = malloc(sizeof(char *) * (i + j + 1));
+	while (tab1[cont])
+	{
+		if (cont != p)
+		{
+			new_tab[cont1] = ft_strdup(tab1[cont]);
+			cont1++;
+		}
+		cont++;	
+	}
+	i = 0;
+	while (tab2[i])
+	{
+		new_tab[cont1] = ft_strdup(tab2[i]);
+		cont1++;
+		i++;
+	}
+	new_tab[cont1] = 0;
+	return new_tab;
+}
+
 
 t_cmd_line *commands_struct(char **cmds)
 {
@@ -338,6 +542,8 @@ t_cmd_line *commands_struct(char **cmds)
 	int j = 0;
 	int k = 0;
 	char **temp;
+	char **temp2;
+	char *temp1;
 	char *t_mp;
 	int flag;
 
@@ -380,12 +586,36 @@ t_cmd_line *commands_struct(char **cmds)
 			else
 			{
 				t_mp = tmp->cmds[j];
-				tmp->cmds[j] = extand_variable(tmp->cmds[j]);
+				tmp->cmds[j] = extand_var(tmp->cmds[j]);
+				if (tmp->cmds[j] && ft_strcmp(t_mp, tmp->cmds[j]))
+				{
+					if (ft_strchr(t_mp, '$'))
+						tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
+					if (!ft_strchr(t_mp, '\"') && ft_strchr(tmp->cmds[j], ' '))
+					{
+						temp1 = remove_quotes(tmp->cmds[j]);
+						temp1 = set_spliter(temp1, ' ');
+						temp2 = ft_split(temp1, -1);
+						tmp->cmds = ft_join_2d(tmp->cmds,temp2, j);
+						// k = 0;
+						// while(tmp->cmds[k])
+						// {
+						// 	printf("tmp->cmds[%d] %s\n", k, tmp->cmds[k]);
+						// 	k++;
+						// }
+					}
+				}
+				else
+					tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
 				free(t_mp);
 				j++;
 			}
 		}
-		tmp->cmds = change_content_cmds(tmp->cmds);
+		if (tmp->cmds)
+		{
+			
+			tmp->cmds = change_content_cmds(tmp->cmds);
+		}
 		k = j;
 		j = 0;
 		while(temp[j])

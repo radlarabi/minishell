@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 11:16:25 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/10 21:02:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 		if (in_q)
 		{
 			temp = content;
-			content = extand_variable(content);
+			content = extand_var(content);
 			free(temp);
 		}
 		write(fd, content, ft_strlen(content));

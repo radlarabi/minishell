@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 21:46:03 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/10 19:23:55 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,11 @@ void	pipex(t_cmd_line *cmd_l)
 		else if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "export"))
 		{
 			ft_export(&cmd_l);
+			return ;
+		}
+		else if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "unset"))
+		{
+			ft_unset(&cmd_l);
 			return ;
 		}
 	}

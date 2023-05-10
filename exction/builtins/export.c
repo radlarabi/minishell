@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 23:24:18 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:31:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,17 @@ int	ft_export(t_cmd_line **commands_v)
 				}
 				flag = 1;
 			}
-			else if (!flag && len == 2 && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+') ))
+			else if (!flag  && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+') ))
 			{
-				add_node(&g_gv->env, value_of_var,NULL,1);
+				if (check_syntax_cmd(value_of_var))
+				{
+					ft_putstr_fd("export: ", 1);
+					ft_putstr_fd(value_of_var, 1);
+					ft_putendl_fd(" : not a valid identifier", 1);
+					g_gv->exit_status = 1;
+				}
+				else
+					add_node(&g_gv->env, value_of_var,NULL,1);
 				flag = 1;
 			}
 			i++;
@@ -188,7 +196,7 @@ int	ft_export(t_cmd_line **commands_v)
 		{
 			while (tmp)
 			{
-				if (!ft_strcmp(tmp->value,""))
+				if (!ft_strcmp(tmp->value,"") && tmp->flag != 1)
 				{
 					ft_putstr_fd("declare -x ", 1);
 					ft_putendl_fd(tmp->var, 1);

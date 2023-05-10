@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:03:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/10 21:23:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/10 23:20:07 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_env(t_cmd_line **commands_v)
 
 	(void)commands_v;
 	tmp = g_gv->env;
-    printf("=======>%d\n",tmp->flag);
+	printf("=======>%d\n",tmp->flag);
 	while (tmp)
 	{
 		if (!tmp->flag)
@@ -36,5 +36,6 @@ void	ft_env(t_cmd_line **commands_v)
 		tmp = tmp->next;
 	}
 	g_gv->env->flag = 0;
-	// exit(0);
+	g_gv->exit_status = 0;
+	//exit(0);
 }

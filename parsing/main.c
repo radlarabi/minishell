@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 13:09:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/10 23:50:10 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,15 +284,58 @@ void	main_free(t_command **cmd, t_cmd_line **cmd_l, char **temp, char *str)
 		free(str);
 }
 
-void	fill_env_global_var(int ac, char **av, char **env)
+char	**env_is_null(void)
 {
-	(void)ac;
-	(void)av;
-	g_gv = malloc(sizeof(t_gv));
-	g_gv->env = get_env(env);
-	g_gv->exit_status = 0;
+	char	**tab;
+
+	tab = malloc(sizeof(char *) * 4);
+	tab[0] = ft_strjoin(NULL, "PWD=/Users/hlakhal-/Desktop/minishell");
+	tab[1] = ft_strjoin(NULL, "SHLVL=1");
+	tab[2] = ft_strjoin(NULL, "_=/usr/bin/env");
+	tab[3] = 0;
+	return (tab);
 }
 
+t_env	*get_env_1(char **env)
+{
+	t_env	*tmp;
+	int		i;
+	t_env	*env_var;
+
+	i = 0;
+	env_var = NULL;
+	env = env_is_null();
+	while (env[i])
+	{
+		tmp = init_env();
+		tmp = fill_env_node(env[i], tmp);
+		ft_add_back_env(&env_var, tmp);
+		i++;
+	}
+	return (env_var);
+}
+
+void	fill_env_global_var(int ac, char **av, char **env)
+{
+	int	i;
+
+	(void)ac;
+	(void)av;
+	i = 0;
+	g_gv = malloc(sizeof(t_gv));
+	while (env[i])
+		i++;
+	if (i)
+	{
+		g_gv->env = get_env(env);
+		g_gv->exit_status = 0;
+	}
+	else if (!i)
+	{
+		g_gv->env = get_env_1(env);
+		g_gv->exit_status = 0;
+	}
+}
 int	main_check_syntax(char *str, t_command **cmd)
 {
 	if (!check_close_qotes(str))

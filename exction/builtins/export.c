@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/10 21:31:21 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/10 22:33:29 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	ft_export(t_cmd_line **commands_v)
 	size_t		i;
 	int			j;
 	int			flag;
+	static int	flag1;
 	char *tab;
 
 	flag = 0;
@@ -142,9 +143,16 @@ int	ft_export(t_cmd_line **commands_v)
 					&& !check_syntax_cmd(export_value[0]))
 				{
 					if (ft_cherch_node(export_value[0]))
+					{
 						change_value(&g_gv->env, export_value[0], export_value[1]);
+						flag1 = 0;
+					}
 					else
+					{
 						add_node(&g_gv->env, export_value[0], export_value[1],0);
+						flag1 = 0;
+					}
+
 				}
 				else if (check_syntax_cmd(export_value[0]))
 				{
@@ -164,9 +172,15 @@ int	ft_export(t_cmd_line **commands_v)
 					&& !check_syntax_cmd(export_value[0]))
 				{
 					if (ft_cherch_node(export_value[0]))
+					{
 						join_value(&g_gv->env, export_value[0], export_value[1]);
+						flag1 = 0;
+					}
 					else
+					{
 						add_node(&g_gv->env, export_value[0], export_value[1],0);
+						flag1 = 0;
+					}
 				}
 				else if (check_syntax_cmd(export_value[0]))
 				{
@@ -177,7 +191,7 @@ int	ft_export(t_cmd_line **commands_v)
 				}
 				flag = 1;
 			}
-			else if (!flag  && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+') ))
+			else if (!flag  && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+')))
 			{
 				if (check_syntax_cmd(value_of_var))
 				{
@@ -186,8 +200,11 @@ int	ft_export(t_cmd_line **commands_v)
 					ft_putendl_fd(" : not a valid identifier", 1);
 					g_gv->exit_status = 1;
 				}
-				else
+				else if (!ft_cherch_node(value_of_var))
+				{
 					add_node(&g_gv->env, value_of_var,NULL,1);
+					flag1 += 1;
+				}
 				flag = 1;
 			}
 			i++;
@@ -196,7 +213,7 @@ int	ft_export(t_cmd_line **commands_v)
 		{
 			while (tmp)
 			{
-				if (!ft_strcmp(tmp->value,"") && tmp->flag != 1)
+				if (tmp->value && !ft_strcmp(tmp->value,"") && flag1 >= 1)
 				{
 					ft_putstr_fd("declare -x ", 1);
 					ft_putendl_fd(tmp->var, 1);

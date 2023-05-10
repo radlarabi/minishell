@@ -6,13 +6,13 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/09 20:37:14 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/10 23:43:53 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_add_back(t_env **lst, t_env *new)
+void	ft_add_back_env(t_env **lst, t_env *new)
 {
 	t_env	*temp;
 	if (!(*lst))
@@ -119,7 +119,7 @@ t_env *get_env(char **ev)
 	{
 		tmp = init_env();
 		tmp = fill_env_node(ev[i],tmp);
-		ft_add_back(&l_env,tmp);
+		ft_add_back_env(&l_env,tmp);
 		i++;
 	}
 	return l_env;

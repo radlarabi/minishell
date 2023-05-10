@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/10 21:03:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/10 23:44:10 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,11 @@ int						ft_exit(t_cmd_line **commands_v, int flag_exit);
 int						ft_unset(t_cmd_line **commands_v);
 /* end */
 void					ft_strncpy(char *dest, const char *src, size_t n);
-t_env *dup_env(t_env *env_list);
+t_env					*dup_env(t_env *env_list);
+t_env					*init_env(void);
+void					ft_add_back_env(t_env **lst, t_env *new);
+t_env					*fill_env_node(char *env, t_env *t_env);
+char					*fill_env_var(char *ev, int *j);
 int						ft_cherch_node(char *exp_var);
 int						check_syntax_cmd(char *cmd);
 char					**splitre_whit_pos(char *str, size_t pos);

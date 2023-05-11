@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/10 16:27:39 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/11 13:06:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,11 @@ void ft_execution(t_cmd_line *cmd_l)
 	char *path;
 	if (cmd_l->cmds[0])
 	{
-		if (!ft_strcmp(cmd_l->cmds[0],"echo"))
-			ft_echo(&cmd_l);
-		else if (!ft_strcmp(cmd_l->cmds[0],"pwd"))
-			ft_pwd(&cmd_l);
-		else if (!ft_strcmp(cmd_l->cmds[0],"cd"))
-			ft_cd(&cmd_l);
-		else if (!ft_strcmp(cmd_l->cmds[0],"env"))
-			ft_env(&cmd_l);
-		else if (!ft_strcmp(cmd_l->cmds[0],"export"))
+		if (!check_command_builtins(cmd_l->cmds[0]))
 		{
-				if(!ft_export(&cmd_l))
-					exit(0);
+			command_builtins(&cmd_l);
+			exit(0);
 		}
-		else if (!ft_strcmp(cmd_l->cmds[0],"exit"))
-		{
-			if(!ft_exit(&cmd_l,1))
-				exit(0);
-		}
-		else if (!ft_strcmp(cmd_l->cmds[0],"unset"))
-			ft_unset(&cmd_l);
 		else
 		{
 			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))

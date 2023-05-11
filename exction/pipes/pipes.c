@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/10 23:19:09 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/11 13:22:28 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ int check_command_builtins(char *command)
 			return 0;
 	}
 	return 1;
+}
+void	command_builtins(t_cmd_line **cmd_l)
+{
+	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "exit"))
+		ft_exit(cmd_l,0);
+	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "export"))
+		ft_export(cmd_l);
+	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "unset"))
+		ft_unset(cmd_l);
+	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "env"))
+		ft_env(cmd_l);
+	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "cd"))
+		ft_cd(cmd_l);
+	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "pwd"))
+		ft_pwd(cmd_l);
 }
 void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 {
@@ -144,31 +159,28 @@ void	pipex(t_cmd_line *cmd_l)
 {
 	int	*pids;
 	int	i;
+	int std_out;
 	int	**pipefd;
 	int num_pipes;
 	int num_cmds;
 
 	num_cmds = count_pipes(cmd_l);
 	num_pipes = count_pipes(cmd_l) - 1;
-	if (cmd_l && cmd_l->cmds[0])
+	if (!num_pipes && cmd_l && !check_command_builtins(cmd_l->cmds[0]))
 	{
-		if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "exit"))
-			ft_exit(&cmd_l,0);
-		else if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "export"))
+		std_out = 0;
+		// std_out = dup(1);
+		printf("======>%d\n",std_out);
+		if (cmd_l->outfile != -1)
 		{
-			ft_export(&cmd_l);
-			return ;
+			dup2(cmd_l->outfile, 1);
+			// close(cmd_l->outfile);
 		}
-		else if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "unset"))
-		{
-			ft_unset(&cmd_l);
-			return ;
-		}
-		else if (!num_pipes && cmd_l && !ft_strcmp(cmd_l->cmds[0], "env"))
-		{
-			ft_env(&cmd_l);
-			return ;
-		}
+		command_builtins(&cmd_l);
+		dup2(1, cmd_l->outfile);
+		// close(std_out);
+		close(cmd_l->outfile);
+		return ;
 	}
 	if (num_pipes < 0)
 		num_pipes = 0;

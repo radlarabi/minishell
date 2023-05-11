@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/10 23:50:10 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:18:22 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,6 +364,7 @@ int	main(int ac, char **av, char **env)
 	char		**temp;
 
 	fill_env_global_var(ac, av, env);
+	change_value(&g_gv->env, "OLDPWD",NULL);
 	while (1)
 	{
 		cmd = NULL;

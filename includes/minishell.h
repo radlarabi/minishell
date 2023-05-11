@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 13:06:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/11 23:18:52 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int						ft_unset(t_cmd_line **commands_v);
 /* end */
 void					ft_strncpy(char *dest, const char *src, size_t n);
 t_env					*dup_env(t_env *env_list);
+void	change_value(t_env **env, char *env_var, char *new_env_val);
 t_env					*init_env(void);
 void					ft_add_back_env(t_env **lst, t_env *new);
 t_env					*fill_env_node(char *env, t_env *t_env);

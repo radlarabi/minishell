@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/10 20:31:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/11 18:11:24 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	}
 	if (infile)
 		free(infile);
-		
+
 	return 0;
 }
 
@@ -159,16 +159,20 @@ char *get_variable(char *str)
 {
 	int i = 0;
 	int j = 0;
+	int k = 0;
 	char *ret;
 	while (str[i] && str[i] == '$')
 		i++;
-	while(str[i] && ft_isalnum(str[i]))
+	j = i;
+	while(str[i] && (str[j++] == '_' || ft_isalnum(str[i])))
 		i++;
 	ret = malloc(i + 1);
 	i = 0;
 	while (str[i] && str[i] == '$')
 		i++;
-	while(str[i] && ft_isalnum(str[i]))
+	k = i;
+	j = 0;
+	while(str[i] && (str[k++] == '_' || ft_isalnum(str[i])))
 	{
 		ret[j] = str[i];
 		j++;
@@ -399,8 +403,8 @@ char *extand_var(char *cmds)
 				var_env = ft_getenv(var);
 				ret = ft_strjoin(ret, var_env);
 				j += ft_strlen(var);
-				if (var)
-					free(var);
+				// if (var)
+				// 	free(var);
 			}
 		}
 	}
@@ -448,7 +452,7 @@ char	*remove_quotes(char *str)
 	int j;
 	int count;
 	char *ret;
-	
+
 	count = 0;
 	i = 0;
 	if (str)
@@ -468,7 +472,7 @@ char	*remove_quotes(char *str)
 			{
 				i++;
 				while(str[i] && str[i] != '\"')
-				{	
+				{
 					ret[j] = str[i];
 					j++;
 					i++;
@@ -478,7 +482,7 @@ char	*remove_quotes(char *str)
 			{
 				i++;
 				while(str[i] && str[i] != '\'')
-				{	
+				{
 					ret[j] = str[i];
 					j++;
 					i++;
@@ -498,7 +502,7 @@ char	*remove_quotes(char *str)
 
 char  **ft_join_2d(char **tab1, char **tab2, int p)
 {
-	
+
 	char  **new_tab;
 	int cont;
 	int cont1;
@@ -520,7 +524,7 @@ char  **ft_join_2d(char **tab1, char **tab2, int p)
 			new_tab[cont1] = ft_strdup(tab1[cont]);
 			cont1++;
 		}
-		cont++;	
+		cont++;
 	}
 	i = 0;
 	while (tab2[i])
@@ -613,7 +617,7 @@ t_cmd_line *commands_struct(char **cmds)
 		}
 		if (tmp->cmds)
 		{
-			
+
 			tmp->cmds = change_content_cmds(tmp->cmds);
 		}
 		k = j;

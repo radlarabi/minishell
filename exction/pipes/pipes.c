@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 13:45:35 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:09:06 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	command_builtins(t_cmd_line **cmd_l)
 {
 	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "exit"))
 		ft_exit(cmd_l,0);
+	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "echo"))
+		ft_echo(cmd_l);
 	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "export"))
 		ft_export(cmd_l);
 	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "unset"))

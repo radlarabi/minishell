@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/10 22:33:29 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:24:25 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,17 @@ int	ft_export(t_cmd_line **commands_v)
 		value_of_var = temp->cmds[j];
 		while (value_of_var && i < ft_strlen(value_of_var))
 		{
-			if (!flag && value_of_var[i] == '=' && value_of_var[i - 1] != '+')
+			if (!flag && value_of_var[0] == '=' && check_syntax_cmd(value_of_var))
 			{
+				ft_putstr_fd("export: ", 1);
+				ft_putstr_fd(value_of_var, 1);
+				ft_putendl_fd(" : not a valid identifier", 1);
+				flag = 1;
+				g_gv->exit_status = 1;
+			}
+			else if (!flag && value_of_var[i] == '=' && value_of_var[i - 1] != '+')
+			{
+				// printf()
 				export_value = splitre_whit_pos(value_of_var, i);
 				export_value[1] = remove_char(export_value[1], '=', 0);
 				flag = 1;

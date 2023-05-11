@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 19:09:06 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:11:46 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 		cmd_not_found(cmd_l->cmds[0]);
 	if (!cmd_l->cmds[0])
 		exit(0);
+	
 	if (cmd_l->infile != -1)
 	{
 		dup2(cmd_l->infile, 0);
@@ -90,6 +91,7 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 	}
 	else if (i != 0)
 	{
+		close(pipefd[i - 1][1]);
 		dup2(pipefd[i - 1][0], 0);
 		close(pipefd[i - 1][0]);
 	}
@@ -100,6 +102,7 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 	}
 	else if (i != num_pipes)
 	{
+		close(pipefd[i][0]);
 		dup2(pipefd[i][1], 1);
 		close(pipefd[i][1]);
 	}
@@ -109,11 +112,14 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int		i;
+	int		j;
 	int status;
 
 	i = -1;
 	while (++i < num_cmds)
 	{
+		if (i < num_pipes)
+			pipe(pipefd[i]);
 		pids[i] = fork();
 		if (pids[i] == -1)
 		{
@@ -122,12 +128,18 @@ void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line
 		}
 		if (pids[i] == 0)
 			child(num_pipes , i, pipefd, cmd_l);
-		waitpid(pids[i], &status, 0);
-		g_gv->exit_status = WEXITSTATUS(status);
+		if (i > 0)
+		{
+			close(pipefd[i - 1][0]);
+			close(pipefd[i - 1][1]);
+		}
 		cmd_l  = cmd_l->next;
-		if (i != num_cmds - 1)
-			close(pipefd[i][1]);
 	}
+	j = 0;
+	j = -1;
+	waitpid(pids[i - 1], &status, 0);
+	while (wait(NULL) != -1);
+	g_gv->exit_status = WEXITSTATUS(status);
 }
 int 	count_pipes(t_cmd_line *cmd_l)
 {
@@ -197,7 +209,6 @@ void	pipex(t_cmd_line *cmd_l)
 	pids = malloc(sizeof(int) * num_cmds);
 	if (!pids)
 		exit(1);
-	open_pipes(num_pipes, pipefd);
 	sub2_pipex(num_pipes, num_cmds, pipefd, pids, cmd_l);
 	free_int(pipefd, pids, num_pipes);
 }

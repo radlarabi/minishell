@@ -1,30 +1,27 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 
-int main(void) {
-    int fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1) {
-        perror("open");
-        exit(EXIT_FAILURE);
+int main() {
+    int newfd;
+
+    // Duplicate stdout (file descriptor 1)
+    newfd = dup(1);
+    if (newfd == -1) {
+        perror("dup");
+        return 1;
     }
 
-    if (dup2(fd, STDOUT_FILENO) == -1) {
-        perror("dup2");
-        exit(EXIT_FAILURE);
-    }
+    // Now, newfd is a duplicate of stdout
 
-    printf("This text will be duplicated in the output file.\n");
+    // Example write to stdout
+    printf("This will be written to the original stdout\n");
 
-    if (dup2(STDOUT_FILENO, fd) == -1) {
-        perror("dup2");
-        exit(EXIT_FAILURE);
-    }
+    // Example write to newfd (duplicate of stdout)
+    dprintf(newfd, "This will be written to the duplicated stdout\n");
 
-    printf("This text will be printed to the terminal.\n");
+    // Close the duplicated file descriptor
+    close(newfd);
 
-    close(fd);
-    while(1);
     return 0;
 }
+

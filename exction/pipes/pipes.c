@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 13:22:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/11 13:45:35 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,17 +169,15 @@ void	pipex(t_cmd_line *cmd_l)
 	if (!num_pipes && cmd_l && !check_command_builtins(cmd_l->cmds[0]))
 	{
 		std_out = 0;
-		// std_out = dup(1);
-		printf("======>%d\n",std_out);
+		std_out = dup(1);
 		if (cmd_l->outfile != -1)
 		{
-			dup2(cmd_l->outfile, 1);
-			// close(cmd_l->outfile);
+			dup2(cmd_l->outfile, STDOUT_FILENO);
+			close(cmd_l->outfile);
 		}
 		command_builtins(&cmd_l);
-		dup2(1, cmd_l->outfile);
-		// close(std_out);
-		close(cmd_l->outfile);
+		dup2(std_out, STDOUT_FILENO);
+		close(std_out);
 		return ;
 	}
 	if (num_pipes < 0)

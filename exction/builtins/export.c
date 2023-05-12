@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/11 18:24:25 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:49:29 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ int	ft_export(t_cmd_line **commands_v)
 				else if (!ft_cherch_node(value_of_var))
 				{
 					add_node(&g_gv->env, value_of_var,NULL,1);
+					change_value(&g_gv->env,g_gv->env->value,NULL);
 					flag1 += 1;
 				}
 				flag = 1;
@@ -222,7 +223,7 @@ int	ft_export(t_cmd_line **commands_v)
 		{
 			while (tmp)
 			{
-				if (tmp->value && !ft_strcmp(tmp->value,"") && flag1 >= 1)
+				if (!tmp->value || ( !ft_strcmp(tmp->value,"") && flag1 >= 1))
 				{
 					ft_putstr_fd("declare -x ", 1);
 					ft_putendl_fd(tmp->var, 1);

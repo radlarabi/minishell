@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:03:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 12:29:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/12 13:55:37 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	ft_env(t_cmd_line **commands_v)
 	printf("=======>%d\n",tmp->flag);
 	while (tmp)
 	{
-		if (!tmp->flag)
+		if (tmp->value && !tmp->flag)
 		{
 			ft_putstr_fd(tmp->var, 1);
 			ft_putstr_fd("=", 1);
 			ft_putendl_fd(tmp->value, 1);
 		}
-		else if (tmp->flag == 1)
+		else if (tmp->value && tmp->flag == 1)
 		{
 			ft_putstr_fd(tmp->var, 1);
 			ft_putstr_fd("=", 1);

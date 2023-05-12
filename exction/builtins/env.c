@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:03:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 13:55:37 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/12 14:02:16 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_env(t_cmd_line **commands_v)
 
 	(void)commands_v;
 	tmp = g_gv->env;
-	printf("=======>%d\n",tmp->flag);
 	while (tmp)
 	{
 		if (tmp->value && !tmp->flag)

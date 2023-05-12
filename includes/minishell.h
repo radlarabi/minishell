@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 23:18:52 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:39:57 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*next;
 }						t_cmd_line;
 
+typedef struct s_num_p_cmds
+{
+	int					num_pipes;
+	int					num_cmds;
+}						t_num_p_cmds;
 /*  fonction builtins  */
 int						ft_pwd(t_cmd_line **commands_v);
 int						ft_echo(t_cmd_line **commands_v);

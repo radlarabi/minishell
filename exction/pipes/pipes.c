@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 23:11:46 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/12 12:43:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,9 @@ void	command_builtins(t_cmd_line **cmd_l)
 	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "pwd"))
 		ft_pwd(cmd_l);
 }
-void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
+
+void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i, int num_pipes)
 {
-	if (cmd_l->fd_error)
-		exit(1);
-	char *path = get__path(cmd_l->cmds[0]);
-	int flag_command =  check_command_builtins(cmd_l->cmds[0]);
-	if (flag_command && cmd_l->cmds[0] && !ft_strchr(cmd_l->cmds[0], '/')
-			&& (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0], "")))
-		cmd_not_found(cmd_l->cmds[0]);
-	if (!cmd_l->cmds[0])
-		exit(0);
-	
 	if (cmd_l->infile != -1)
 	{
 		dup2(cmd_l->infile, 0);
@@ -106,19 +97,34 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 		dup2(pipefd[i][1], 1);
 		close(pipefd[i][1]);
 	}
+}
+
+void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
+{
+	char	*path;
+
+	if (cmd_l->fd_error)
+		exit(1);
+	if (!cmd_l->cmds[0])
+		exit(0);
+	path = get__path(cmd_l->cmds[0]);
+	if ( check_command_builtins(cmd_l->cmds[0]) && !ft_strchr(cmd_l->cmds[0], '/')
+			&& (access(path, F_OK) == -1  || !ft_strcmp(cmd_l->cmds[0], "")))
+		cmd_not_found(cmd_l->cmds[0]);
+	dup_files_and_pipes(cmd_l, pipefd, i, num_pipes);
 	ft_execution(cmd_l);
 }
 
-void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line *cmd_l)
+void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int		i;
 	int		j;
 	int status;
 
 	i = -1;
-	while (++i < num_cmds)
+	while (++i < num.num_cmds && cmd_l)
 	{
-		if (i < num_pipes)
+		if (i < num.num_pipes)
 			pipe(pipefd[i]);
 		pids[i] = fork();
 		if (pids[i] == -1)
@@ -127,7 +133,7 @@ void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line
 			return ;
 		}
 		if (pids[i] == 0)
-			child(num_pipes , i, pipefd, cmd_l);
+			child(num.num_pipes , i, pipefd, cmd_l);
 		if (i > 0)
 		{
 			close(pipefd[i - 1][0]);
@@ -135,9 +141,8 @@ void	sub2_pipex(int num_pipes,int num_cmds,  int **pipefd, int *pids, t_cmd_line
 		}
 		cmd_l  = cmd_l->next;
 	}
-	j = 0;
-	j = -1;
-	waitpid(pids[i - 1], &status, 0);
+	if (i > 0)
+		waitpid(pids[i - 1], &status, 0);
 	while (wait(NULL) != -1);
 	g_gv->exit_status = WEXITSTATUS(status);
 }
@@ -175,12 +180,13 @@ void	pipex(t_cmd_line *cmd_l)
 	int	i;
 	int std_out;
 	int	**pipefd;
-	int num_pipes;
-	int num_cmds;
+	t_num_p_cmds num;
 
-	num_cmds = count_pipes(cmd_l);
-	num_pipes = count_pipes(cmd_l) - 1;
-	if (!num_pipes && cmd_l && !check_command_builtins(cmd_l->cmds[0]))
+	num.num_cmds = count_pipes(cmd_l);
+	num.num_pipes = count_pipes(cmd_l) - 1;
+	if (num.num_pipes < 0)
+		num.num_pipes = 0;
+	if (!num.num_pipes && cmd_l && !check_command_builtins(cmd_l->cmds[0]))
 	{
 		std_out = 0;
 		std_out = dup(1);
@@ -194,21 +200,19 @@ void	pipex(t_cmd_line *cmd_l)
 		close(std_out);
 		return ;
 	}
-	if (num_pipes < 0)
-		num_pipes = 0;
-	pipefd = malloc(sizeof(int *) * num_pipes);
+	pipefd = malloc(sizeof(int *) * num.num_pipes);
 	if (!pipefd)
 		exit(1);
 	i = -1;
-	while (++i < num_pipes)
+	while (++i < num.num_pipes)
 	{
 		pipefd[i] = malloc(sizeof(int) * 2);
 		if (!pipefd[i])
 			exit(1);
 	}
-	pids = malloc(sizeof(int) * num_cmds);
+	pids = malloc(sizeof(int) * num.num_cmds);
 	if (!pids)
 		exit(1);
-	sub2_pipex(num_pipes, num_cmds, pipefd, pids, cmd_l);
-	free_int(pipefd, pids, num_pipes);
+	sub2_pipex(num, pipefd, pids, cmd_l);
+	free_int(pipefd, pids, num.num_pipes);
 }

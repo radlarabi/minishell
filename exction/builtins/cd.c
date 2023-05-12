@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/12 12:28:51 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/12 14:56:17 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	ft_cd(t_cmd_line **cd_cmd)
 	{
 		if (!prev_dir)
 		{
-			printf("set old\n");
+			ft_putendl_fd("cd: OLDPWD not set",1);
+			g_gv->exit_status = 1;
 			return (-1);
 		}
 		else
@@ -53,7 +54,10 @@ int	ft_cd(t_cmd_line **cd_cmd)
 			path = ft_getenv("OLDPWD");
 			change_value(&g_gv->env, "OLDPWD",ft_strdup(getcwd(cwd, sizeof(cwd))));
 			if (chdir(path) == 0)
+			{
 				ft_putendl_fd(path, 1);
+				g_gv->exit_status = 0;
+			}
 			return 1;
 		}
 	}
@@ -65,8 +69,10 @@ int	ft_cd(t_cmd_line **cd_cmd)
 	if (chdir(path) == -1)
 	{
 		perror("chdir");
+		g_gv->exit_status = 1;
 		return (-1);
 	}
+	g_gv->exit_status = 0;
 	// exit(0);
 	return (0);
 }

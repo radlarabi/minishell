@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 12:43:13 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/12 14:36:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 	int status;
 
 	i = -1;
+	status = 0;
 	while (++i < num.num_cmds && cmd_l)
 	{
 		if (i < num.num_pipes)
@@ -174,10 +175,43 @@ void	free_int(int **pipefd, int *pids, int num_pipes)
 	if (pipefd)
 		free(pipefd);
 }
+
+int	**alloc_pipefd(int num_pipes)
+{
+	int	**pipefd;
+	int i;
+
+	pipefd = malloc(sizeof(int *) * num_pipes);
+	if (!pipefd)
+		exit(1);
+	i = -1;
+	while (++i < num_pipes)
+	{
+		pipefd[i] = malloc(sizeof(int) * 2);
+		if (!pipefd[i])
+			exit(1);
+	}
+	return pipefd;
+}
+
+void	single_buildins_cmd(t_cmd_line *cmd_l)
+{
+	int	std_out;
+
+	std_out = dup(1);
+	if (cmd_l->outfile != -1)
+	{
+		dup2(cmd_l->outfile, STDOUT_FILENO);
+		close(cmd_l->outfile);
+	}
+	command_builtins(&cmd_l);
+	dup2(std_out, STDOUT_FILENO);
+	close(std_out);
+}
+
 void	pipex(t_cmd_line *cmd_l)
 {
 	int	*pids;
-	int	i;
 	int std_out;
 	int	**pipefd;
 	t_num_p_cmds num;
@@ -188,28 +222,10 @@ void	pipex(t_cmd_line *cmd_l)
 		num.num_pipes = 0;
 	if (!num.num_pipes && cmd_l && !check_command_builtins(cmd_l->cmds[0]))
 	{
-		std_out = 0;
-		std_out = dup(1);
-		if (cmd_l->outfile != -1)
-		{
-			dup2(cmd_l->outfile, STDOUT_FILENO);
-			close(cmd_l->outfile);
-		}
-		command_builtins(&cmd_l);
-		dup2(std_out, STDOUT_FILENO);
-		close(std_out);
+		single_buildins_cmd(cmd_l);
 		return ;
 	}
-	pipefd = malloc(sizeof(int *) * num.num_pipes);
-	if (!pipefd)
-		exit(1);
-	i = -1;
-	while (++i < num.num_pipes)
-	{
-		pipefd[i] = malloc(sizeof(int) * 2);
-		if (!pipefd[i])
-			exit(1);
-	}
+	pipefd = alloc_pipefd(num.num_pipes); 
 	pids = malloc(sizeof(int) * num.num_cmds);
 	if (!pids)
 		exit(1);

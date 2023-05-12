@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/11 18:11:24 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:25:15 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -657,6 +657,8 @@ t_cmd_line *commands_struct(char **cmds)
 				free(temp[j]);
 				j++;
 				files_here_doc(temp, &tmp, &j,flag);
+				if (g_gv->exit_status == 1)
+					break;
 			}
 			else
 			{

@@ -6,241 +6,102 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/12 13:49:29 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:25:42 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	add_node(t_env **env, char *env_var, char *env_val, int a)
+void	display_export(int flag1)
 {
-	t_env	*new_node;
-	char *tab;
-	if (env_var)
-	{
-		new_node = malloc(sizeof(t_env));
-		if (!env_val)
-		{
-			new_node->value = ft_strdup("");
-			new_node->var = ft_strdup(env_var);
-			if (a)
-				new_node->flag = 2;
-			else if (!a)
-				new_node->flag = 1;
-			new_node->next = (*env);
-			(*env) = new_node;
-		}
-		else if (!a)
-		{
-			new_node->value = env_val;
-			new_node->var = env_var;
-			new_node->flag = 0;
-			new_node->next = (*env);
-			(*env) = new_node;
-		}
-	}
-}
-char	*remove_char(char *string, char c, int pos)
-{
-	int	length;
-	int	i;
+	t_env	*tmp;
 
-	i = pos;
-	length = ft_strlen(string);
-	if (pos < 0 || pos >= length)
-		return (string);
-	while (i < length - 1)
+	tmp = dup_env(g_gv->env);
+	while (tmp)
 	{
-		string[i] = string[i + 1];
-		i++;
+		if (!tmp->value || (!ft_strcmp(tmp->value, "") && flag1 >= 1))
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putendl_fd(tmp->var, 1);
+		}
+		else
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(tmp->var, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd("\"", 1);
+			ft_putstr_fd(tmp->value, 1);
+			ft_putendl_fd("\"", 1);
+		}
+		tmp = tmp->next;
 	}
-	string[length - 1] = '\0';
-	return (string);
+	g_gv->exit_status = 0;
 }
 
-void	change_value(t_env **env, char *env_var, char *new_env_val)
+void	export_one_var(char *value_of_var, int *flag1, int *flag)
 {
-	t_env	*current;
-
-	current = *env;
-	while (current != NULL)
+	if (check_syntax_cmd(value_of_var))
 	{
-		if (ft_strcmp(current->var, env_var) == 0)
-		{
-			current->value = new_env_val;
-			break ;
-		}
-		current = current->next;
+		ft_putstr_fd("export: ", 1);
+		ft_putstr_fd(value_of_var, 1);
+		ft_putendl_fd(" : not a valid identifier", 1);
+		g_gv->exit_status = 1;
 	}
+	else if (!ft_cherch_node(value_of_var))
+	{
+		change_value(&g_gv->env, value_of_var, NULL);
+		add_node(&g_gv->env, value_of_var, NULL, 1);
+		*(flag1) += 1;
+	}
+	*flag = 1;
 }
 
-void join_value(t_env **env, char *env_var, char *new_env_val)
+void	export_utils4(char *value_of_var, int i, int *flag, int *flag1)
 {
-	t_env	*current;
-
-	current = *env;
-	while (current != NULL)
-	{
-		if (ft_strcmp(current->var, env_var) == 0)
-		{
-			current->value = ft_strjoin(current->value,new_env_val);
-			break ;
-		}
-		current = current->next;
-	}
+	if (!(*flag) && value_of_var[0] == '=' && check_syntax_cmd(value_of_var))
+		export_utils1(value_of_var, flag);
+	else if (!(*flag) && value_of_var[i] == '=' && value_of_var[i - 1] != '+')
+		export_utils2(value_of_var, i, flag, flag1);
+	else if (!(*flag) && value_of_var[i] == '+' && value_of_var[i + 1] == '=')
+		export_utils3(value_of_var, i, flag, flag1);
+	else if (!(*flag) && (!ft_strchr(value_of_var, '=')
+			&& !ft_strchr(value_of_var, '+')))
+		export_one_var(value_of_var, flag1, flag);
 }
 
-t_env *dup_env(t_env *env_list)
+int	*ft_len_tab(char **tab, int *len)
 {
-	t_env *new_dup;
-	if (!env_list)
-		return NULL;
-	else
-	{
-		new_dup = malloc(sizeof(t_env));
-		new_dup->value = env_list->value;
-		new_dup->var = env_list->var;
-		new_dup->next = dup_env(env_list->next);
-		return new_dup;
-	}
+	static int	flag1;
+
+	while (tab && tab[*len])
+		(*len)++;
+	return (&flag1);
 }
 
 int	ft_export(t_cmd_line **commands_v)
 {
-	t_env		*tmp;
-	t_cmd_line	*temp;
-	char		*value_of_var;
-	char		**export_value;
-	int			len;
-	size_t		i;
-	int			j;
-	int			flag;
-	static int	flag1;
-	char *tab;
+	char	*value_of_var;
+	int		len;
+	size_t	i;
+	int		j;
+	int		flag;
 
-	flag = 0;
-	temp = (*commands_v);
-	tmp = dup_env(g_gv->env);
+	len = 0;
 	j = 1;
-	i = 0;
-	while (temp->cmds[i])
-		i++;
-	len = i;
+	ft_len_tab((*commands_v)->cmds, &len);
 	while (j <= len)
 	{
 		i = 0;
 		flag = 0;
-		tmp->flag = 0;
-		value_of_var = temp->cmds[j];
+		value_of_var = (*commands_v)->cmds[j];
 		while (value_of_var && i < ft_strlen(value_of_var))
 		{
-			if (!flag && value_of_var[0] == '=' && check_syntax_cmd(value_of_var))
-			{
-				ft_putstr_fd("export: ", 1);
-				ft_putstr_fd(value_of_var, 1);
-				ft_putendl_fd(" : not a valid identifier", 1);
-				flag = 1;
-				g_gv->exit_status = 1;
-			}
-			else if (!flag && value_of_var[i] == '=' && value_of_var[i - 1] != '+')
-			{
-				// printf()
-				export_value = splitre_whit_pos(value_of_var, i);
-				export_value[1] = remove_char(export_value[1], '=', 0);
-				flag = 1;
-				if (export_value && export_value[0] && export_value[1]
-					&& !check_syntax_cmd(export_value[0]))
-				{
-					if (ft_cherch_node(export_value[0]))
-					{
-						change_value(&g_gv->env, export_value[0], export_value[1]);
-						flag1 = 0;
-					}
-					else
-					{
-						add_node(&g_gv->env, export_value[0], export_value[1],0);
-						flag1 = 0;
-					}
-
-				}
-				else if (check_syntax_cmd(export_value[0]))
-				{
-					ft_putstr_fd("export: ", 1);
-					ft_putstr_fd(value_of_var, 1);
-					ft_putendl_fd(" : not a valid identifier", 1);
-					g_gv->exit_status = 1;
-				}
-			}
-			else if (!flag && value_of_var[i] == '+' && value_of_var[i
-					+ 1] == '=')
-			{
-				export_value = splitre_whit_pos(value_of_var, i + 1);
-				export_value[0] = remove_char(export_value[0], '+', i);
-				export_value[1] = remove_char(export_value[1], '=', 0);
-				if (export_value && export_value[0] && export_value[1]
-					&& !check_syntax_cmd(export_value[0]))
-				{
-					if (ft_cherch_node(export_value[0]))
-					{
-						join_value(&g_gv->env, export_value[0], export_value[1]);
-						flag1 = 0;
-					}
-					else
-					{
-						add_node(&g_gv->env, export_value[0], export_value[1],0);
-						flag1 = 0;
-					}
-				}
-				else if (check_syntax_cmd(export_value[0]))
-				{
-					ft_putstr_fd("export: ", 1);
-					ft_putstr_fd(value_of_var, 1);
-					ft_putendl_fd(" : not a valid identifier", 1);
-					g_gv->exit_status = 1;
-				}
-				flag = 1;
-			}
-			else if (!flag  && (!ft_strchr(value_of_var,'=') && !ft_strchr(value_of_var,'+')))
-			{
-				if (check_syntax_cmd(value_of_var))
-				{
-					ft_putstr_fd("export: ", 1);
-					ft_putstr_fd(value_of_var, 1);
-					ft_putendl_fd(" : not a valid identifier", 1);
-					g_gv->exit_status = 1;
-				}
-				else if (!ft_cherch_node(value_of_var))
-				{
-					add_node(&g_gv->env, value_of_var,NULL,1);
-					change_value(&g_gv->env,g_gv->env->value,NULL);
-					flag1 += 1;
-				}
-				flag = 1;
-			}
+			export_utils4(value_of_var, i, &flag,
+				ft_len_tab((*commands_v)->cmds, &len));
 			i++;
 		}
-		if (!temp->cmds[j] && len == 1)
-		{
-			while (tmp)
-			{
-				if (!tmp->value || ( !ft_strcmp(tmp->value,"") && flag1 >= 1))
-				{
-					ft_putstr_fd("declare -x ", 1);
-					ft_putendl_fd(tmp->var, 1);
-				}
-				else
-				{
-					ft_putstr_fd("declare -x ", 1);
-					ft_putstr_fd(tmp->var, 1);
-					ft_putstr_fd("=", 1);
-					ft_putstr_fd("\"", 1);
-					ft_putstr_fd(tmp->value, 1);
-					ft_putendl_fd("\"", 1);
-				}
-				tmp = tmp->next;
-			}
-			g_gv->exit_status = 0;
-		}
+		if (!(*commands_v)->cmds[j] && len == 1)
+			display_export(*(ft_len_tab((*commands_v)->cmds, &len)));
 		j++;
 	}
 	return (0);

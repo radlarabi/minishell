@@ -12,6 +12,8 @@ SRCS = 	parsing/main.c \
 		exction/builtins/env.c \
 		exction/builtins/cd.c \
 		exction/builtins/export.c \
+		exction/builtins/export_utils.c \
+		exction/builtins/export_utils_1.c \
 		exction/builtins/exit.c \
 		exction/builtins/utils_builtins.c\
 		exction/builtins/unset.c\

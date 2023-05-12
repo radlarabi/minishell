@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 12:39:57 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/12 19:22:45 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ int						ft_export(t_cmd_line **commands_v);
 int						ft_exit(t_cmd_line **commands_v, int flag_exit);
 int						ft_unset(t_cmd_line **commands_v);
 /* end */
+void	add_node(t_env **env, char *env_var, char *env_val, int a);
+char	*remove_char(char *string, char c, int pos);
+void	change_value(t_env **env, char *env_var, char *new_env_val);
+void	join_value(t_env **env, char *env_var, char *new_env_val);
+void	error_identifie(char *value_of_var);
+void	export_utils1(char *value_of_var, int *flag);
+void	export_utils2(char *value_of_var, int i, int *flag, int *flag1);
+void	export_utils3(char *value_of_var, int i, int *flag, int *flag1);
 void					ft_strncpy(char *dest, const char *src, size_t n);
 t_env					*dup_env(t_env *env_list);
 void	change_value(t_env **env, char *env_var, char *new_env_val);

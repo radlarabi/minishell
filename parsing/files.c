@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 16:25:15 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/12 20:56:34 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,7 +401,8 @@ char *extand_var(char *cmds)
 				j++;
 				var = get_variable(cmds + j);
 				var_env = ft_getenv(var);
-				ret = ft_strjoin(ret, var_env);
+				if (var_env)
+					ret = ft_strjoin(ret, var_env);
 				j += ft_strlen(var);
 				// if (var)
 				// 	free(var);
@@ -453,6 +454,7 @@ char	*remove_quotes(char *str)
 	int count;
 	char *ret;
 
+	ret = NULL;
 	count = 0;
 	i = 0;
 	if (str)
@@ -601,12 +603,6 @@ t_cmd_line *commands_struct(char **cmds)
 						temp1 = set_spliter(temp1, ' ');
 						temp2 = ft_split(temp1, -1);
 						tmp->cmds = ft_join_2d(tmp->cmds,temp2, j);
-						// k = 0;
-						// while(tmp->cmds[k])
-						// {
-						// 	printf("tmp->cmds[%d] %s\n", k, tmp->cmds[k]);
-						// 	k++;
-						// }
 					}
 				}
 				else
@@ -617,7 +613,6 @@ t_cmd_line *commands_struct(char **cmds)
 		}
 		if (tmp->cmds)
 		{
-
 			tmp->cmds = change_content_cmds(tmp->cmds);
 		}
 		k = j;

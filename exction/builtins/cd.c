@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/12 14:56:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 15:10:33 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ int	ft_cd(t_cmd_line **cd_cmd)
 	home_dir = ft_getenv("HOME");
 	prev_dir = ft_getenv("OLDPWD");
 	path = (*cd_cmd)->cmds[1];
+	if(!home_dir)
+	{
+		ft_putendl_fd("cd: HOME not set",1);
+		g_gv->exit_status = 1;
+		return (-1);
+	}
 	if (!path|| *path == '~')
 	{
 		path = home_dir;

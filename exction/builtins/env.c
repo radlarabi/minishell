@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:03:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 14:02:16 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:40:58 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	ft_env(t_cmd_line **commands_v)
 
 	(void)commands_v;
 	tmp = g_gv->env;
+	printf("======>%d\n",g_gv->env->flag );
 	while (tmp)
 	{
-		if (tmp->value && !tmp->flag)
+		if (tmp->value && !tmp->flag && tmp->value[0])
 		{
 			ft_putstr_fd(tmp->var, 1);
 			ft_putstr_fd("=", 1);
@@ -34,6 +35,6 @@ void	ft_env(t_cmd_line **commands_v)
 		}
 		tmp = tmp->next;
 	}
-	g_gv->env->flag = 0;
+	//g_gv->env->flag = 0;
 	g_gv->exit_status = 0;
 }

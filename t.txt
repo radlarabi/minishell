@@ -1,6 +1,4 @@
-echo ab$USERdo "jari"
-
 repeat env add variale without a value;
 env -i and run command $HOME --> ambigust in > $VAR (var not found)
-unset HOME error print
-rm quotes "'$US ER'" && "$US 'ER"
+unset HOME error prin
+exit_status in here_doc

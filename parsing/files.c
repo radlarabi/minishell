@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 20:56:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 12:53:55 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,7 +332,8 @@ char *extand_var(char *cmds)
 					j++;
 					var = get_variable(cmds + j);
 					var_env = ft_getenv(var);
-					ret = ft_strjoin(ret, var_env);
+					if (var_env)
+						ret = ft_strjoin(ret, var_env);
 					j += ft_strlen(var);
 					if (var)
 						free(var);
@@ -596,7 +597,9 @@ t_cmd_line *commands_struct(char **cmds)
 				if (tmp->cmds[j] && ft_strcmp(t_mp, tmp->cmds[j]))
 				{
 					if (ft_strchr(t_mp, '$'))
+					{
 						tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
+					}
 					if (!ft_strchr(t_mp, '\"') && ft_strchr(tmp->cmds[j], ' '))
 					{
 						temp1 = remove_quotes(tmp->cmds[j]);
@@ -606,7 +609,9 @@ t_cmd_line *commands_struct(char **cmds)
 					}
 				}
 				else
+				{
 					tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
+				}
 				free(t_mp);
 				j++;
 			}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 16:21:13 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/13 22:47:41 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	sigint_handler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	printf("mckdkd   %d\n", sig);
 	exit(1);
 }
 
@@ -57,7 +58,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	if (pid == 0)
 	{
 		signal(SIGINT, sigint_handler);
-		//printf("======================>%p\n",temp[*j]);
 		if (!temp[(*j)])
 		{
 			close(fd[1]);
@@ -74,9 +74,8 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 		close(fd[0]);
 		exit(0);
 	}
-	waitpid(pid, &g_gv->exit_status, 0);
-	g_gv->exit_status = WEXITSTATUS(g_gv->exit_status);
-	printf("==========>%d\n",g_gv->exit_status);
+	waitpid(pid, &status, 0);
+	g_gv->exit_status = WEXITSTATUS(status);
 	(*tmp)->infile = fd[0];
 	(*tmp)->index = flag;
 	close(fd[1]);

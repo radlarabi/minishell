@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 14:36:10 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 22:47:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 	if (cmd_l->fd_error)
 		exit(1);
 	if (!cmd_l->cmds[0])
-		exit(0);
+		exit(g_gv->exit_status);
 	path = get__path(cmd_l->cmds[0]);
 	if ( check_command_builtins(cmd_l->cmds[0]) && !ft_strchr(cmd_l->cmds[0], '/')
 			&& (access(path, F_OK) == -1  || !ft_strcmp(cmd_l->cmds[0], "")))

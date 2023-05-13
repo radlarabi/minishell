@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 22:05:09 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 22:51:06 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,11 @@ char *extand_variable(char *cmds)
 	char *var_env;
 	char *exit;
 
-
+	if(cmds[0] == '$' && ft_strlen(cmds) == 1)
+    {
+        ret = ft_strjoin(ret,"$");
+        return ret;
+    }
 	while(cmds[j])
 	{
 		if (cmds[j] == '\"')
@@ -304,7 +308,11 @@ char *extand_var(char *cmds)
 	char *var_env;
 	char *exit;
 
-
+	if(cmds[0] == '$' && ft_strlen(cmds) == 1)
+    {
+        ret = ft_strjoin(ret,"$");
+        return ret;
+    }
 	while(cmds[j])
 	{
 		if (cmds[j] == '\"')
@@ -650,6 +658,7 @@ t_cmd_line *commands_struct(char **cmds)
 				files_here_doc(temp, &tmp, &j,flag);
 				if (g_gv->exit_status == 1)
 					break;
+				
 			}
 			else
 			{

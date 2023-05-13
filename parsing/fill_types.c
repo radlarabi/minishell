@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/06 14:01:25 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 20:15:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,6 @@ void	fill_types(t_command *tmp, char c, int *i, char *str)
 	else if ((c == '.' && str[(*i) + 1] == '.') || (c == '.' && str[(*i)
 				+ 1] != '.') || c == '|')
 		fill_types4(tmp, c, i, str);
-	else if (c == '?' || c == '$')
-		fill_types5(tmp, c, i);
 	else
 	{
 		tmp->opr = N_OPER;

@@ -1,4 +1,10 @@
-repeat env add variale without a value;
-env -i and run command $HOME --> ambigust in > $VAR (var not found)
-unset HOME error prin
 exit_status in here_doc
+
+
+---> 'l'"s"
+echo """"""oussam""""''
+echo $?$?$?$?
+<< $?
+
+
+MINISHELL -> $

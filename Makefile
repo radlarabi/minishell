@@ -21,7 +21,7 @@ SRCS = 	parsing/main.c \
 		exction/pipes/pipes.c \
 		# parsing/check_leaks.c\
 
-# CFLAGS = -Wall -Wextra -Werror
+#CFLAGS = -Wall -Wextra -Werror
 CFLAGS = -fsanitize=address -g3
 # CFLAGS = -g
 NAME = minishell

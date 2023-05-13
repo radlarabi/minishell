@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 19:56:03 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/08 16:29:40 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 21:21:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static int	sub_check_syntax_error(t_command **cmd)
 		if (tmp->state == GENERAL && (!ft_strcmp(tmp->content, "&&") 
 			|| !ft_strcmp(tmp->content, ";" ) || !ft_strcmp(tmp->content, ")" ) 
 			|| !ft_strcmp(tmp->content, "(" ) || !ft_strcmp(tmp->content, "&" ) 
-			|| !ft_strcmp(tmp->content, "\\" )|| !ft_strcmp(tmp->content, "!" )))
+			|| !ft_strcmp(tmp->content, "\\" ) ))
 		{
 			error_msg();
 			return (0);
 		}
-		else if (!ft_strcmp(tmp->content, "*"))
+		else if (!ft_strcmp(tmp->content, "!"))
 		{
 			t1 = tmp->prev;
 			while (t1 && (t1->type == SPACE || t1->type == DOUBLE_Q || t1->type == SINGLE_Q))
@@ -44,8 +44,9 @@ static int	sub_check_syntax_error(t_command **cmd)
 					return 1;
 				t1 = t1->prev;
 			}
-			if (t1 && t1->type != HERDOC)
+			if (!t1)
 			{
+				printf("A3\n");
 				error_msg();
 				return (0);
 			}
@@ -71,7 +72,7 @@ int	check_syntax_1(t_command *tmp, t_command *t1, t_command *t2)
 			return (0);
 		}
 		if (!t1 && tmp->type != HERDOC && tmp->type != RED_IN
-			&& tmp->type != RED_OUT && tmp->type != APPE && tmp->type != ENV)
+			&& tmp->type != RED_OUT && tmp->type != APPE )
 		{
 			error_msg();
 			return (0);

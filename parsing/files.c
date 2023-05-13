@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 15:26:31 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:09:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -574,7 +574,7 @@ t_cmd_line *commands_struct(char **cmds)
 		}
 		temp[j] = 0;
 		j = 0;
-		while(tmp->cmds[j])
+		while(tmp->cmds && tmp->cmds[j])
 		{
 			if (!ft_strcmp(tmp->cmds[j], "\"\"") || !ft_strcmp(tmp->cmds[j], "\'\'"))
 			{

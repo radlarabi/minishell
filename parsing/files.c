@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 18:09:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/13 22:05:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,21 +392,24 @@ char *extand_var(char *cmds)
 					free(exit);
 				j += 2;
 			}
-			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
+			else
 			{
-				ret = ft_join_char(ret, cmds[j]);
-				j++;
-			}
-			if (cmds[j] == '$')
-			{
-				j++;
-				var = get_variable(cmds + j);
-				var_env = ft_getenv(var);
-				if (var_env)
-					ret = ft_strjoin(ret, var_env);
-				j += ft_strlen(var);
-				// if (var)
-				// 	free(var);
+				if (cmds[j] == '$')
+				{
+					j++;
+					var = get_variable(cmds + j);
+					var_env = ft_getenv(var);
+					if (var_env)
+						ret = ft_strjoin(ret, var_env);
+					j += ft_strlen(var);
+					// if (var)
+					// 	free(var);
+				}
+				else
+				{
+					ret = ft_join_char(ret, cmds[j]);
+					j++;
+				}
 			}
 		}
 	}
@@ -452,21 +455,13 @@ char	*remove_quotes(char *str)
 {
 	int i;
 	int j;
-	int count;
 	char *ret;
 
 	ret = NULL;
-	count = 0;
 	i = 0;
 	if (str)
 	{
-		while(str[i])
-		{
-			if (str[i] == '\"')
-				count++;
-			i++;
-		}
-		ret = malloc(ft_strlen(str) - count + 1);
+		ret = malloc(ft_strlen(str) + 1);
 		i = 0;
 		j = 0;
 		while(str[i])
@@ -480,6 +475,8 @@ char	*remove_quotes(char *str)
 					j++;
 					i++;
 				}
+				if (str[i] == '\"')
+					i++;
 			}
 			else if (str[i] == '\'')
 			{
@@ -490,6 +487,8 @@ char	*remove_quotes(char *str)
 					j++;
 					i++;
 				}
+				if (str[i] == '\'')
+					i++;
 			}
 			else
 			{
@@ -547,7 +546,6 @@ t_cmd_line *commands_struct(char **cmds)
 	t_cmd_line *tmp = NULL;
 	int i = 0;
 	int j = 0;
-	int k = 0;
 	char **temp;
 	char **temp2;
 	char *temp1;
@@ -597,9 +595,7 @@ t_cmd_line *commands_struct(char **cmds)
 				if (tmp->cmds[j] && ft_strcmp(t_mp, tmp->cmds[j]))
 				{
 					if (ft_strchr(t_mp, '$'))
-					{
 						tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
-					}
 					if (!ft_strchr(t_mp, '\"') && ft_strchr(tmp->cmds[j], ' '))
 					{
 						temp1 = remove_quotes(tmp->cmds[j]);
@@ -609,18 +605,13 @@ t_cmd_line *commands_struct(char **cmds)
 					}
 				}
 				else
-				{
 					tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
-				}
 				free(t_mp);
 				j++;
 			}
 		}
 		if (tmp->cmds)
-		{
 			tmp->cmds = change_content_cmds(tmp->cmds);
-		}
-		k = j;
 		j = 0;
 		while(temp[j])
 		{

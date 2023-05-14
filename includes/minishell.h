@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/12 19:22:45 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/14 13:07:20 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,7 @@ void					ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new);
 int						check_syntax(t_command **cmd);
 void					set_states(t_command **cmd);
 t_cmd_line				*commands_struct(char **cmds);
-int						files_here_doc(char **temp, t_cmd_line **tmp, int *j,
-							int flag);
+int						files_here_doc(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);

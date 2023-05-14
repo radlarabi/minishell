@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 22:47:41 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 13:07:11 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_in_qotes(char *str)
 	return 1;
 }
 
-int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
+int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 {
 	int		status;
 	pid_t	pid;
@@ -77,7 +77,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j,int flag)
 	waitpid(pid, &status, 0);
 	g_gv->exit_status = WEXITSTATUS(status);
 	(*tmp)->infile = fd[0];
-	(*tmp)->index = flag;
 	close(fd[1]);
 	free(temp[(*j)++]);
 	return (0);

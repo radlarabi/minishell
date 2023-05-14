@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 22:47:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 12:47:35 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,11 @@ void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 		cmd_l  = cmd_l->next;
 	}
 	if (i > 0)
+	{
 		waitpid(pids[i - 1], &status, 0);
-	while (wait(NULL) != -1);
-	g_gv->exit_status = WEXITSTATUS(status);
+		while (wait(NULL) != -1);
+		g_gv->exit_status = WEXITSTATUS(status);
+	}
 }
 int 	count_pipes(t_cmd_line *cmd_l)
 {

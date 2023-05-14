@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 22:51:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 13:07:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
-	(*tmp)->index = 0;
 	(*tmp)->fd_error  = NULL;
 	if ((*tmp)->infile < 0)
 	{
@@ -83,7 +82,6 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	(*tmp)->index = 0;
 	(*tmp)->fd_error  = NULL;
 	if ((*tmp)->outfile < 0)
 	{
@@ -184,16 +182,17 @@ char *get_variable(char *str)
 
 char *extand_variable(char *cmds)
 {
-	int j;
-	char *ret = NULL;
-	j = 0;
-	char *var;
-	char *var_env;
-	char *exit;
+	int		j;
+	char	*ret;
+	char	*var;
+	char	*var_env;
+	char	*exit;
 
-	if(cmds[0] == '$' && ft_strlen(cmds) == 1)
+	ret = NULL;
+	j = 0;
+	if(cmds && cmds[0] == '$' && ft_strlen(cmds) == 1)
     {
-        ret = ft_strjoin(ret,"$");
+        ret = ft_strjoin(ret, "$");
         return ret;
     }
 	while(cmds[j])
@@ -302,13 +301,14 @@ char *extand_variable(char *cmds)
 char *extand_var(char *cmds)
 {
 	int j;
-	char *ret = NULL;
-	j = 0;
+	char *ret;
 	char *var;
 	char *var_env;
 	char *exit;
 
-	if(cmds[0] == '$' && ft_strlen(cmds) == 1)
+	j = 0;
+	ret = NULL;
+	if(cmds && cmds[0] == '$' && ft_strlen(cmds) == 1)
     {
         ret = ft_strjoin(ret,"$");
         return ret;
@@ -628,37 +628,29 @@ t_cmd_line *commands_struct(char **cmds)
 				free(temp[j]);
 				j++;
 				if (files_red_in(temp, &tmp, &j))
-				{
 					break;
-				}
 			}
 			else if (!ft_strcmp(temp[j], ">"))
 			{
 				free(temp[j]);
 				j++;
 				if (files_red_out(temp, &tmp, &j))
-				{
 					break;
-				}
 			}
 			else if (!ft_strcmp(temp[j], ">>"))
 			{
 				free(temp[j]);
 				j++;
 				if (files_append(temp, &tmp, &j))
-				{
 					break;
-				}
 			}
 			else if (!ft_strcmp(temp[j], "<<"))
 			{
-				flag = 1;
 				free(temp[j]);
 				j++;
-				files_here_doc(temp, &tmp, &j,flag);
+				files_here_doc(temp, &tmp, &j);
 				if (g_gv->exit_status == 1)
 					break;
-				
 			}
 			else
 			{

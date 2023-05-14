@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 13:10:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 13:07:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_cmd_line	*lst_init_cmds(void)
 	cmd_l = malloc(sizeof(t_cmd_line));
 	cmd_l->infile = -1;
 	cmd_l->outfile = -1;
-	cmd_l->index = -1;
 	cmd_l->flag = 0;
 	cmd_l->next = NULL;
 	cmd_l->cmds = NULL;

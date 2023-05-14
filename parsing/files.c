@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 15:16:05 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 16:14:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if (!temp[*j])
 		return 1;
 	in_q = is_in_qotes(temp[*j]);
-	infile = extand_variable(temp[*j]);
+	infile = extand_var(temp[*j]);
+	infile = remove_quotes(temp[*j]);
 	free(temp[*j]);
 	(*j)++;
 	if (!infile)
@@ -66,7 +67,8 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 	if (!temp[*j])
 		return 1;
 	in_q = is_in_qotes(temp[*j]);
-	outfile = extand_variable(temp[*j]);
+	outfile = extand_var(temp[*j]);
+	outfile = remove_quotes(outfile);
 	free(temp[*j]);
 	(*j)++;
 	if (!outfile)
@@ -104,7 +106,8 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 	if (!temp[*j])
 		return 1;
 	in_q = is_in_qotes(temp[*j]);
-	outfile = extand_variable(temp[*j]);
+	outfile = extand_var(temp[*j]);
+	outfile = remove_quotes(outfile);
 	free(temp[*j]);
 	(*j)++;
 	if (!outfile)
@@ -180,124 +183,6 @@ char *get_variable(char *str)
 	return ret;
 }
 
-char *extand_variable(char *cmds)
-{
-	int		j;
-	char	*ret;
-	char	*var;
-	char	*var_env;
-	char	*exit;
-
-	ret = NULL;
-	j = 0;
-	if(cmds && cmds[0] == '$' && ft_strlen(cmds) == 1)
-    {
-        ret = ft_strjoin(ret, "$");
-        return ret;
-    }
-	while(cmds[j])
-	{
-		if (cmds[j] == '\"')
-		{
-			j++;
-			while(cmds[j])
-			{
-				if (cmds[j] == '\"')
-				{
-					j++;
-					break;
-				}
-				else if (cmds[j] == '$' && cmds[j + 1] == '?')
-				{
-					exit = ft_itoa(g_gv->exit_status);
-					ret = ft_strjoin(ret, exit);
-					if (exit)
-						free(exit);
-					j += 2;
-				}
-				else if (cmds[j] == '$')
-				{
-					j++;
-					var = get_variable(cmds + j);
-					var_env = ft_getenv(var);
-					ret = ft_strjoin(ret, var_env);
-					j += ft_strlen(var);
-					if (var)
-						free(var);
-				}
-				else
-				{
-					ret = ft_join_char(ret, cmds[j]);
-					j++;
-				}
-			}
-		}
-		else if (cmds[j] == '\'')
-		{
-			j++;
-			while(cmds[j])
-			{
-				if (cmds[j] == '\'')
-				{
-					j++;
-					break;
-				}
-				ret = ft_join_char(ret, cmds[j]);
-				j++;
-			}
-		}
-		else
-		{
-			if (cmds[j] == '<' && cmds[j + 1] == '<')
-			{
-				ret = ft_join_char(ret, cmds[j]);
-				j++;
-				ret = ft_join_char(ret, cmds[j]);
-				j++;
-				while(cmds[j])
-				{
-					ret = ft_join_char(ret, cmds[j]);
-					j++;
-					if(cmds[j] != ' ')
-						break;
-				}
-				while(cmds[j])
-				{
-				ret = ft_join_char(ret, cmds[j]);
-					j++;
-					if(cmds[j] == ' ')
-						break;
-				}
-			}
-			else if (cmds[j] == '$' && cmds[j + 1] == '?')
-			{
-				exit = ft_itoa(g_gv->exit_status);
-				ret = ft_strjoin(ret, exit);
-				if (exit)
-					free(exit);
-				j += 2;
-			}
-			while(cmds[j] && cmds[j] != '$' && cmds[j] != '\"' && cmds[j] != '\'')
-			{
-				ret = ft_join_char(ret, cmds[j]);
-				j++;
-			}
-			if (cmds[j] == '$')
-			{
-				j++;
-				var = get_variable(cmds + j);
-				var_env = ft_getenv(var);
-				ret = ft_strjoin(ret, var_env);
-				j += ft_strlen(var);
-				if (var)
-					free(var);
-				// if (var_env).
-				// 	free(var_env);
-			}
-		}
-	}
-	return ret;
-}
 char *extand_var(char *cmds)
 {
 	int j;
@@ -313,6 +198,7 @@ char *extand_var(char *cmds)
         ret = ft_strjoin(ret,"$");
         return ret;
     }
+	
 	while(cmds[j])
 	{
 		if (cmds[j] == '\"')
@@ -404,7 +290,11 @@ char *extand_var(char *cmds)
 			{
 				if (cmds[j] == '$')
 				{
+					if (cmds[j] == '$' && (!cmds[j + 1] || cmds[j + 1] == ' '))
+						ret = ft_join_char(ret, cmds[j]);
 					j++;
+					if (!cmds[j])
+						break;
 					var = get_variable(cmds + j);
 					var_env = ft_getenv(var);
 					if (var_env)

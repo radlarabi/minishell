@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 13:07:20 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 16:13:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ char					**splite_with_space(char *str);
 t_env					*get_env(char **ev);
 char					*ft_getenv(char *str);
 int						is_quots(char *str, int index);
-char					*extand_variable(char *cmds);
 char					*extand_var(char *cmds);
 void					pipex(t_cmd_line *cmd_l);
 char					**get__env();
@@ -157,4 +156,5 @@ int						is_in_qotes(char *str);
 void					free_2d_table(char **temp);
 int						check_command_builtins(char *command);
 void					command_builtins(t_cmd_line **cmd_l);
+char					*remove_quotes(char *str);
 #endif

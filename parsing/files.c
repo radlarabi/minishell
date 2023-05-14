@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 16:14:10 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 21:07:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,71 +18,86 @@ int		is_ambiguous(char  *str)
 		return 1;
 	return 0;
 }
-int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
+
+int	sub_files_red_in(char **infile, t_cmd_line **tmp, int *j, char **temp)
 {
-	char *infile;
-	int in_q;
+	int	in_q;
 
 	if (!temp[*j])
 		return 1;
 	in_q = is_in_qotes(temp[*j]);
-	infile = extand_var(temp[*j]);
-	infile = remove_quotes(temp[*j]);
+	(*infile) = extand_var(temp[*j]);
+	(*infile) = remove_quotes((*infile));
 	free(temp[*j]);
 	(*j)++;
-	if (!infile)
-		infile = ft_strdup("");
-	if (in_q && is_ambiguous(infile))
+	if (!(*infile))
+		(*infile) = ft_strdup("");
+	if (in_q && is_ambiguous((*infile)))
 	{
-		(*tmp)->fd_error = ft_strdup(infile);
+		(*tmp)->fd_error = ft_strdup((*infile));
 		printf("ambiguous redirect\n");
 		g_gv->exit_status = 1;
-		if (infile)
-			free(infile);
+		if ((*infile))
+			free((*infile));
 		return 1;
 	}
 	if ((*tmp)->infile != -1)
 		close((*tmp)->infile);
+	return 0;
+}
+int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
+{
+	char *infile;
+
+	if (sub_files_red_in(&infile, tmp, j, temp))
+		return 1;
 	(*tmp)->infile = open(infile, O_RDONLY);
 	(*tmp)->fd_error  = NULL;
 	if ((*tmp)->infile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
+		perror((*tmp)->fd_error);
 		if (infile)
 			free(infile);
-		perror((*tmp)->fd_error);
 		return 1;
 	}
 	if (infile)
 		free(infile);
-
 	return 0;
 }
 
-int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
+int	sub_files_red_out(char **outfile, t_cmd_line **tmp, int *j, char **temp)
 {
-	char *outfile;
-	int in_q;
+	int	in_q;
 
 	if (!temp[*j])
 		return 1;
 	in_q = is_in_qotes(temp[*j]);
-	outfile = extand_var(temp[*j]);
-	outfile = remove_quotes(outfile);
+	(*outfile) = extand_var(temp[*j]);
+	(*outfile) = remove_quotes((*outfile));
 	free(temp[*j]);
 	(*j)++;
-	if (!outfile)
-		outfile = ft_strdup("");
-	if (in_q && is_ambiguous(outfile))
+	if (!(*outfile))
+		(*outfile) = ft_strdup("");
+	if (in_q && is_ambiguous((*outfile)))
 	{
-		(*tmp)->fd_error = ft_strdup(outfile);
+		(*tmp)->fd_error = ft_strdup((*outfile));
 		printf("ambiguous redirect\n");
-		if (outfile)
-			free(outfile);
+		g_gv->exit_status = 1;
+		if ((*outfile))
+			free((*outfile));
 		return 1;
 	}
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
+	return 0;
+}
+int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
+{
+	char *outfile;
+
+	if (sub_files_red_in(&outfile, tmp, j, temp))
+		return 1;
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	(*tmp)->fd_error  = NULL;
 	if ((*tmp)->outfile < 0)
@@ -101,27 +116,9 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 int	files_append(char **temp, t_cmd_line **tmp, int *j)
 {
 	char *outfile;
-	int in_q;
 
-	if (!temp[*j])
+	if (sub_files_red_in(&outfile, tmp, j, temp))
 		return 1;
-	in_q = is_in_qotes(temp[*j]);
-	outfile = extand_var(temp[*j]);
-	outfile = remove_quotes(outfile);
-	free(temp[*j]);
-	(*j)++;
-	if (!outfile)
-		outfile = ft_strdup("");
-	if (in_q && is_ambiguous(outfile))
-	{
-		(*tmp)->fd_error = ft_strdup(outfile);
-		printf("ambiguous redirect\n");
-		if (outfile)
-			free(outfile);
-		return 1;
-	}
-	if ((*tmp)->outfile != -1)
-		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if ((*tmp)->outfile < 0)
 	{
@@ -183,6 +180,49 @@ char *get_variable(char *str)
 	return ret;
 }
 
+void	extand_var_in_double_qoutes(char **ret, char *cmds, int *j)
+{
+	char	*var;
+	char	*exit;
+	char	*var_env;
+
+	(*ret) = ft_join_char((*ret), cmds[(*j)]);
+	(*j)++;
+	while(cmds[(*j)])
+	{
+		if (cmds[(*j)] == '\"')
+		{
+			(*ret) = ft_join_char((*ret), cmds[(*j)]);
+			(*j)++;
+			break;
+		}
+		else if (cmds[(*j)] == '$' && cmds[(*j) + 1] == '?')
+		{
+			exit = ft_itoa(g_gv->exit_status);
+			(*ret) = ft_strjoin((*ret), exit);
+			if (exit)
+				free(exit);
+			(*j) += 2;
+		}
+		else if (cmds[(*j)] == '$')
+		{
+			(*j)++;
+			var = get_variable(cmds + (*j));
+			var_env = ft_getenv(var);
+			if (var_env)
+				(*ret) = ft_strjoin((*ret), var_env);
+			(*j) += ft_strlen(var);
+			if (var)
+				free(var);
+		}
+		else
+		{
+			(*ret) = ft_join_char((*ret), cmds[(*j)]);
+			(*j)++;
+		}
+	}
+}
+
 char *extand_var(char *cmds)
 {
 	int j;
@@ -198,47 +238,10 @@ char *extand_var(char *cmds)
         ret = ft_strjoin(ret,"$");
         return ret;
     }
-	
 	while(cmds[j])
 	{
 		if (cmds[j] == '\"')
-		{
-			ret = ft_join_char(ret, cmds[j]);
-			j++;
-			while(cmds[j])
-			{
-				if (cmds[j] == '\"')
-				{
-					ret = ft_join_char(ret, cmds[j]);
-					j++;
-					break;
-				}
-				else if (cmds[j] == '$' && cmds[j + 1] == '?')
-				{
-					exit = ft_itoa(g_gv->exit_status);
-					ret = ft_strjoin(ret, exit);
-					if (exit)
-						free(exit);
-					j += 2;
-				}
-				else if (cmds[j] == '$')
-				{
-					j++;
-					var = get_variable(cmds + j);
-					var_env = ft_getenv(var);
-					if (var_env)
-						ret = ft_strjoin(ret, var_env);
-					j += ft_strlen(var);
-					if (var)
-						free(var);
-				}
-				else
-				{
-					ret = ft_join_char(ret, cmds[j]);
-					j++;
-				}
-			}
-		}
+			extand_var_in_double_qoutes(&ret, cmds, &j);
 		else if (cmds[j] == '\'')
 		{
 			ret = ft_join_char(ret, cmds[j]);
@@ -394,14 +397,14 @@ char	*remove_quotes(char *str)
 
 char  **ft_join_2d(char **tab1, char **tab2, int p)
 {
-
 	char  **new_tab;
 	int cont;
 	int cont1;
-	cont = 0;
-	cont1 = 0;
 	int i;
 	int j;
+
+	cont = 0;
+	cont1 = 0;
 	j =  0;
 	i = 0;
 	while (tab1 && tab1[i])
@@ -429,6 +432,60 @@ char  **ft_join_2d(char **tab1, char **tab2, int p)
 	return new_tab;
 }
 
+void	extand_in_comamnd_struct(t_cmd_line	**tmp, int *j)
+{
+	char	*temp1;
+	char	**temp2;
+	char	*t_mp;
+
+	t_mp = (*tmp)->cmds[(*j)];
+	(*tmp)->cmds[(*j)] = extand_var((*tmp)->cmds[(*j)]);
+	if ((*tmp)->cmds[(*j)] && ft_strcmp(t_mp, (*tmp)->cmds[(*j)]))
+	{
+		if (ft_strchr(t_mp, '$'))
+			(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
+		if (!ft_strchr(t_mp, '\"') && ft_strchr((*tmp)->cmds[(*j)], ' '))
+		{
+			temp1 = remove_quotes((*tmp)->cmds[(*j)]);
+			temp1 = set_spliter(temp1, ' ');
+			temp2 = ft_split(temp1, -1);
+			(*tmp)->cmds = ft_join_2d((*tmp)->cmds,temp2, (*j));
+		}
+	}
+	else
+		(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
+	free(t_mp);
+	(*j)++;	
+}
+
+void	sub_command_struct(t_cmd_line **tmp)
+{
+	int		j;
+	char	*t_mp;
+
+	j = 0;
+	while((*tmp)->cmds && (*tmp)->cmds[j])
+	{
+		if (!ft_strcmp((*tmp)->cmds[j], "\"\"") || !ft_strcmp((*tmp)->cmds[j], "\'\'"))
+		{
+			t_mp = (*tmp)->cmds[j];
+			(*tmp)->cmds[j++] = ft_strdup("");
+			free(t_mp);
+		}
+		else if (!ft_strcmp((*tmp)->cmds[j] , "<<"))
+			j += 2;
+		else if (!ft_strcmp((*tmp)->cmds[j] , "<"))
+			j += 2;
+		else if (!ft_strcmp((*tmp)->cmds[j] , ">"))
+			j += 2;
+		else if (!ft_strcmp((*tmp)->cmds[j] , ">>"))
+			j += 2;
+		else
+			extand_in_comamnd_struct(&(*tmp), &j);
+	}
+	if ((*tmp)->cmds)
+		(*tmp)->cmds = change_content_cmds((*tmp)->cmds, j);	
+}
 
 t_cmd_line *commands_struct(char **cmds)
 {
@@ -461,50 +518,7 @@ t_cmd_line *commands_struct(char **cmds)
 			j++;
 		}
 		temp[j] = 0;
-		j = 0;
-		while(tmp->cmds && tmp->cmds[j])
-		{
-			if (!ft_strcmp(tmp->cmds[j], "\"\"") || !ft_strcmp(tmp->cmds[j], "\'\'"))
-			{
-				t_mp = tmp->cmds[j];
-				tmp->cmds[j++] = ft_strdup("");
-				free(t_mp);
-			}
-			else if (!ft_strcmp(tmp->cmds[j] , "<<"))
-				j += 2;
-			else if (!ft_strcmp(tmp->cmds[j] , "<"))
-				j += 2;
-			else if (!ft_strcmp(tmp->cmds[j] , ">"))
-				j += 2;
-			else if (!ft_strcmp(tmp->cmds[j] , ">>"))
-				j += 2;
-			else
-			{
-				t_mp = tmp->cmds[j];
-				tmp->cmds[j] = extand_var(tmp->cmds[j]);
-				if (tmp->cmds[j] && ft_strcmp(t_mp, tmp->cmds[j]))
-				{
-					if (ft_strchr(t_mp, '$'))
-						tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
-					if (!ft_strchr(t_mp, '\"') && ft_strchr(tmp->cmds[j], ' '))
-					{
-						temp1 = remove_quotes(tmp->cmds[j]);
-						temp1 = set_spliter(temp1, ' ');
-						temp2 = ft_split(temp1, -1);
-						tmp->cmds = ft_join_2d(tmp->cmds,temp2, j);
-					}
-				}
-				else
-					tmp->cmds[j] = remove_quotes(tmp->cmds[j]);
-				free(t_mp);
-				j++;
-			}
-		}
-		if (tmp->cmds)
-		{
-			tmp->cmds = change_content_cmds(tmp->cmds, j);
-			
-		}
+		sub_command_struct(&tmp);
 		j = 0;
 		while(temp[j])
 		{

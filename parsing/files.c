@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 13:07:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 15:16:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,7 +386,7 @@ char *extand_var(char *cmds)
 				}
 				while(cmds[j])
 				{
-				ret = ft_join_char(ret, cmds[j]);
+					ret = ft_join_char(ret, cmds[j]);
 					j++;
 					if(cmds[j] == ' ')
 						break;
@@ -424,35 +424,27 @@ char *extand_var(char *cmds)
 	return ret;
 }
 
-char **change_content_cmds(char **cmds)
+char **change_content_cmds(char **cmds, int leen)
 {
 	int i;
 	int j;
 	int len;
 	char **ret;
 
-	i = 0;
-	j = 0;
-	while(cmds && cmds[i])
-	{
-		if ((ft_strcmp(cmds[i], "<") || ft_strcmp(cmds[i], "<<") || ft_strcmp(cmds[i], ">") || ft_strcmp(cmds[i], ">>")))
-			j++;
-		i++;
-	}
-	len = j;
-	ret = malloc(sizeof(char *) * (j + 1));
+	ret = malloc(sizeof(char *) * (leen + 1));
 	if (!ret)
 		return NULL;
 	i = 0;
 	j = 0;
-	while(cmds[i])
+	while(leen > i)
 	{
-		while ( (i < len) && (!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
+		while (cmds[i] && (!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i], "<<") || !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
 			i += 2;
-		if (i >= len)
-			break;
-		ret[j] = ft_strdup(cmds[i]);
-		j++;
+		if (cmds[i])
+		{
+			ret[j] = ft_strdup(cmds[i]);
+			j++;
+		}
 		i++;
 	}
 	ret[j] = 0;
@@ -619,7 +611,10 @@ t_cmd_line *commands_struct(char **cmds)
 			}
 		}
 		if (tmp->cmds)
-			tmp->cmds = change_content_cmds(tmp->cmds);
+		{
+			tmp->cmds = change_content_cmds(tmp->cmds, j);
+			
+		}
 		j = 0;
 		while(temp[j])
 		{

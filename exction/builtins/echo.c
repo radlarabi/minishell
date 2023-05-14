@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 21:53:34 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/12 14:32:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/14 14:47:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int line_cmd(char **cmd)
 	int len;
 	len = 0;
 	while (cmd[len])
+	{
+		// printf("* %s\n", cmd[len]);
 		len++;
+	}
 	return len;
 }
 

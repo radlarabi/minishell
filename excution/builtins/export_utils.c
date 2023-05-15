@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/13 15:42:12 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:07:15 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	add_node(t_env **env, char *env_var, char *env_val, int a)
 {
 	t_env	*new_node;
-	char	*tab;
 
 	if (env_var)
 	{
@@ -69,7 +68,7 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 	{
 		if (ft_strcmp(current->var, env_var) == 0)
 		{
-			if(new_env_val && !new_env_val[0])
+			if (new_env_val && !new_env_val[0])
 				g_gv->env->flag = 1;
 			else
 				g_gv->env->flag = 0;

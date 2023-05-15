@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:17:27 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/12 19:22:25 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:07:38 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	export_utils1(char *value_of_var, int *flag)
 	*flag = 1;
 	g_gv->exit_status = 1;
 }
+
 void	export_utils2(char *value_of_var, int i, int *flag, int *flag1)
 {
 	char	**export_value;

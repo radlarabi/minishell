@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/10 22:36:44 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:03:11 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 void	remove_node(t_env **head_ref, char *key, char *key1)
 {
 	t_env	*temp;
-	t_env	 *prev;
+	t_env	*prev;
 
 	temp = *head_ref;
-
-	if (temp != NULL && temp->var == key &&  temp->value == key1)
+	if (temp != NULL && temp->var == key && temp->value == key1)
 	{
 		*head_ref = temp->next;
 		free(temp);
@@ -52,9 +51,9 @@ int	ft_unset(t_cmd_line **commands_v)
 	}
 	while (temp)
 	{
-		if (!ft_strcmp(temp->var,var))
+		if (!ft_strcmp(temp->var, var))
 		{
-			remove_node(&g_gv->env,temp->var,temp->value);
+			remove_node(&g_gv->env, temp->var, temp->value);
 			break ;
 		}
 		temp = temp->next;

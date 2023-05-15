@@ -1,0 +1,5 @@
+NAME = minishell
+all: $(NAME)
+$(NAME): $(O_SRCS)
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline
+	$(RM) $(NAME)

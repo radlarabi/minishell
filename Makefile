@@ -19,7 +19,11 @@ SRCS = 	parsing/main.c \
 		exction/builtins/unset.c\
 		exction/execve/execution_utils.c \
 		exction/pipes/pipes.c \
-		# parsing/check_leaks.c\
+		parsing/files/files_1.c \
+		parsing/files/files_2.c \
+		parsing/files/files_3.c \
+		parsing/files/files_4.c \
+		parsing/files/files_5.c \
 
 #CFLAGS = -Wall -Wextra -Werror
 CFLAGS = -fsanitize=address -g3

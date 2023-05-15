@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 19:56:03 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 17:33:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 22:59:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_command	*sub_check_syntax_t2(t_command *t2)
 int	check_syntax(t_command **cmd)
 {
 	t_command	*tmp;
-	t_command	*tmp1;
 	t_command	*t1;
 	t_command	*t2;
 

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 19:18:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:23:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,57 +36,6 @@ void	skip_in_quotes(char *str, int a, int *i)
 	}
 }
 
-char	*set_spliter(char *str, char c)
-{
-	char	*s;
-	int		i;
-
-	if (!str)
-		return (NULL);
-	s = malloc(ft_strlen(str) + 1);
-	if (!s)
-		return NULL;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 39)
-		{
-			while (str[i])
-			{
-				s[i] = str[i];
-				i++;
-				if (str[i] == 39)
-					break ;
-			}
-		}
-		else if (str[i] == 34)
-		{
-			while (str[i])
-			{
-				s[i] = str[i];
-				i++;
-				if (str[i] == 34)
-                {
-                    s[i] = str[i];
-				    i++;
-					break ;
-                }
-			}
-		}
-		else if (str[i] == c)
-		{
-			s[i] = -1;
-		    i++;
-		}
-		else
-		{
-			s[i] = str[i];
-		    i++;
-		}
-	}
-	s[i] = 0;
-	return (s);
-}
 
 char	**splite_with_pipes(t_command **cmd)
 {

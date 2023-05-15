@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:44:05 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:01:43 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int						ft_unset(t_cmd_line **commands_v);
 /* end */
 void					add_node(t_env **env, char *env_var, char *env_val,
 							int a);
-char					*remove_char(char *string, char c, int pos);
+char					*remove_char(char *string, int pos);
 void					change_value(t_env **env, char *env_var,
 							char *new_env_val);
 void					join_value(t_env **env, char *env_var,
@@ -191,7 +191,7 @@ int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);
 char					*ret_in_double_quotes(char *str);
 char					*get_variable(char *str);
-void					extand_exit_status(char **ret, char *cmds, int *j);
+void					extand_exit_status(char **ret, int *j);
 void					sub_extand_var_in_dq(char **ret, char *cmds, int *j);
 void					extand_var_in_double_qoutes(char **ret, char *cmds,
 							int *j);
@@ -213,7 +213,7 @@ t_cmd_line				*init_temp_cmd_line(char **cmds, int i);
 int						open_read_out_in(char **temp, t_cmd_line **tmp, int *j);
 int						open_appnd_herdoc(char **temp, t_cmd_line **tmp,
 							int *j);
-void	open_files_in_command_struct(char **temp,
+int						open_files_in_command_struct(char **temp,
 									t_cmd_line **tmp);
 void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l);
 void	wait_for_child(int *pids, int i);

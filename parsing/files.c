@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:13:46 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 22:04:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_cmd_line	*init_temp_cmd_line(char **cmds, int i)
 	return (tmp);
 }
 
-void	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
+int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 {
 	int	j;
 
@@ -92,7 +92,7 @@ void	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 		else if (!ft_strcmp(temp[j], ">>") || !ft_strcmp(temp[j], "<<"))
 		{
 			if (open_appnd_herdoc(temp, tmp, &j))
-				break ;
+				return 1;
 		}
 		else
 		{
@@ -100,6 +100,7 @@ void	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 			j++;
 		}
 	}
+	return 0;
 }
 
 t_cmd_line	*commands_struct(char **cmds)
@@ -119,7 +120,8 @@ t_cmd_line	*commands_struct(char **cmds)
 		j = sub_command_struct(&tmp);
 		if (tmp->cmds)
 			tmp->cmds = change_content_cmds(tmp->cmds, j);
-		open_files_in_command_struct(temp, &tmp);
+		if (open_files_in_command_struct(temp, &tmp))
+			break;
 		if (temp)
 			free(temp);
 		ft_lstadd_back_cmds(&cmd_l, tmp);

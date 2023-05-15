@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:17:27 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:16:14 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:00:33 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	export_utils2(char *value_of_var, int i, int *flag, int *flag1)
 	char	**export_value;
 
 	export_value = splitre_whit_pos(value_of_var, i);
-	export_value[1] = remove_char(export_value[1], '=', 0);
+	export_value[1] = remove_char(export_value[1], 0);
 	*flag = 1;
 	if (export_value && export_value[0] && export_value[1]
 		&& !check_syntax_cmd(export_value[0]))
@@ -77,8 +77,8 @@ void	export_utils3(char *value_of_var, int i, int *flag, int *flag1)
 	char	**export_value;
 
 	export_value = splitre_whit_pos(value_of_var, i + 1);
-	export_value[0] = remove_char(export_value[0], '+', i);
-	export_value[1] = remove_char(export_value[1], '=', 0);
+	export_value[0] = remove_char(export_value[0], i);
+	export_value[1] = remove_char(export_value[1], 0);
 	if (export_value && export_value[0] && export_value[1]
 		&& !check_syntax_cmd(export_value[0]))
 	{

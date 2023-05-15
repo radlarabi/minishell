@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:30:54 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 19:11:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:02:22 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 void	extand_var_in_double_qoutes(char **ret, char *cmds, int *j)
 {
-	char	*var;
-	char	*exit;
-	char	*var_env;
-
 	(*ret) = ft_join_char((*ret), cmds[(*j)]);
 	(*j)++;
 	while (cmds[(*j)])
@@ -29,7 +25,7 @@ void	extand_var_in_double_qoutes(char **ret, char *cmds, int *j)
 			break ;
 		}
 		else if (cmds[(*j)] == '$' && cmds[(*j) + 1] == '?')
-			extand_exit_status(ret, cmds, j);
+			extand_exit_status(ret, j);
 		else if (cmds[(*j)] == '$')
 			sub_extand_var_in_dq(ret, cmds, j);
 		else
@@ -103,7 +99,7 @@ int	sub_extand_var(char **ret, char *cmds, int *j)
 	if (cmds[(*j)] == '<' && cmds[(*j) + 1] == '<')
 		ignore_extand_in_herdoc(ret, cmds, j);
 	else if (cmds[(*j)] == '$' && cmds[(*j) + 1] == '?')
-		extand_exit_status(ret, cmds, j);
+		extand_exit_status(ret, j);
 	else
 	{
 		if (extand_normal_var(ret, cmds, j))

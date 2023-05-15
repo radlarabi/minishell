@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:31:40 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 20:40:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:02:31 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	**change_content_cmds(char **cmds, int leen)
 {
 	int		i;
 	int		j;
-	int		len;
 	char	**ret;
 
 	ret = malloc(sizeof(char *) * (leen + 1));
@@ -115,11 +114,7 @@ char	*remove_quotes(char *str)
 		else if (str[i] == '\'')
 			remove_single_quotes(str, &ret, &i, &j);
 		else
-		{
-			ret[j] = str[i];
-			j++;
-			i++;
-		}
+			ret[j++] = str[i++];
 	}
 	ret[j] = 0;
 	return (ret);

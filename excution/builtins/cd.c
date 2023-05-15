@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 15:39:08 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 22:59:50 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	cd_utils(char **path, char *home_dir)
 int	ft_cd(t_cmd_line **cd_cmd)
 {
 	char	*home_dir;
-	char	cwd[1024];
 	char	*path;
 
 	home_dir = ft_getenv("HOME");

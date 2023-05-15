@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:13:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:26:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char *ft_join_char(char *str, char c)
 	char *a;
 	int i;
 
-	i = 0;
 	if (!str)
 	{
 		a = malloc(sizeof(char) * 2);
@@ -33,11 +32,9 @@ char *ft_join_char(char *str, char c)
 	a = malloc(ft_strlen(str) + 2);
 	if (!a)
 		return NULL;
-	while(str[i])
-	{
+	i = -1;
+	while(str[++i])
 		a[i] = str[i];
-		i++;
-	}
 	a[i] = c;
 	i++;
 	a[i] = '\0';

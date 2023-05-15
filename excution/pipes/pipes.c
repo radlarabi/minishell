@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:43:15 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:00:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	single_buildins_cmd(t_cmd_line *cmd_l)
 void	pipex(t_cmd_line *cmd_l)
 {
 	int	*pids;
-	int std_out;
 	int	**pipefd;
 	t_num_p_cmds num;
 

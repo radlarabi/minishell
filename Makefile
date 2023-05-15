@@ -6,6 +6,7 @@ SRCS = 	parsing/main.c \
 		parsing/lst_init.c\
 		parsing/here_doc.c\
 		parsing/splite_pipe_space.c\
+		parsing/splite_pipe_space_utiles.c\
 		parsing/env_link.c\
 		parsing/free.c\
 		parsing/lst_add.c\
@@ -31,8 +32,8 @@ SRCS = 	parsing/main.c \
 		parsing/syntax/syntax_1.c \
 		parsing/syntax/syntax_2.c \
 
-#CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+# CFLAGS = -fsanitize=address -g3
 # CFLAGS = -g
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)

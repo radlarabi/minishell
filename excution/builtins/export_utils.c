@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:11:23 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:00:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 	}
 }
 
-char	*remove_char(char *string, char c, int pos)
+char	*remove_char(char *string, int pos)
 {
 	int	length;
 	int	i;

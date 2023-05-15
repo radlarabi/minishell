@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:53:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 22:44:35 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,9 @@ char	**ft_join_2d(char **tab1, char **tab2, int p)
 			cont1++;
 		}
 	}
-	i = 0;
-	while (tab2[i])
-	{
-		new_tab[cont1] = ft_strdup(tab2[i]);
-		cont1++;
-		i++;
-	}
+	i = -1;
+	while (tab2[++i])
+		new_tab[cont1++] = ft_strdup(tab2[i]);
 	new_tab[cont1] = 0;
 	return (new_tab);
 }

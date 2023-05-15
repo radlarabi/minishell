@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 21:01:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:01:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	pid_t	pid;
 	int		in_q;
 	int 	fd[2];
-	char *tab;
 
 	in_q = 1;
 	signal(SIGINT, SIG_IGN);
@@ -82,36 +81,30 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 
 char	*extand_var_for_herdoc(char *str)
 {
-	char *var;
-	char *var_env;
-	char *ret;
-	int	j;
+	char	*ret;
+	int		j;
 
 	j = 0;
-	ret = ft_strdup("");
+	ret = NULL;
+	if (str && str[0] == '$' && (str[1] == '\n' || str[1] == '\t' || str[1] == ' '))
+	{
+		ret = ft_join_char(ret, '$');
+		j++;
+	}
 	while(str && str[j])
 	{
-		printf("* %d\n", j);
 		if (str[j] == '$' && str[j + 1] == '?')
-			extand_exit_status(&ret, str, &j);
+			extand_exit_status(&ret, &j);
 		else if (str[j] == '$')
 			sub_extand_var_in_dq(&ret, str, &j);
-		// {
-		// 	j++;
-		// 	var = get_variable(str + j);
-		// 	var_env = ft_getenv(var);
-		// 	if (var_env)
-		// 		ret = ft_strjoin(ret, var_env);
-		// 	if (var)
-		// 		free(var);
-		// }
 		else
 		{
-			ft_join_char(ret, str[j]);
+			ret = ft_join_char(ret, str[j]);
 			j++;
 		}
 	}
-	printf("%s.........................\n", ret);
+	if (str)
+		free(str);
 	return ret;
 }
 
@@ -119,7 +112,6 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 {
 	char *str;
 	char *content;
-	char *temp;
 
 	while (1)
 	{
@@ -133,11 +125,7 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 		content = ft_strjoin(content, str);
 		content = ft_strjoin(content, "\n");
 		if (in_q)
-		{
-			temp = content;
 			content = extand_var_for_herdoc(content);
-			free(temp);
-		}
 		write(fd, content, ft_strlen(content));
 		free(content);
 		free(str);

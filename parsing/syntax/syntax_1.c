@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:31:32 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:37:13 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:02:38 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	chech_syntax_exclamation_mark(t_command *tmp)
 int	sub_check_syntax_error(t_command **cmd)
 {
 	t_command	*tmp;
-	t_command	*t1;
 	int i;
 
 	i = 0;

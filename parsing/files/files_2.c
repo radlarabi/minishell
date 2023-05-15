@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 21:00:29 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:01:15 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,12 @@ char	*get_variable(char *str)
 	k = i;
 	j = 0;
 	while (str[i] && (str[k++] == '_' || ft_isalnum(str[i])))
-	{
-		ret[j] = str[i];
-		j++;
-		i++;
-	}
+		ret[j++] = str[i++];
 	ret[j] = 0;
 	return (ret);
 }
 
-void	extand_exit_status(char **ret, char *cmds, int *j)
+void	extand_exit_status(char **ret, int *j)
 {
 	char	*exit;
 
@@ -103,11 +99,18 @@ void	sub_extand_var_in_dq(char **ret, char *cmds, int *j)
 {
 	char *var;
 	char *var_env;
-
+	if (cmds[(*j)] == '$' 
+		&& (!cmds[(*j) + 1] || cmds[(*j) + 1] == ' '
+		|| cmds[(*j) + 1] == '\t' || cmds[(*j) + 1] == '\n'
+		|| cmds[(*j) + 1] == '\"'|| cmds[(*j) + 1] == '\''))
+	{
+		(*ret) = ft_join_char((*ret), cmds[(*j)]);
+		(*j)++;
+		return ;
+	}
 	(*j)++;
 	var = get_variable(cmds + (*j));
 	var_env = ft_getenv(var);
-	printf("var %s\tvar_env %s\n", var , var_env);
 	if (var_env)
 		(*ret) = ft_strjoin((*ret), var_env);
 	(*j) += ft_strlen(var);

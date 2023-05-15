@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/11 13:06:56 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 16:22:15 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ char *get__path(char *cmd)
 		i++;
 	}
 	i = 0;
-	// cmd = set_spliter(cmd, ' ');
-	// char **temp = ft_split(cmd, -1);
 	while(path && path[i])
 	{
-		// char *ttt;
 		path[i] = ft_strjoin(path[i], cmd);
 		if (access(path[i], F_OK) != -1)
 			return path[i];

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 13:07:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 17:39:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,34 @@ t_command	*init_cmd(t_command *cmd)
 	cmd->len = 0;
 	cmd->state = 0;
 	return (cmd);
+}
+void	ft_add_back_env(t_env **lst, t_env *new)
+{
+	t_env	*temp;
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	temp = *lst;
+	while (temp->next != NULL)
+		temp = temp->next;
+	if (!temp)
+		*lst = new;
+	else
+		temp->next = new;
+}
+
+t_env *init_env()
+{
+	t_env *env_var;
+	env_var = malloc(sizeof(t_env));
+
+	if (!env_var)
+		return NULL;
+	env_var->value = NULL;
+	env_var->var = NULL;
+	env_var->flag = 0;
+	env_var->next = NULL;
+	return env_var;
 }

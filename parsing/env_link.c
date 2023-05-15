@@ -3,45 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_link.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/10 23:43:53 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:50:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_add_back_env(t_env **lst, t_env *new)
-{
-	t_env	*temp;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	temp = *lst;
-	while (temp->next != NULL)
-		temp = temp->next;
-	if (!temp)
-		*lst = new;
-	else
-		temp->next = new;
-}
 
-t_env *init_env()
-{
-	t_env *env_var;
-	env_var = malloc(sizeof(t_env));
-
-	if (!env_var)
-		return NULL;
-	env_var->value = NULL;
-	env_var->var = NULL;
-	env_var->flag = 0;
-	env_var->next = NULL;
-	return env_var;
-}
 
 char *ft_join_char(char *str, char c)
 {
@@ -123,4 +94,22 @@ t_env *get_env(char **ev)
 		i++;
 	}
 	return l_env;
+}
+t_env	*get_env_1(char **env)
+{
+	t_env	*tmp;
+	int		i;
+	t_env	*env_var;
+
+	i = 0;
+	env_var = NULL;
+	env = env_is_null();
+	while (env[i])
+	{
+		tmp = init_env();
+		tmp = fill_env_node(env[i], tmp);
+		ft_add_back_env(&env_var, tmp);
+		i++;
+	}
+	return (env_var);
 }

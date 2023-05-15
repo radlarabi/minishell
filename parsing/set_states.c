@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:42:01 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 13:09:46 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 17:55:17 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,32 @@ void	set_states(t_command **cmd)
 		else
 			tmp = tmp->next;
 	}
+}
+char	*struct_to_str(t_command **cmd)
+{
+	t_command	*tmp;
+	char		*str;
+
+	tmp = *cmd;
+	str = NULL;
+	while (tmp != NULL)
+	{
+		str = ft_strjoin(str, tmp->content);
+		tmp = tmp->next;
+	}
+	return (str);
+}
+
+char	*search_path(char **ev)
+{
+	int	i;
+
+	i = 0;
+	while (ev[i])
+	{
+		if (!ft_strncmp(ev[i], "PATH", 4))
+			return (ev[i]);
+		i++;
+	}
+	return (NULL);
 }

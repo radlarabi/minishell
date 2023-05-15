@@ -7,23 +7,27 @@ SRCS = 	parsing/main.c \
 		parsing/here_doc.c\
 		parsing/splite_pipe_space.c\
 		parsing/env_link.c\
-		exction/builtins/echo.c \
-		exction/builtins/pwd.c \
-		exction/builtins/env.c \
-		exction/builtins/cd.c \
-		exction/builtins/export.c \
-		exction/builtins/export_utils.c \
-		exction/builtins/export_utils_1.c \
-		exction/builtins/exit.c \
-		exction/builtins/utils_builtins.c\
-		exction/builtins/unset.c\
-		exction/execve/execution_utils.c \
-		exction/pipes/pipes.c \
+		parsing/free.c\
+		parsing/lst_add.c\
+		excution/builtins/echo.c \
+		excution/builtins/pwd.c \
+		excution/builtins/env.c \
+		excution/builtins/cd.c \
+		excution/builtins/export.c \
+		excution/builtins/export_utils.c \
+		excution/builtins/export_utils_1.c \
+		excution/builtins/exit.c \
+		excution/builtins/utils_builtins.c \
+		excution/builtins/unset.c \
+		excution/execve/execution_utils.c \
+		excution/pipes/pipes.c \
 		parsing/files/files_1.c \
 		parsing/files/files_2.c \
 		parsing/files/files_3.c \
 		parsing/files/files_4.c \
 		parsing/files/files_5.c \
+		parsing/syntax/syntax_1.c \
+		parsing/syntax/syntax_2.c \
 
 #CFLAGS = -Wall -Wextra -Werror
 CFLAGS = -fsanitize=address -g3

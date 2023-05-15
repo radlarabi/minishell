@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/13 20:15:23 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 19:20:00 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,7 @@ void	fill_types4(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
-void	fill_types5(t_command *tmp, char c, int *i)
-{
-	if (c == '?')
-	{
-		tmp->opr = N_OPER;
-		tmp->len = 1;
-		tmp->type = QEST;
-		(*i)++;
-	}
-	else if (c == '$')
-	{
-		tmp->opr = N_OPER;
-		tmp->len = 1;
-		tmp->type = ENV;
-		(*i)++;
-	}
-}
+
 void	fill_types(t_command *tmp, char c, int *i, char *str)
 {
 	if (c == '-' || ft_isalnum(c) || c == ' ')

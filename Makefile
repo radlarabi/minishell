@@ -21,6 +21,8 @@ SRCS = 	parsing/main.c \
 		excution/builtins/unset.c \
 		excution/execve/execution_utils.c \
 		excution/pipes/pipes.c \
+		excution/pipes/pipes_utiles_1.c \
+		excution/pipes/pipes_utiles_2.c \
 		parsing/files/files_1.c \
 		parsing/files/files_2.c \
 		parsing/files/files_3.c \

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:15:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 21:00:29 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	sub_extand_var_in_dq(char **ret, char *cmds, int *j)
 	(*j)++;
 	var = get_variable(cmds + (*j));
 	var_env = ft_getenv(var);
+	printf("var %s\tvar_env %s\n", var , var_env);
 	if (var_env)
 		(*ret) = ft_strjoin((*ret), var_env);
 	(*j) += ft_strlen(var);

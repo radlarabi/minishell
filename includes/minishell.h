@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:57:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:44:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,12 +167,19 @@ char					*remove_quotes(char *str);
 void					ft_add_back_env(t_env **lst, t_env *new);
 t_env					*init_env();
 t_command				*init_lst_in_middle(void);
-void					main_free(t_command **cmd, t_cmd_line **cmd_l, char **temp, char *str);
+void					main_free(t_command **cmd, t_cmd_line **cmd_l,
+							char **temp, char *str);
 void					free_2d_table(char **temp);
 void					free_t_command(t_command **cmd);
 void					free_t_cmd_line(t_cmd_line **cmd);
 int						is_quots(char *str, int index);
 char					**env_is_null(void);
+void					open_pipes(int num_pipes, int **pipefd);
+void					cmd_not_found(char *cmd);
+int						check_command_builtins(char *command);
+void					command_builtins(t_cmd_line **cmd_l);
+void					dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd,
+							int i, int num_pipes);
 /*			files					*/
 int						is_ambiguous(char *str);
 int						sub_files_red_in(char **infile, t_cmd_line **tmp,
@@ -208,12 +215,17 @@ int						open_appnd_herdoc(char **temp, t_cmd_line **tmp,
 							int *j);
 void	open_files_in_command_struct(char **temp,
 									t_cmd_line **tmp);
+void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l);
+void	wait_for_child(int *pids, int i);
+void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l);
+
+
 /*			****************					*/
 
 /*						syntax						*/
 void					error_msg(void);
 int						chech_syntax_exclamation_mark(t_command *tmp);
-int				sub_check_syntax_error(t_command **cmd);
+int						sub_check_syntax_error(t_command **cmd);
 int						check_syntax_1(t_command *tmp, t_command *t1,
 							t_command *t2);
 int						check_syntax_2(t_command *tmp, t_command *t1,

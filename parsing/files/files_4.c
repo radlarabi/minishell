@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:31:40 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 15:35:08 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 20:40:34 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*extand_var(char *cmds)
 
 	j = 0;
 	ret = NULL;
-	if (cmds && cmds[0] == '$' && ft_strlen(cmds) == 1)
+	if (cmds && (cmds[0] == '$')&& ft_strlen(cmds) == 1)
 	{
 		ret = ft_strjoin(ret, "$");
 		return (ret);
@@ -101,6 +101,8 @@ char	*remove_quotes(char *str)
 	char	*ret;
 
 	ret = NULL;
+	if (!str)
+		return NULL;
 	ret = malloc(ft_strlen(str) + 1);
 	if (!ret)
 		return (NULL);

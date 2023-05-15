@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 13:07:11 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 21:01:06 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ char	*get_stop_heredoc(char *str)
 
 	i = 0;
 	a = splite_with_space(str);
-	return (change_quote_in_files(a[0]));
+	return (remove_quotes(a[0]));
 }
 
 void	sigint_handler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	printf("mckdkd   %d\n", sig);
 	exit(1);
 }
 
@@ -39,7 +38,22 @@ int	is_in_qotes(char *str)
 		return 0;
 	return 1;
 }
+void	child_of_herdoc(char **temp, int fd[2], int *j)
+{
+	int in_q;
+	char	*tab;
 
+	in_q = 1;
+	signal(SIGINT, sigint_handler);
+	in_q = is_in_qotes(temp[*j]);
+	tab = remove_quotes(temp[*j]);
+	fill_content_heredoc(tab, fd[1], in_q);
+	free(tab);
+	free(temp[*j]);
+	close(fd[1]);
+	close(fd[0]);
+	exit(0);
+}
 int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 {
 	int		status;
@@ -47,6 +61,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	int		in_q;
 	int 	fd[2];
 	char *tab;
+
 	in_q = 1;
 	signal(SIGINT, SIG_IGN);
 	if (pipe(fd) < 0)
@@ -56,24 +71,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	}
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGINT, sigint_handler);
-		if (!temp[(*j)])
-		{
-			close(fd[1]);
-			close(fd[0]);
-			free(tab);
-			exit (1);
-		}
-		in_q = is_in_qotes(temp[*j]);
-		tab = change_quote_in_files(temp[*j]);
-		fill_content_heredoc(tab, fd[1], in_q);
-		free(tab);
-		free(temp[*j]);
-		close(fd[1]);
-		close(fd[0]);
-		exit(0);
-	}
+		child_of_herdoc(temp, fd, j);
 	waitpid(pid, &status, 0);
 	g_gv->exit_status = WEXITSTATUS(status);
 	(*tmp)->infile = fd[0];
@@ -81,59 +79,46 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	free(temp[(*j)++]);
 	return (0);
 }
-char	*change_quote_in_files(char *str)
-{
-	int		i;
-	char	*a;
 
-	i = 0;
-	a = ft_strdup("");
-	if (!str)
-		return (ft_strdup(""));
-	while (str[i])
+char	*extand_var_for_herdoc(char *str)
+{
+	char *var;
+	char *var_env;
+	char *ret;
+	int	j;
+
+	j = 0;
+	ret = ft_strdup("");
+	while(str && str[j])
 	{
-		if (str[i] == '\"')
-		{
-			i++;
-			while (str[i] && str[i] != '\"')
-			{
-				a = ft_join_char(a, str[i]);
-				i++;
-			}
-			if (!str[i])
-				break ;
-			if ('\"')
-				i++;
-			if (!str[i])
-				break ;
-		}
-		else if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-			{
-				a = ft_join_char(a, str[i]);
-				i++;
-			}
-			if (!str[i])
-				break ;
-			if ('\'')
-				i++;
-			if (!str[i])
-				break ;
-		}
+		printf("* %d\n", j);
+		if (str[j] == '$' && str[j + 1] == '?')
+			extand_exit_status(&ret, str, &j);
+		else if (str[j] == '$')
+			sub_extand_var_in_dq(&ret, str, &j);
+		// {
+		// 	j++;
+		// 	var = get_variable(str + j);
+		// 	var_env = ft_getenv(var);
+		// 	if (var_env)
+		// 		ret = ft_strjoin(ret, var_env);
+		// 	if (var)
+		// 		free(var);
+		// }
 		else
 		{
-			a = ft_join_char(a, str[i]);
-			i++;
+			ft_join_char(ret, str[j]);
+			j++;
 		}
 	}
-	return (a);
+	printf("%s.........................\n", ret);
+	return ret;
 }
+
 int	fill_content_heredoc(char *stop, int fd, int in_q)
 {
-	char *str = NULL;
-	char *content = NULL;
+	char *str;
+	char *content;
 	char *temp;
 
 	while (1)
@@ -150,7 +135,7 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 		if (in_q)
 		{
 			temp = content;
-			content = extand_var(content);
+			content = extand_var_for_herdoc(content);
 			free(temp);
 		}
 		write(fd, content, ft_strlen(content));

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:31:32 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:36:23 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:37:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	chech_syntax_exclamation_mark(t_command *tmp)
 	t_command *t1;
 
 	t1 = tmp->prev;
-	while (t1 && (t1->type == SPACE || t1->type == DOUBLE_Q || t1->type == SINGLE_Q))
+	while (t1 && (t1->type == SPACE || t1->type == DOUBLE_Q
+		|| t1->type == SINGLE_Q))
 	{
 		if (t1->type == HERDOC && t1->state == GENERAL)
 			return 1;

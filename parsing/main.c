@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:14:48 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 19:22:20 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ char	**env_is_null(void)
 	tab[3] = 0;
 	return (tab);
 }
-
-
 
 void	fill_env_global_var(int ac, char **av, char **env)
 {

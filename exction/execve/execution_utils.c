@@ -6,61 +6,71 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 16:22:15 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:17:54 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *get__path(char *cmd)
+char	**ft_utils(char **path)
 {
-	t_env *tmp = g_gv->env;
-	int i = 0;
-	char **path;
+	t_env	*tmp;
 
-	path = NULL;
-	while(tmp)
+	tmp = g_gv->env;
+	while (tmp)
 	{
 		if (!ft_strcmp(tmp->var, "PATH"))
 		{
 			path = ft_split(tmp->value, ':');
 			if (!path)
-				return NULL;
-			break;
+				return (NULL);
+			break ;
 		}
 		tmp = tmp->next;
 	}
-	while(path && path[i])
+	return (path);
+}
+
+char	*get__path(char *cmd)
+{
+	int		i;
+	char	**path;
+
+	i = 0;
+	path = ft_utils(NULL);
+	while (path && path[i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
 		i++;
 	}
 	i = 0;
-	while(path && path[i])
+	while (path && path[i])
 	{
 		path[i] = ft_strjoin(path[i], cmd);
 		if (access(path[i], F_OK) != -1)
-			return path[i];
+			return (path[i]);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
-char **get__env()
+char	**get__env()
 {
-	t_env *tmp;
-	char **ret;
-	int i = 0;
-    tmp = g_gv->env;
-    while(tmp)
-    {
+	t_env	*tmp;
+	char	**ret;
+	int		i;
+
+	i = 0;
+	tmp = g_gv->env;
+	while (tmp)
+	{
 		i++;
-        tmp = tmp->next;
-    }
+		tmp = tmp->next;
+	}
 	ret = malloc(sizeof(char *) * (i + 1));
 	tmp = g_gv->env;
 	i = 0;
-	while(tmp)
+	while (tmp)
 	{
 		ret[i] = NULL;
 		ret[i] = ft_strjoin(ret[i], tmp->var);
@@ -70,12 +80,31 @@ char **get__env()
 		i++;
 	}
 	ret[i] = 0;
-	return ret;
+	return (ret);
 }
 
-void ft_execution(t_cmd_line *cmd_l)
+void	ft_utils_1(char **command)
 {
-	char *path;
+	DIR		*dir;
+	if (command && ft_strchr(command[0], '/'))
+	{
+		dir = opendir(command[0]);
+		if (dir != NULL)
+		{
+			ft_putstr_fd(command[0],2);
+			ft_putendl_fd("is a directory",2);
+			exit(126);
+		}
+		execve(command[0], command, get__env());
+		perror("execve");
+		exit(127);
+	}
+}
+
+void	ft_execution(t_cmd_line *cmd_l)
+{
+	char	*path;
+
 	if (cmd_l->cmds[0])
 	{
 		if (!check_command_builtins(cmd_l->cmds[0]))
@@ -85,22 +114,9 @@ void ft_execution(t_cmd_line *cmd_l)
 		}
 		else
 		{
-			if (cmd_l->cmds && ft_strchr(cmd_l->cmds[0], '/'))
-			{
-				DIR *dir;
-				dir = opendir(cmd_l->cmds[0]);
-				if (dir != NULL)
-				{
-					printf("%s : is a directory\n", cmd_l->cmds[0]);
-					exit(126);
-				}
-				execve(cmd_l->cmds[0], cmd_l->cmds, get__env());
-				perror("execve");
-				exit(127);
-			}
-
+			ft_utils_1(cmd_l->cmds);
 			path = get__path(cmd_l->cmds[0]);
-			execve(path , cmd_l->cmds, get__env());
+			execve(path, cmd_l->cmds, get__env());
 			perror("execve");
 			exit(127);
 		}

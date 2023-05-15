@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/14 16:13:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 15:25:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,3 +158,34 @@ int						check_command_builtins(char *command);
 void					command_builtins(t_cmd_line **cmd_l);
 char					*remove_quotes(char *str);
 #endif
+
+
+/*			files					*/
+int	is_ambiguous(char *str);
+int	sub_files_red_in(char **infile, t_cmd_line **tmp, int *j, char **temp);
+int	files_red_in(char **temp, t_cmd_line **tmp, int *j);
+int	sub_files_red_out(char **outfile, t_cmd_line **tmp, int *j, char **temp);
+int	files_red_out(char **temp, t_cmd_line **tmp, int *j);
+int	files_append(char **temp, t_cmd_line **tmp, int *j);
+char	*ret_in_double_quotes(char *str);
+char	*get_variable(char *str);
+void	extand_exit_status(char **ret, char *cmds, int *j);
+void	sub_extand_var_in_dq(char **ret, char *cmds, int *j);
+void	extand_var_in_double_qoutes(char **ret, char *cmds, int *j);
+void	ignore_extand_in_single_quotes(char **ret, char *cmds, int *j);
+void	ignore_extand_in_herdoc(char **ret, char *cmds, int *j);
+int	extand_normal_var(char **ret, char *cmds, int *j);
+int	sub_extand_var(char **ret, char *cmds, int *j);
+char	**change_content_cmds(char **cmds, int leen);
+void	remove_double_quotes(char *str, char **ret, int *i, int *j);
+char	*remove_quotes(char *str);
+int	strlen_2d(char **str);
+char	**ft_join_2d(char **tab1, char **tab2, int p);
+void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j);
+int	sub_command_struct(t_cmd_line **tmp);
+char	**fill_temp_of_command_struct(char **cmds);
+t_cmd_line	*init_temp_cmd_line(char **cmds, int i);
+int	open_read_out_in(char **temp, t_cmd_line **tmp, int *j);
+int	open_appnd_herdoc(char **temp, t_cmd_line **tmp, int *j);
+void	open_files_in_command_struct(char **temp, t_cmd_line **tmp);
+/*			****************					*/

@@ -3,97 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   env_link.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 23:26:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:31:12 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-
-char *ft_join_char(char *str, char c)
+char	*ft_join_char(char *str, char c)
 {
-	char *a;
-	int i;
+	char	*a;
+	int		i;
 
 	if (!str)
 	{
 		a = malloc(sizeof(char) * 2);
 		if (!a)
-			return NULL;
+			return (NULL);
 		a[0] = c;
 		a[1] = '\0';
 		free(str);
-		return a;
+		return (a);
 	}
 	a = malloc(ft_strlen(str) + 2);
 	if (!a)
-		return NULL;
+		return (NULL);
 	i = -1;
-	while(str[++i])
+	while (str[++i])
 		a[i] = str[i];
 	a[i] = c;
 	i++;
 	a[i] = '\0';
 	free(str);
-	return a;
+	return (a);
 }
 
-char *fill_env_var(char *ev,int *j)
+char	*fill_env_var(char *ev, int *j)
 {
-	char *temp;
-	temp = NULL;
+	char	*temp;
 
+	temp = NULL;
 	while (ev[(*j)])
 	{
 		if (ev[(*j)] != '=')
-			temp = ft_join_char(temp,ev[(*j)]);
+			temp = ft_join_char(temp, ev[(*j)]);
 		else if (ev[(*j)] == '=')
 		{
 			(*j)++;
-			break;
+			break ;
 		}
 		(*j)++;
 	}
-	return temp;
+	return (temp);
 }
 
-t_env *fill_env_node(char *env,t_env *t_env)
+t_env	*fill_env_node(char *env, t_env *t_env)
 {
-	int i;
+	int		i;
+	char	*value;
+	char	*var;
+
 	i = 0;
-	char *value = NULL;
-	char *var = NULL;
-	var = fill_env_var(env,&i);
+	value = NULL;
+	var = NULL;
+	var = fill_env_var(env, &i);
 	t_env->var = var;
 	while (env[i])
 	{
-		value = ft_join_char(value,env[i]);
+		value = ft_join_char(value, env[i]);
 		i++;
 	}
 	t_env->value = value;
-	return t_env;
+	return (t_env);
 }
 
-t_env *get_env(char **ev)
+t_env	*get_env(char **ev)
 {
-	int i;
+	int		i;
+	t_env	*l_env;
+	t_env	*tmp;
+
 	i = 0;
-	t_env *l_env;
-	t_env *tmp;
 	l_env = NULL;
 	while (ev[i])
 	{
 		tmp = init_env();
-		tmp = fill_env_node(ev[i],tmp);
-		ft_add_back_env(&l_env,tmp);
+		tmp = fill_env_node(ev[i], tmp);
+		ft_add_back_env(&l_env, tmp);
 		i++;
 	}
-	return l_env;
+	return (l_env);
 }
+
 t_env	*get_env_1(char **env)
 {
 	t_env	*tmp;

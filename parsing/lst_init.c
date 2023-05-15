@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:14:21 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:37:37 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmd_line	*lst_init_cmds(void)
 
 	cmd_l = malloc(sizeof(t_cmd_line));
 	if (!cmd_l)
-		return NULL;
+		return (NULL);
 	cmd_l->infile = -1;
 	cmd_l->outfile = -1;
 	cmd_l->flag = 0;
@@ -42,6 +42,7 @@ t_command	*init_cmd(t_command *cmd)
 	cmd->state = 0;
 	return (cmd);
 }
+
 void	ft_add_back_env(t_env **lst, t_env *new)
 {
 	t_env	*temp;
@@ -60,16 +61,16 @@ void	ft_add_back_env(t_env **lst, t_env *new)
 		temp->next = new;
 }
 
-t_env *init_env()
+t_env	*init_env(void)
 {
-	t_env *env_var;
+	t_env	*env_var;
 
 	env_var = malloc(sizeof(t_env));
 	if (!env_var)
-		return NULL;
+		return (NULL);
 	env_var->value = NULL;
 	env_var->var = NULL;
 	env_var->flag = 0;
 	env_var->next = NULL;
-	return env_var;
+	return (env_var);
 }

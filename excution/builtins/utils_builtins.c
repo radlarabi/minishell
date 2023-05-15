@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:26:22 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:12:08 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:19:18 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,22 @@ int	check_syntax_cmd(char *cmd)
 	return (1);
 }
 
+char	**splitre_whit_pos_utils(char **result, size_t pos, size_t length,
+		char *str)
+{
+	result[0] = malloc((pos + 1) * sizeof(char));
+	if (!result[0])
+		return (NULL);
+	ft_strncpy(result[0], str, pos);
+	result[0][pos] = '\0';
+	result[1] = malloc((length - pos + 1) * sizeof(char));
+	if (!result[1])
+		return (NULL);
+	ft_strncpy(result[1], str + pos, length - pos);
+	result[1][length - pos] = '\0';
+	return (result);
+}
+
 char	**splitre_whit_pos(char *str, size_t pos)
 {
 	size_t	length;
@@ -73,23 +89,12 @@ char	**splitre_whit_pos(char *str, size_t pos)
 
 	result = malloc(2 * sizeof(char *));
 	if (!result)
-		return NULL;
+		return (NULL);
 	length = ft_strlen(str);
 	if (str[pos] == '=')
 	{
 		if (pos >= 0 && pos < length)
-		{
-			result[0] = malloc((pos + 1) * sizeof(char));
-			if (!result[0])
-				return NULL;
-			ft_strncpy(result[0], str, pos);
-			result[0][pos] = '\0';
-			result[1] = malloc((length - pos + 1) * sizeof(char));
-			if (!result[1])
-				return NULL;
-			ft_strncpy(result[1], str + pos, length - pos);
-			result[1][length - pos] = '\0';
-		}
+			result = splitre_whit_pos_utils(result, pos, length, str);
 		else
 		{
 			result[0] = ft_strdup(str);

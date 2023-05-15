@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:17:27 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 23:00:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:30:14 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*dup_env(t_env *env_list)
 	{
 		new_dup = malloc(sizeof(t_env));
 		if (!new_dup)
-			return NULL;
+			return (NULL);
 		new_dup->value = env_list->value;
 		new_dup->var = env_list->var;
 		new_dup->next = dup_env(env_list->next);

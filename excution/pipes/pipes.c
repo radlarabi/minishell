@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:00:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:47:58 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-
-
-int 	count_pipes(t_cmd_line *cmd_l)
+int	count_pipes(t_cmd_line *cmd_l)
 {
-	int i = 0;
-	while(cmd_l)
+	int	i;
+
+	i = 0;
+	while (cmd_l)
 	{
 		cmd_l = cmd_l->next;
 		i++;
 	}
-	return i;
+	return (i);
 }
 
 void	free_int(int **pipefd, int *pids, int num_pipes)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (pids)
@@ -47,7 +46,7 @@ void	free_int(int **pipefd, int *pids, int num_pipes)
 int	**alloc_pipefd(int num_pipes)
 {
 	int	**pipefd;
-	int i;
+	int	i;
 
 	pipefd = malloc(sizeof(int *) * num_pipes);
 	if (!pipefd)
@@ -59,7 +58,7 @@ int	**alloc_pipefd(int num_pipes)
 		if (!pipefd[i])
 			exit(1);
 	}
-	return pipefd;
+	return (pipefd);
 }
 
 void	single_buildins_cmd(t_cmd_line *cmd_l)
@@ -79,9 +78,9 @@ void	single_buildins_cmd(t_cmd_line *cmd_l)
 
 void	pipex(t_cmd_line *cmd_l)
 {
-	int	*pids;
-	int	**pipefd;
-	t_num_p_cmds num;
+	int				*pids;
+	int				**pipefd;
+	t_num_p_cmds	num;
 
 	num.num_cmds = count_pipes(cmd_l);
 	num.num_pipes = count_pipes(cmd_l) - 1;
@@ -92,7 +91,7 @@ void	pipex(t_cmd_line *cmd_l)
 		single_buildins_cmd(cmd_l);
 		return ;
 	}
-	pipefd = alloc_pipefd(num.num_pipes); 
+	pipefd = alloc_pipefd(num.num_pipes);
 	pids = malloc(sizeof(int) * num.num_cmds);
 	if (!pids)
 		exit(1);

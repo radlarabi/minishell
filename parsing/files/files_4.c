@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:31:40 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:02:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:42:54 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*extand_var(char *cmds)
 
 	j = 0;
 	ret = NULL;
-	if (cmds && (cmds[0] == '$')&& ft_strlen(cmds) == 1)
+	if (cmds && (cmds[0] == '$') && ft_strlen(cmds) == 1)
 	{
 		ret = ft_strjoin(ret, "$");
 		return (ret);
@@ -101,7 +101,7 @@ char	*remove_quotes(char *str)
 
 	ret = NULL;
 	if (!str)
-		return NULL;
+		return (NULL);
 	ret = malloc(ft_strlen(str) + 1);
 	if (!ret)
 		return (NULL);

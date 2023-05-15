@@ -1,90 +1,20 @@
 excution/builtins/cd.c: OK!
-excution/builtins/echo.c: Error!
-Error: TOO_MANY_LINES       (line:  53, col:   1):	Function has more than 25 lines
+excution/builtins/echo.c: OK!
 excution/builtins/env.c: OK!
 excution/builtins/exit.c: Error!
 Error: TOO_MANY_LINES       (line:  70, col:   1):	Function has more than 25 lines
 excution/builtins/export.c: OK!
 excution/builtins/export_utils.c: Error!
 Error: TOO_MANY_LINES       (line:  44, col:   1):	Function has more than 25 lines
-excution/builtins/export_utils_1.c: Error!
-Error: RETURN_PARENTHESIS   (line:  25, col:  20):	Return value must be in parenthesis
+excution/builtins/export_utils_1.c: OK!
 excution/builtins/pwd.c: OK!
 excution/builtins/unset.c: OK!
-excution/builtins/utils_builtins.c: Error!
-Error: RETURN_PARENTHESIS   (line:  76, col:  16):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  84, col:  24):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  89, col:  24):	Return value must be in parenthesis
-Error: TOO_MANY_LINES       (line: 100, col:   1):	Function has more than 25 lines
-excution/execve/execution_utils.c: Error!
-Error: NO_ARGS_VOID         (line:  57, col:  20):	Empty function argument requires void
-Error: RETURN_PARENTHESIS   (line:  72, col:  16):	Return value must be in parenthesis
-Error: TOO_MANY_LINES       (line:  86, col:   1):	Function has more than 25 lines
-Error: NL_AFTER_VAR_DECL    (line:  91, col:   1):	Variable declarations must be followed by a newline
-Error: SPC_AFTER_OPERATOR   (line:  96, col:  36):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line:  97, col:  43):	missing space after operator
-excution/pipes/pipes.c: Error!
-Error: CONSECUTIVE_NEWLINES (line:  15, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  16, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  17, col:   1):	Consecutive newlines
-Error: MIXED_SPACE_TAB      (line:  18, col:   4):	Mixed spaces and tabs
-Error: SPACE_REPLACE_TAB    (line:  20, col:   8):	Found space when expecting tab
-Error: DECL_ASSIGN_LINE     (line:  20, col:  11):	Declaration and assignation on a single line
-Error: NL_AFTER_VAR_DECL    (line:  21, col:   1):	Variable declarations must be followed by a newline
-Error: SPACE_AFTER_KW       (line:  21, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  21, col:  10):	Missing space before parenthesis (brace/bracket)
-Error: RETURN_PARENTHESIS   (line:  26, col:  12):	Return value must be in parenthesis
-Error: SPACE_REPLACE_TAB    (line:  31, col:   8):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line:  50, col:   8):	Found space when expecting tab
-Error: RETURN_PARENTHESIS   (line:  62, col:  12):	Return value must be in parenthesis
-Error: SPACE_REPLACE_TAB    (line:  84, col:  17):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  84, col:  18):	Misaligned variable declaration
-Error: SPC_BEFORE_NL        (line:  95, col:  42):	Space before newline
-excution/pipes/pipes_utiles_1.c: Error!
-Error: CONSECUTIVE_NEWLINES (line:  31, col:   1):	Consecutive newlines
-Error: NEWLINE_PRECEDES_FUNC (line:  37, col:   1):	Functions must be separated by a newline
-Error: SPACE_BEFORE_FUNC    (line:  37, col:   4):	space before function name
-Error: SPC_AFTER_OPERATOR   (line:  41, col:  31):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  42, col:  20):	Return value must be in parenthesis
-Error: SPC_AFTER_OPERATOR   (line:  43, col:  36):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  44, col:  20):	Return value must be in parenthesis
-Error: SPC_AFTER_OPERATOR   (line:  45, col:  36):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  46, col:  20):	Return value must be in parenthesis
-Error: SPC_AFTER_OPERATOR   (line:  47, col:  36):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  48, col:  20):	Return value must be in parenthesis
-Error: SPC_AFTER_OPERATOR   (line:  49, col:  36):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  50, col:  20):	Return value must be in parenthesis
-Error: SPC_AFTER_OPERATOR   (line:  51, col:  36):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  52, col:  20):	Return value must be in parenthesis
-Error: SPC_AFTER_OPERATOR   (line:  53, col:  36):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  54, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  56, col:  12):	Return value must be in parenthesis
-Error: NEWLINE_PRECEDES_FUNC (line:  58, col:   1):	Functions must be separated by a newline
-Error: SPC_AFTER_OPERATOR   (line:  61, col:  22):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line:  76, col:  67):	missing space after operator
-Error: SPACE_REPLACE_TAB    (line:  77, col:   6):	Found space when expecting tab
-excution/pipes/pipes_utiles_2.c: Error!
-Error: NO_SPC_AFR_PAR       (line:  24, col:   8):	Extra space after parenthesis (brace/bracket)
-Error: SPC_BEFORE_NL        (line:  24, col:  48):	Space before newline
-Error: SPC_BEFORE_NL        (line:  26, col:  37):	Space before newline
-Error: TOO_FEW_TAB          (line:  27, col:   9):	Missing tabs for indent level
-Error: EXP_NEWLINE          (line:  40, col:  33):	Expected newline after control structure
-Error: SPACE_REPLACE_TAB    (line:  48, col:   8):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  48, col:   9):	Misaligned variable declaration
-Error: NO_SPC_BFR_OPR       (line:  63, col:  33):	extra space before operator
-Error: CONSECUTIVE_SPC      (line:  69, col:  14):	Two or more consecutives spaces
-Error: BRACE_SHOULD_EOL     (line:  72, col:   1):	Expected newline after brace
-includes/minishell.h: Error!
-Notice: GLOBAL_VAR_DETECTED  (line:  63, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
-Error: NO_ARGS_VOID         (line: 145, col:  40):	Empty function argument requires void
-Error: NO_ARGS_VOID         (line: 160, col:  36):	Empty function argument requires void
-Error: NO_ARGS_VOID         (line: 168, col:  35):	Empty function argument requires void
-Error: TOO_MANY_TAB         (line: 217, col:   1):	Extra tabs for indent level
-Error: MISALIGNED_FUNC_DECL (line: 218, col:   9):	Misaligned function declaration
-Error: MISALIGNED_FUNC_DECL (line: 219, col:   9):	Misaligned function declaration
-Error: MISALIGNED_FUNC_DECL (line: 220, col:   9):	Misaligned function declaration
-Error: LINE_TOO_LONG        (line: 220, col:  82):	line too long
-Error: CONSECUTIVE_NEWLINES (line: 222, col:   1):	Consecutive newlines
+excution/builtins/utils_builtins.c: OK!
+excution/execve/execution_utils.c: OK!
+excution/pipes/pipes.c: OK!
+excution/pipes/pipes_utiles_1.c: OK!
+excution/pipes/pipes_utiles_2.c: OK!
+includes/minishell.h: OK!
 libft/ft_atoi.c: OK!
 libft/ft_bzero.c: OK!
 libft/ft_calloc.c: OK!
@@ -130,173 +60,28 @@ libft/ft_substr.c: OK!
 libft/ft_tolower.c: OK!
 libft/ft_toupper.c: OK!
 libft/libft.h: OK!
-parsing/check_syntax.c: Error!
-Error: TOO_MANY_TAB         (line:  18, col:  13):	Extra tabs for indent level
-Error: TOO_MANY_TAB         (line:  19, col:  13):	Extra tabs for indent level
-Error: RETURN_PARENTHESIS   (line:  21, col:  12):	Return value must be in parenthesis
-Error: TOO_MANY_TAB         (line:  27, col:  13):	Extra tabs for indent level
-Error: TOO_MANY_TAB         (line:  28, col:  13):	Extra tabs for indent level
-Error: RETURN_PARENTHESIS   (line:  30, col:  12):	Return value must be in parenthesis
-Error: TOO_MANY_TAB         (line:  52, col:   1):	Extra tabs for indent level
-parsing/env_link.c: Error!
-Error: CONSECUTIVE_NEWLINES (line:  15, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  16, col:   1):	Consecutive newlines
-Error: SPACE_BEFORE_FUNC    (line:  17, col:   5):	space before function name
-Error: SPACE_REPLACE_TAB    (line:  19, col:   9):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line:  20, col:   8):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  20, col:   9):	Misaligned variable declaration
-Error: RETURN_PARENTHESIS   (line:  26, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  30, col:  16):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  34, col:  16):	Return value must be in parenthesis
-Error: SPACE_AFTER_KW       (line:  36, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  36, col:  10):	Missing space before parenthesis (brace/bracket)
-Error: RETURN_PARENTHESIS   (line:  42, col:  12):	Return value must be in parenthesis
-Error: SPACE_BEFORE_FUNC    (line:  45, col:   5):	space before function name
-Error: SPC_AFTER_OPERATOR   (line:  45, col:  28):	missing space after operator
-Error: SPACE_REPLACE_TAB    (line:  47, col:   9):	Found space when expecting tab
-Error: NL_AFTER_VAR_DECL    (line:  48, col:   1):	Variable declarations must be followed by a newline
-Error: EMPTY_LINE_FUNCTION  (line:  49, col:   1):	Empty line in function
-Error: SPC_AFTER_OPERATOR   (line:  53, col:  37):	missing space after operator
-Error: SPACE_AFTER_KW       (line:  57, col:  13):	Missing space after keyword
-Error: RETURN_PARENTHESIS   (line:  61, col:  12):	Return value must be in parenthesis
-Error: SPACE_BEFORE_FUNC    (line:  64, col:   6):	space before function name
-Error: SPC_AFTER_OPERATOR   (line:  64, col:  31):	missing space after operator
-Error: SPACE_REPLACE_TAB    (line:  66, col:   8):	Found space when expecting tab
-Error: NL_AFTER_VAR_DECL    (line:  67, col:   1):	Variable declarations must be followed by a newline
-Error: VAR_DECL_START_FUNC  (line:  68, col:   1):	Variable declaration not at start of function
-Error: SPACE_REPLACE_TAB    (line:  68, col:   9):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  68, col:  10):	Misaligned variable declaration
-Error: DECL_ASSIGN_LINE     (line:  68, col:  17):	Declaration and assignation on a single line
-Error: VAR_DECL_START_FUNC  (line:  69, col:   1):	Variable declaration not at start of function
-Error: SPACE_REPLACE_TAB    (line:  69, col:   9):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  69, col:  10):	Misaligned variable declaration
-Error: DECL_ASSIGN_LINE     (line:  69, col:  15):	Declaration and assignation on a single line
-Error: SPC_AFTER_OPERATOR   (line:  70, col:  27):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line:  74, col:  35):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  78, col:  12):	Return value must be in parenthesis
-Error: SPACE_BEFORE_FUNC    (line:  81, col:   6):	space before function name
-Error: SPACE_REPLACE_TAB    (line:  83, col:   8):	Found space when expecting tab
-Error: NL_AFTER_VAR_DECL    (line:  84, col:   1):	Variable declarations must be followed by a newline
-Error: VAR_DECL_START_FUNC  (line:  85, col:   1):	Variable declaration not at start of function
-Error: SPACE_REPLACE_TAB    (line:  85, col:  10):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  85, col:  11):	Misaligned variable declaration
-Error: VAR_DECL_START_FUNC  (line:  86, col:   1):	Variable declaration not at start of function
-Error: SPACE_REPLACE_TAB    (line:  86, col:  10):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  86, col:  11):	Misaligned variable declaration
-Error: SPC_AFTER_OPERATOR   (line:  91, col:  34):	missing space after operator
-Error: SPC_AFTER_OPERATOR   (line:  92, col:  31):	missing space after operator
-Error: RETURN_PARENTHESIS   (line:  95, col:  12):	Return value must be in parenthesis
-Error: NEWLINE_PRECEDES_FUNC (line:  97, col:   1):	Functions must be separated by a newline
-parsing/files.c: Error!
-Error: RETURN_PARENTHESIS   (line:  54, col:  16):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  95, col:  24):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line: 103, col:  12):	Return value must be in parenthesis
-Error: SPACE_AFTER_KW       (line: 124, col:  13):	Missing space after keyword
-parsing/fill_types.c: Error!
-Error: NEWLINE_PRECEDES_FUNC (line:  41, col:   1):	Functions must be separated by a newline
-Error: NEWLINE_PRECEDES_FUNC (line:  63, col:   1):	Functions must be separated by a newline
-Error: NEWLINE_PRECEDES_FUNC (line:  87, col:   1):	Functions must be separated by a newline
-parsing/free.c: Error!
-Error: NEWLINE_PRECEDES_FUNC (line:  59, col:   1):	Functions must be separated by a newline
-Error: BRACE_SHOULD_EOL     (line:  66, col:   1):	Expected newline after brace
+parsing/check_syntax.c: OK!
+parsing/env_link.c: OK!
+parsing/files.c: OK!
+parsing/fill_types.c: OK!
+parsing/free.c: OK!
 parsing/here_doc.c: Error!
-Error: SPACE_REPLACE_TAB    (line:  34, col:   8):	Found space when expecting tab
-Error: RETURN_PARENTHESIS   (line:  38, col:  16):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  39, col:  12):	Return value must be in parenthesis
-Error: NEWLINE_PRECEDES_FUNC (line:  41, col:   1):	Functions must be separated by a newline
-Error: SPACE_REPLACE_TAB    (line:  43, col:   8):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  44, col:  13):	Misaligned variable declaration
-Error: NEWLINE_PRECEDES_FUNC (line:  57, col:   1):	Functions must be separated by a newline
-Error: MIXED_SPACE_TAB      (line:  62, col:   8):	Mixed spaces and tabs
-Error: SPACE_REPLACE_TAB    (line:  62, col:   8):	Found space when expecting tab
-Error: RETURN_PARENTHESIS   (line:  69, col:  16):	Return value must be in parenthesis
-Error: TOO_MANY_FUNCS       (line:  82, col:   1):	Too many functions in file
-Error: LINE_TOO_LONG        (line:  89, col:  83):	line too long
-Error: SPACE_AFTER_KW       (line:  94, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  94, col:  10):	Missing space before parenthesis (brace/bracket)
-Error: RETURN_PARENTHESIS   (line: 108, col:  12):	Return value must be in parenthesis
-Error: TOO_MANY_FUNCS       (line: 111, col:   1):	Too many functions in file
-Error: SPACE_REPLACE_TAB    (line: 113, col:   9):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line: 114, col:   9):	Found space when expecting tab
-parsing/lst_add.c: Error!
-Error: NEWLINE_PRECEDES_FUNC (line:  53, col:   1):	Functions must be separated by a newline
-Error: BRACE_SHOULD_EOL     (line:  88, col:   1):	Expected newline after brace
-parsing/lst_init.c: Error!
-Error: RETURN_PARENTHESIS   (line:  21, col:  16):	Return value must be in parenthesis
-Error: NEWLINE_PRECEDES_FUNC (line:  45, col:   1):	Functions must be separated by a newline
-Error: SPACE_BEFORE_FUNC    (line:  63, col:   6):	space before function name
-Error: NO_ARGS_VOID         (line:  63, col:  17):	Empty function argument requires void
-Error: SPACE_REPLACE_TAB    (line:  65, col:  10):	Found space when expecting tab
-Error: RETURN_PARENTHESIS   (line:  69, col:  16):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  74, col:  12):	Return value must be in parenthesis
-parsing/main.c: Error!
-Error: SPACE_AFTER_KW       (line:  37, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  37, col:   7):	Missing space before parenthesis (brace/bracket)
-Error: RETURN_PARENTHESIS   (line:  38, col:  16):	Return value must be in parenthesis
-Error: SPACE_AFTER_KW       (line:  55, col:   9):	Missing space after keyword
-Error: NEWLINE_PRECEDES_FUNC (line:  69, col:   1):	Functions must be separated by a newline
-Error: SPC_AFTER_OPERATOR   (line:  97, col:  38):	missing space after operator
-parsing/set_states.c: Error!
-Error: NEWLINE_PRECEDES_FUNC (line:  42, col:   1):	Functions must be separated by a newline
-Error: NEWLINE_PRECEDES_FUNC (line:  69, col:   1):	Functions must be separated by a newline
-Error: SPACE_REPLACE_TAB    (line:  71, col:  14):	Found space when expecting tab
-Error: NEWLINE_PRECEDES_FUNC (line:  91, col:   1):	Functions must be separated by a newline
-parsing/splite_pipe_space.c: Error!
-Error: CONSECUTIVE_NEWLINES (line:  39, col:   1):	Consecutive newlines
-Error: SPACE_REPLACE_TAB    (line:  45, col:   9):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  45, col:  10):	Misaligned variable declaration
-Error: SPACE_REPLACE_TAB    (line:  61, col:   9):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line:  62, col:   9):	Found space when expecting tab
-parsing/splite_pipe_space_utiles.c: Error!
-Error: RETURN_PARENTHESIS   (line:  25, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  28, col:  12):	Return value must be in parenthesis
-Error: NEWLINE_PRECEDES_FUNC (line:  30, col:   1):	Functions must be separated by a newline
-Error: RETURN_PARENTHESIS   (line:  35, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  40, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  42, col:  12):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  50, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  62, col:  12):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  74, col:  16):	Return value must be in parenthesis
-Error: SPACE_AFTER_KW       (line:  79, col:  13):	Missing space after keyword
-Error: BRACE_SHOULD_EOL     (line:  83, col:   1):	Expected newline after brace
+Error: TOO_MANY_FUNCS       (line:  84, col:   1):	Too many functions in file
+Error: TOO_MANY_LINES       (line: 112, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 114, col:   1):	Too many functions in file
+parsing/lst_add.c: OK!
+parsing/lst_init.c: OK!
+parsing/main.c: OK!
+parsing/set_states.c: OK!
+parsing/splite_pipe_space.c: OK!
+parsing/splite_pipe_space_utiles.c: OK!
 parsing/files/files_1.c: OK!
 parsing/files/files_2.c: Error!
-Error: RETURN_PARENTHESIS   (line:  47, col:  16):	Return value must be in parenthesis
-Error: SPACE_AFTER_KW       (line:  74, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  74, col:   7):	Missing space before parenthesis (brace/bracket)
-Error: RETURN_PARENTHESIS   (line:  75, col:  16):	Return value must be in parenthesis
-Error: SPACE_REPLACE_TAB    (line: 100, col:   9):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line: 101, col:   9):	Found space when expecting tab
-Error: NL_AFTER_VAR_DECL    (line: 102, col:   1):	Variable declarations must be followed by a newline
-Error: SPC_BEFORE_NL        (line: 102, col:  26):	Space before newline
-Error: TOO_FEW_TAB          (line: 104, col:   9):	Missing tabs for indent level
-Error: TOO_FEW_TAB          (line: 105, col:   9):	Missing tabs for indent level
-Error: SPC_BFR_OPERATOR     (line: 105, col:  34):	missing space before operator
+Error: TOO_FEW_TAB          (line: 105, col:  13):	Missing tabs for indent level
 parsing/files/files_3.c: OK!
-parsing/files/files_4.c: Error!
-Error: SPC_AFTER_PAR        (line:  22, col:  32):	Missing space after parenthesis (brace/bracket)
-Error: SPC_BFR_OPERATOR     (line:  22, col:  33):	missing space before operator
-Error: RETURN_PARENTHESIS   (line: 104, col:  16):	Return value must be in parenthesis
-parsing/files/files_5.c: Error!
-Error: RETURN_PARENTHESIS   (line:  34, col:  16):	Return value must be in parenthesis
-parsing/syntax/syntax_1.c: Error!
-Error: SPACE_REPLACE_TAB    (line:  23, col:  14):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line:  27, col:   9):	Missing tabs for indent level
-Error: RETURN_PARENTHESIS   (line:  30, col:  20):	Return value must be in parenthesis
-Error: RETURN_PARENTHESIS   (line:  38, col:  12):	Return value must be in parenthesis
-Error: SPACE_REPLACE_TAB    (line:  44, col:   8):	Found space when expecting tab
-Error: MISALIGNED_VAR_DECL  (line:  44, col:   9):	Misaligned variable declaration
-Error: SPC_BEFORE_NL        (line:  50, col:  69):	Space before newline
-Error: TOO_FEW_TAB          (line:  51, col:  13):	Missing tabs for indent level
-Error: SPC_BEFORE_NL        (line:  51, col:  80):	Space before newline
-Error: TOO_FEW_TAB          (line:  52, col:  13):	Missing tabs for indent level
-Error: SPC_BEFORE_NL        (line:  52, col:  80):	Space before newline
-Error: TOO_FEW_TAB          (line:  53, col:  13):	Missing tabs for indent level
-Error: NO_SPC_AFR_PAR       (line:  53, col:  45):	Extra space after parenthesis (brace/bracket)
-Error: NO_SPC_BFR_PAR       (line:  53, col:  47):	Extra space before parenthesis (brace/bracket)
-Error: RETURN_PARENTHESIS   (line:  61, col:  24):	Return value must be in parenthesis
-Error: NO_SPC_BFR_PAR       (line:  84, col:  58):	Extra space before parenthesis (brace/bracket)
-Error: BRACE_SHOULD_EOL     (line: 115, col:   1):	Expected newline after brace
+parsing/files/files_4.c: OK!
+parsing/files/files_5.c: OK!
+parsing/syntax/syntax_1.c: OK!
 parsing/syntax/syntax_2.c: Error!
 Error: NEWLINE_PRECEDES_FUNC (line:  37, col:   1):	Functions must be separated by a newline
 Error: NEWLINE_PRECEDES_FUNC (line:  53, col:   1):	Functions must be separated by a newline

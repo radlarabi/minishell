@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_utiles.c                                     :+:      :+:    :+:   */
+/*   pipes_utiles_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 18:34:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:23:26 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,37 +28,38 @@ void	open_pipes(int num_pipes, int **pipefd)
 	}
 }
 
-
 void	cmd_not_found(char *cmd)
 {
 	printf("command not found: %s\n", cmd);
 	exit(127);
 }
-int check_command_builtins(char *command)
+
+int	check_command_builtins(char *command)
 {
 	if (command)
 	{
-		if (!ft_strcmp(command,"echo"))
-			return 0;
-		else if (!ft_strcmp(command,"pwd"))
-			return 0;
-		else if (!ft_strcmp(command,"cd"))
-			return 0;
-		else if (!ft_strcmp(command,"env"))
-			return 0;
-		else if (!ft_strcmp(command,"exit"))
-			return 0;
-		else if (!ft_strcmp(command,"export"))
-			return 0;
-		else if (!ft_strcmp(command,"unset"))
-			return 0;
+		if (!ft_strcmp(command, "echo"))
+			return (0);
+		else if (!ft_strcmp(command, "pwd"))
+			return (0);
+		else if (!ft_strcmp(command, "cd"))
+			return (0);
+		else if (!ft_strcmp(command, "env"))
+			return (0);
+		else if (!ft_strcmp(command, "exit"))
+			return (0);
+		else if (!ft_strcmp(command, "export"))
+			return (0);
+		else if (!ft_strcmp(command, "unset"))
+			return (0);
 	}
-	return 1;
+	return (1);
 }
+
 void	command_builtins(t_cmd_line **cmd_l)
 {
 	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "exit"))
-		ft_exit(cmd_l,0);
+		ft_exit(cmd_l, 0);
 	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "echo"))
 		ft_echo(cmd_l);
 	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "export"))
@@ -73,8 +74,8 @@ void	command_builtins(t_cmd_line **cmd_l)
 		ft_pwd(cmd_l);
 }
 
-void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,\
-     int num_pipes)
+void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,
+		int num_pipes)
 {
 	if (cmd_l->infile != -1)
 	{

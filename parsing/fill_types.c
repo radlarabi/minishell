@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_types.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 19:20:00 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:31:35 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	fill_types1(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
+
 void	fill_types2(t_command *tmp, char c, int *i, char *str)
 {
 	if (c == '\"')
@@ -60,6 +61,7 @@ void	fill_types2(t_command *tmp, char c, int *i, char *str)
 		(*i)++;
 	}
 }
+
 void	fill_types3(t_command *tmp, char c, int *i, char *str)
 {
 	if (c == '>' && str[(*i) + 1] != '>')
@@ -84,6 +86,7 @@ void	fill_types3(t_command *tmp, char c, int *i, char *str)
 		(*i) += 2;
 	}
 }
+
 void	fill_types4(t_command *tmp, char c, int *i, char *str)
 {
 	if (c == '.' && str[(*i) + 1] == '.')

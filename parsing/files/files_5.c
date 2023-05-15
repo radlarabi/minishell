@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 22:44:35 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 23:43:01 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**ft_join_2d(char **tab1, char **tab2, int p)
 
 	new_tab = malloc(sizeof(char *) * (strlen_2d(tab1) + strlen_2d(tab2) + 1));
 	if (!new_tab)
-		return NULL;
+		return (NULL);
 	cont1 = 0;
 	cont = -1;
 	while (tab1[++cont])

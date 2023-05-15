@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_add.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:42:13 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:43:50 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:36:57 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	ft_lstadd_back_cmds(t_cmd_line **lst, t_cmd_line *new)
 	else
 		temp->next = new;
 }
+
 t_command	*init_lst_in_middle(void)
 {
 	t_command	*new;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:01:15 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:41:15 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ret_in_double_quotes(char *str)
 		return (NULL);
 	ret = malloc(ft_strlen(str));
 	if (!ret)
-		return NULL;
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '\"')
@@ -71,8 +71,8 @@ char	*get_variable(char *str)
 	while (str[i] && (str[j++] == '_' || ft_isalnum(str[i])))
 		i++;
 	ret = malloc(i + 1);
-	if(!ret)
-		return NULL;
+	if (!ret)
+		return (NULL);
 	i = 0;
 	while (str[i] && str[i] == '$')
 		i++;
@@ -97,12 +97,12 @@ void	extand_exit_status(char **ret, int *j)
 
 void	sub_extand_var_in_dq(char **ret, char *cmds, int *j)
 {
-	char *var;
-	char *var_env;
-	if (cmds[(*j)] == '$' 
-		&& (!cmds[(*j) + 1] || cmds[(*j) + 1] == ' '
-		|| cmds[(*j) + 1] == '\t' || cmds[(*j) + 1] == '\n'
-		|| cmds[(*j) + 1] == '\"'|| cmds[(*j) + 1] == '\''))
+	char	*var;
+	char	*var_env;
+
+	if (cmds[(*j)] == '$' && (!cmds[(*j) + 1] || cmds[(*j) + 1] == ' '
+			|| cmds[(*j) + 1] == '\t' || cmds[(*j) + 1] == '\n' || cmds[(*j)
+			+ 1] == '\"' || cmds[(*j) + 1] == '\''))
 	{
 		(*ret) = ft_join_char((*ret), cmds[(*j)]);
 		(*j)++;

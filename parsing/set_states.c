@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_states.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 22:42:01 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:55:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:34:39 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	set_states_in_double_q(t_command **tmp)
 	(*tmp) = (*tmp)->next;
 	return (0);
 }
+
 int	set_states_in_single_q(t_command **tmp)
 {
 	int	count;
@@ -66,9 +67,10 @@ int	set_states_in_single_q(t_command **tmp)
 	(*tmp) = (*tmp)->next;
 	return (0);
 }
+
 void	set_states(t_command **cmd)
 {
-	t_command *tmp;
+	t_command	*tmp;
 
 	tmp = *cmd;
 	while (tmp != NULL)
@@ -88,6 +90,7 @@ void	set_states(t_command **cmd)
 			tmp = tmp->next;
 	}
 }
+
 char	*struct_to_str(t_command **cmd)
 {
 	t_command	*tmp;

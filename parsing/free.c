@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:44:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:45:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:32:14 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	free_t_cmd_line(t_cmd_line **cmd)
 		(*cmd) = tmp;
 	}
 }
+
 void	main_free(t_command **cmd, t_cmd_line **cmd_l, char **temp, char *str)
 {
 	free(temp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:01:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 00:27:54 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int						check_close_qotes(char *str);
 void					fill_types(t_command *tmp, char c, int *i, char *str);
 char					*struct_to_str(t_command **cmd);
 void					ft_lstadd_middle(t_command **cmd);
-t_cmd_line				*lst_init_cmds();
+t_cmd_line				*lst_init_cmds(void);
 void					extend_cmd(t_command **cmd);
 char					*ft_join_char(char *str, char c);
 void					skip_and_fill_in_quotes(char *str, char **s, int a,
@@ -157,7 +157,7 @@ char					*ft_getenv(char *str);
 int						is_quots(char *str, int index);
 char					*extand_var(char *cmds);
 void					pipex(t_cmd_line *cmd_l);
-char					**get__env();
+char					**get__env(void);
 char					*get__path(char *cmd);
 int						is_in_qotes(char *str);
 void					free_2d_table(char **temp);
@@ -165,7 +165,7 @@ int						check_command_builtins(char *command);
 void					command_builtins(t_cmd_line **cmd_l);
 char					*remove_quotes(char *str);
 void					ft_add_back_env(t_env **lst, t_env *new);
-t_env					*init_env();
+t_env					*init_env(void);
 t_command				*init_lst_in_middle(void);
 void					main_free(t_command **cmd, t_cmd_line **cmd_l,
 							char **temp, char *str);
@@ -214,11 +214,12 @@ int						open_read_out_in(char **temp, t_cmd_line **tmp, int *j);
 int						open_appnd_herdoc(char **temp, t_cmd_line **tmp,
 							int *j);
 int						open_files_in_command_struct(char **temp,
-									t_cmd_line **tmp);
-void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l);
-void	wait_for_child(int *pids, int i);
-void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l);
-
+							t_cmd_line **tmp);
+void					child(int num_pipes, int i, int **pipefd,
+							t_cmd_line *cmd_l);
+void					wait_for_child(int *pids, int i);
+void					sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids,
+							t_cmd_line *cmd_l);
 
 /*			****************					*/
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:26:22 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:05:29 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:12:08 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_syntax_cmd(char *cmd)
 			cont += 1;
 		else if (ft_strchr("abcdefghijklmnopqrstuvwxyz", cmd[i]))
 			cont += 1;
-		else if (ft_strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ_"), cmd[i])
+		else if (ft_strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ_", cmd[i]))
 			cont += 1;
 		if (ft_strlen(cmd) == cont)
 			return (0);
@@ -72,15 +72,21 @@ char	**splitre_whit_pos(char *str, size_t pos)
 	char	**result;
 
 	result = malloc(2 * sizeof(char *));
+	if (!result)
+		return NULL;
 	length = ft_strlen(str);
 	if (str[pos] == '=')
 	{
 		if (pos >= 0 && pos < length)
 		{
 			result[0] = malloc((pos + 1) * sizeof(char));
+			if (!result[0])
+				return NULL;
 			ft_strncpy(result[0], str, pos);
 			result[0][pos] = '\0';
 			result[1] = malloc((length - pos + 1) * sizeof(char));
+			if (!result[1])
+				return NULL;
 			ft_strncpy(result[1], str + pos, length - pos);
 			result[1][length - pos] = '\0';
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 17:17:54 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:12:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	**get__env()
 		tmp = tmp->next;
 	}
 	ret = malloc(sizeof(char *) * (i + 1));
+	if (!ret)
+		return NULL;
 	tmp = g_gv->env;
 	i = 0;
 	while (tmp)

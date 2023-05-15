@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 15:34:59 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:15:31 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*ret_in_double_quotes(char *str)
 	if (!str)
 		return (NULL);
 	ret = malloc(ft_strlen(str));
+	if (!ret)
+		return NULL;
 	while (str[i])
 	{
 		if (str[i] == '\"')
@@ -69,6 +71,8 @@ char	*get_variable(char *str)
 	while (str[i] && (str[j++] == '_' || ft_isalnum(str[i])))
 		i++;
 	ret = malloc(i + 1);
+	if(!ret)
+		return NULL;
 	i = 0;
 	while (str[i] && str[i] == '$')
 		i++;

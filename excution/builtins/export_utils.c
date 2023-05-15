@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:07:15 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:11:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 	if (env_var)
 	{
 		new_node = malloc(sizeof(t_env));
+		if (!new_node)
+			return ;
 		if (!env_val)
 		{
 			new_node->value = ft_strdup("");

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:55:36 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:14:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	**env_is_null(void)
 	char	**tab;
 
 	tab = malloc(sizeof(char *) * 4);
+	if(!tab)
+		return NULL;
 	tab[0] = ft_strjoin(NULL, "PWD=/Users/hlakhal-/Desktop/minishell");
 	tab[1] = ft_strjoin(NULL, "SHLVL=1");
 	tab[2] = ft_strjoin(NULL, "_=/usr/bin/env");
@@ -51,6 +53,8 @@ void	fill_env_global_var(int ac, char **av, char **env)
 	(void)av;
 	i = 0;
 	g_gv = malloc(sizeof(t_gv));
+	if (!g_gv)
+		return;
 	while (env[i])
 		i++;
 	if (i)

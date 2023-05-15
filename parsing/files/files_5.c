@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 15:35:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:16:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**ft_join_2d(char **tab1, char **tab2, int p)
 	int		i;
 
 	new_tab = malloc(sizeof(char *) * (strlen_2d(tab1) + strlen_2d(tab2) + 1));
+	if (!new_tab)
+		return NULL;
 	cont1 = 0;
 	cont = -1;
 	while (tab1[++cont])

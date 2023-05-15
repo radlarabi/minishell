@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:02:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/09 12:08:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:15:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	*set_spliter(char *str, char c)
 	if (!str)
 		return (NULL);
 	s = malloc(ft_strlen(str) + 1);
+	if (!s)
+		return NULL;
 	i = 0;
 	while (str[i])
 	{

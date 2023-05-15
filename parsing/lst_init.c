@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:39:42 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:14:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_cmd_line	*lst_init_cmds(void)
 	t_cmd_line	*cmd_l;
 
 	cmd_l = malloc(sizeof(t_cmd_line));
+	if (!cmd_l)
+		return NULL;
 	cmd_l->infile = -1;
 	cmd_l->outfile = -1;
 	cmd_l->flag = 0;
@@ -43,6 +45,7 @@ t_command	*init_cmd(t_command *cmd)
 void	ft_add_back_env(t_env **lst, t_env *new)
 {
 	t_env	*temp;
+
 	if (!(*lst))
 	{
 		*lst = new;
@@ -60,8 +63,8 @@ void	ft_add_back_env(t_env **lst, t_env *new)
 t_env *init_env()
 {
 	t_env *env_var;
-	env_var = malloc(sizeof(t_env));
 
+	env_var = malloc(sizeof(t_env));
 	if (!env_var)
 		return NULL;
 	env_var->value = NULL;

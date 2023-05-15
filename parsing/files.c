@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 15:34:34 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:13:46 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	**fill_temp_of_command_struct(char **cmds)
 	while (cmds && cmds[j])
 		j++;
 	temp = malloc((j + 1) * sizeof(char *));
+	if (!temp)
+		return NULL;
 	j = 0;
 	while (cmds && cmds[j])
 	{

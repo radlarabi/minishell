@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:18:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/08 16:17:16 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 01:02:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s2)
 		return (NULL);
 	if (!s1)
-		return ft_strdup(s2);
+		return (ft_strdup(s2));
 	a_len = ft_strlen((char *)s1);
 	b_len = ft_strlen((char *)s2);
 	i = -1;

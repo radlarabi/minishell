@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splite_pipe_space_utiles.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 23:22:42 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 00:56:08 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 01:01:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	skip_set_spliter(char *str, int *i, int a, char **s)
 {
-
 	while (str[*i])
 	{
 		(*s)[*i] = str[*i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 00:41:15 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 01:00:20 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void	sub_extand_var_in_dq(char **ret, char *cmds, int *j)
 	char	*var_env;
 
 	if (cmds[(*j)] == '$' && (!cmds[(*j) + 1] || cmds[(*j) + 1] == ' '
-			|| cmds[(*j) + 1] == '\t' || cmds[(*j) + 1] == '\n' || cmds[(*j)
-			+ 1] == '\"' || cmds[(*j) + 1] == '\''))
+			|| cmds[(*j) + 1] == '\t' || cmds[(*j) + 1] == '\n'
+			|| cmds[(*j) + 1] == '\"' || cmds[(*j) + 1] == '\''))
 	{
 		(*ret) = ft_join_char((*ret), cmds[(*j)]);
 		(*j)++;

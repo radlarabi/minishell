@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 17:51:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:52:42 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 01:01:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	sub_check_qotes(char *str, int *i, int a)
 	}
 	return (1);
 }
+
 int	check_close_qotes(char *str)
 {
 	int	i;
@@ -50,6 +51,7 @@ int	check_close_qotes(char *str)
 	}
 	return (1);
 }
+
 void	extend_cmd(t_command **cmd)
 {
 	t_command	*tmp;

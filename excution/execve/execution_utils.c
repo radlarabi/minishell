@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 00:22:36 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:47:05 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,42 @@ char	*get__path(char *cmd)
 	return (NULL);
 }
 
-char	**get__env(void)
+void	fill_get_env(char **ret)
 {
 	t_env	*tmp;
-	char	**ret;
 	int		i;
 
-	i = -1;
 	tmp = g_gv->env;
-	while (++i && tmp)
-		tmp = tmp->next;
-	ret = malloc(sizeof(char *) * (i + 1));
-	if (!ret)
-		return (NULL);
-	tmp = g_gv->env;
-	i = -1;
-	while (++i && tmp)
+	i = 0;
+	while (tmp)
 	{
 		ret[i] = NULL;
 		ret[i] = ft_strjoin(ret[i], tmp->var);
 		ret[i] = ft_strjoin(ret[i], "=");
 		ret[i] = ft_strjoin(ret[i], tmp->value);
 		tmp = tmp->next;
+		i++;	
 	}
 	ret[i] = 0;
+
+}
+char	**get__env(void)
+{
+	t_env	*tmp;
+	char	**ret;
+	int		i;
+
+	i = 0;
+	tmp = g_gv->env;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	ret = malloc(sizeof(char *) * (i + 1));
+	if (!ret)
+		return (NULL);
+	fill_get_env(ret);
 	return (ret);
 }
 

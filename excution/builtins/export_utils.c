@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 23:00:23 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 17:47:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 				g_gv->env->flag = 1;
 			else
 				g_gv->env->flag = 0;
+			if (current->value)
+				free(current->value);
 			current->value = new_env_val;
 			break ;
 		}

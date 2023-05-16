@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:43:01 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:28:15 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j)
 
 	t_mp = (*tmp)->cmds[(*j)];
 	(*tmp)->cmds[(*j)] = extand_var((*tmp)->cmds[(*j)]);
+	if (t_mp)
+		free(t_mp);
 	if ((*tmp)->cmds[(*j)] && ft_strcmp(t_mp, (*tmp)->cmds[(*j)]))
 	{
 		if (ft_strchr(t_mp, '$'))
@@ -71,7 +73,6 @@ void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j)
 	}
 	else
 		(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
-	free(t_mp);
 	(*j)++;
 }
 

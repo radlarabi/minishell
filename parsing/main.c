@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:40:53 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 18:24:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int ac, char **av, char **env)
 		cmd_l = commands_struct(temp);
 		pipex(cmd_l);
 		main_free(&cmd, &cmd_l, temp, str);
+		// system("leaks minishell");
 	}
 	return (0);
 }

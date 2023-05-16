@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:30:54 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:02:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 17:22:53 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	extand_normal_var(char **ret, char *cmds, int *j)
 		if (var_env)
 			(*ret) = ft_strjoin((*ret), var_env);
 		(*j) += ft_strlen(var);
+		if (var)
+			free(var);
 	}
 	else
 	{

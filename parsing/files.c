@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 23:38:42 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:29:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ int	sub_command_struct(t_cmd_line **tmp)
 			j += 2;
 		else if (!ft_strcmp((*tmp)->cmds[j], "<"))
 			j += 2;
+			
 		else if (!ft_strcmp((*tmp)->cmds[j], ">"))
 			j += 2;
 		else if (!ft_strcmp((*tmp)->cmds[j], ">>"))
 			j += 2;
 		else
-			extand_in_comamnd_struct(&(*tmp), &j);
+			extand_in_comamnd_struct(tmp, &j);
 	}
 	return (j);
 }

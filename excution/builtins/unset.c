@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:03:11 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:37:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 	if (temp != NULL && temp->var == key && temp->value == key1)
 	{
 		*head_ref = temp->next;
+		free(temp->value);
+		free(temp->var);
 		free(temp);
 		return ;
 	}
@@ -32,6 +34,8 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 	if (!temp)
 		return ;
 	prev->next = temp->next;
+	free(temp->value);
+	free(temp->var);
 	free(temp);
 }
 
@@ -42,7 +46,7 @@ int	ft_unset(t_cmd_line **commands_v)
 
 	temp = g_gv->env;
 	var = (*commands_v)->cmds[1];
-	if (check_syntax_cmd(var))
+	if (var && check_syntax_cmd(var))
 	{
 		ft_putstr_fd("unset: ", 1);
 		ft_putstr_fd(var, 1);
@@ -51,7 +55,7 @@ int	ft_unset(t_cmd_line **commands_v)
 	}
 	while (temp)
 	{
-		if (!ft_strcmp(temp->var, var))
+		if (var && !ft_strcmp(temp->var, var))
 		{
 			remove_node(&g_gv->env, temp->var, temp->value);
 			break ;

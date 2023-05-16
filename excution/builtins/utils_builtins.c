@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:26:22 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 00:19:18 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:11:43 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_syntax_cmd(char *cmd)
 
 	cont = 0;
 	i = 0;
-	if (ft_strchr("0123456789", cmd[0]))
+	if (cmd && ft_strchr("0123456789", cmd[0]))
 		return (1);
 	while (cmd && cmd[i])
 	{

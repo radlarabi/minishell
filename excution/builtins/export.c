@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 19:11:02 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 23:07:09 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_export(t_cmd_line **commands_v)
 	{
 		i = 0;
 		flag = 0;
-		value_of_var = ft_strdup((*commands_v)->cmds[j]);
+		value_of_var = (*commands_v)->cmds[j];
 		while (value_of_var && i < ft_strlen(value_of_var))
 		{
 			export_utils4(value_of_var, i, &flag,
@@ -103,7 +103,6 @@ int	ft_export(t_cmd_line **commands_v)
 		}
 		if (!(*commands_v)->cmds[j] && len == 1)
 			display_export(*(ft_len_tab((*commands_v)->cmds, &len)));
-		free(value_of_var);
 		j++;
 	}
 	return (0);

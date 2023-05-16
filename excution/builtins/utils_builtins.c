@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:26:22 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 20:11:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 23:12:02 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,38 @@ int	ft_cherch_node(char *exp_var)
 
 int	check_syntax_cmd(char *cmd)
 {
-	int		i;
 	size_t	cont;
+	int		i;
 
 	cont = 0;
 	i = 0;
-	if (cmd && ft_strchr("0123456789", cmd[0]))
+	if (cmd == NULL || cmd[0] == '\0')
+		return (0);
+	if (cmd[0] >= '0' && cmd[0] <= '9')
 		return (1);
-	while (cmd && cmd[i])
+	while (cmd[i] != '\0')
 	{
-		if (ft_strchr("0123456789", cmd[i]))
+		if ((cmd[i] >= '0' && cmd[i] <= '9') ||
+			(cmd[i] >= 'a' && cmd[i] <= 'z') ||
+			(cmd[i] >= 'A' && cmd[i] <= 'Z') ||
+			cmd[i] == '_')
 			cont += 1;
-		else if (ft_strchr("abcdefghijklmnopqrstuvwxyz", cmd[i]))
-			cont += 1;
-		else if (ft_strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ_", cmd[i]))
-			cont += 1;
-		if (ft_strlen(cmd) == cont)
-			return (0);
+		else
+			return (1);
 		i++;
 	}
+	if (cont == ft_strlen(cmd))
+		return (0);
 	return (1);
 }
 
-char	**splitre_whit_pos_utils(char **result, size_t pos, size_t length,
-		char *str)
+char	**splitre_whit_pos_utils(size_t pos, size_t length, char *str)
 {
+	char	**result;
+
+	result = malloc(2 * sizeof(char *));
+	if (!result)
+		return (NULL);
 	result[0] = malloc((pos + 1) * sizeof(char));
 	if (!result[0])
 		return (NULL);
@@ -86,20 +93,26 @@ char	**splitre_whit_pos(char *str, size_t pos)
 {
 	size_t	length;
 	char	**result;
+	char	**new_tab;
 
-	result = malloc(2 * sizeof(char *));
-	if (!result)
-		return (NULL);
 	length = ft_strlen(str);
 	if (str[pos] == '=')
 	{
 		if (pos >= 0 && pos < length)
-			result = splitre_whit_pos_utils(result, pos, length, str);
+		{
+			new_tab = splitre_whit_pos_utils(pos, length, str);
+			return (new_tab);
+		}
 		else
 		{
+			result = malloc(2 * sizeof(char *));
+			if (!result)
+				return (NULL);
 			result[0] = ft_strdup(str);
 			result[1] = NULL;
+			return (result);
 		}
 	}
-	return (result);
+	free(str);
+	return (NULL);
 }

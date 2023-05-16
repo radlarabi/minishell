@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 17:47:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 23:15:29 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 		}
 		else if (!a)
 		{
-			new_node->value = env_val;
-			new_node->var = env_var;
+			new_node->value = ft_strdup(env_val);
+			new_node->var = ft_strdup(env_var);
 			new_node->flag = 0;
 			new_node->next = (*env);
 			(*env) = new_node;
@@ -76,7 +76,7 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 				g_gv->env->flag = 0;
 			if (current->value)
 				free(current->value);
-			current->value = new_env_val;
+			current->value = ft_strdup(new_env_val);
 			break ;
 		}
 		current = current->next;

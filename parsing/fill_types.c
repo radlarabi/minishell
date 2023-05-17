@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_types.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:13:29 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 00:31:35 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/17 17:16:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	fill_types1(t_command *tmp, char c, int *i, char *str)
 		}
 		tmp->type = WORD;
 	}
-	else if (c == ' ')
+	else if (c == ' ' || c == '\t')
 	{
 		tmp->opr = N_OPER;
 		tmp->len = 1;
@@ -114,7 +114,7 @@ void	fill_types4(t_command *tmp, char c, int *i, char *str)
 
 void	fill_types(t_command *tmp, char c, int *i, char *str)
 {
-	if (c == '-' || ft_isalnum(c) || c == ' ')
+	if (c == '-' || ft_isalnum(c) || c == ' ' || c == '\t')
 		fill_types1(tmp, c, i, str);
 	else if (c == '\"' || c == '\'' || (c == '<' && str[(*i) + 1] != '<'))
 		fill_types2(tmp, c, i, str);

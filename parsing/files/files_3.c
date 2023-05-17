@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:30:54 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 17:22:53 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:19:08 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	extand_normal_var(char **ret, char *cmds, int *j)
 
 	if (cmds[(*j)] == '$')
 	{
-		if (cmds[(*j)] == '$' && (!cmds[(*j) + 1] || cmds[(*j) + 1] == ' '))
+		if (cmds[(*j)] == '$' && (!cmds[(*j) + 1] || cmds[(*j) + 1] == ' ' || cmds[(*j) + 1] == '\t'))
 			(*ret) = ft_join_char((*ret), cmds[(*j)]);
 		(*j)++;
 		if (!cmds[(*j)])

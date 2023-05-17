@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:08:33 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 19:17:57 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:22:12 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	skip_blank(const char *str)
 	int	i;
 
 	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ' || str[i] == '\t')
 		i++;
 	if (str[i] == '+')
 		i++;

@@ -44,8 +44,9 @@ CC = cc
 all: $(NAME)
 
 $(NAME): $(O_SRCS)
+	@stty -echoctl
 	@make -sC libft/
-	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -I ~/Users/rlarabi/goinfre/homebrew/Cellar/readline/8.2.1/include  -L /Users/rlarabi/goinfre/homebrew/Cellar/readline/8.2.1/lib -lreadline 
 clean:
 	$(RM) $(O_SRCS)
 

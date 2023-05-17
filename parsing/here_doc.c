@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 20:48:13 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:32:53 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ char	*get_stop_heredoc(char *str)
 {
 	int		i;
 	char	**a;
+	char	*temp;
 
 	i = 0;
 	a = splite_with_space(str);
-	return (remove_quotes(a[0]));
+	free(str);
+	temp = remove_quotes(a[0]);
+	free_2d_table(a);
+	return (temp);
 }
 
 void	sigint_handler(int sig)
@@ -78,6 +82,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	(*tmp)->infile = fd[0];
 	close(fd[1]);
 	free(temp[(*j)++]);
+	signal(SIGINT, SIG_IGN);
 	return (0);
 }
 
@@ -101,10 +106,7 @@ char	*extand_var_for_herdoc(char *str)
 		else if (str[j] == '$')
 			sub_extand_var_in_dq(&ret, str, &j);
 		else
-		{
-			ret = ft_join_char(ret, str[j]);
-			j++;
-		}
+			ret = ft_join_char(ret, str[j++]);
 	}
 	if (str)
 		free(str);

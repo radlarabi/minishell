@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 23:07:09 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:21:02 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	ft_export(t_cmd_line **commands_v)
 		{
 			export_utils4(value_of_var, i, &flag,
 				ft_len_tab((*commands_v)->cmds, &len));
-			// system("leaks minishell");
 			i++;
 		}
 		if (!(*commands_v)->cmds[j] && len == 1)

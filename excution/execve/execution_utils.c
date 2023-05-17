@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 17:47:05 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 13:20:39 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	fill_get_env(char **ret)
 		ret[i] = ft_strjoin(ret[i], "=");
 		ret[i] = ft_strjoin(ret[i], tmp->value);
 		tmp = tmp->next;
-		i++;	
+		i++;
 	}
 	ret[i] = 0;
-
 }
+
 char	**get__env(void)
 {
 	t_env	*tmp;

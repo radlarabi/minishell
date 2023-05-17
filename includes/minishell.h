@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 20:56:52 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:47:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_num_p_cmds
 	int					num_pipes;
 	int					num_cmds;
 }						t_num_p_cmds;
+
+extern void			rl_replace_line(const char *s, int i);
 /*  fonction builtins  */
 int						ft_pwd(t_cmd_line **commands_v);
 int						ft_echo(t_cmd_line **commands_v);

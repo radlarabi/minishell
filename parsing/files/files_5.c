@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 22:28:15 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:19:29 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j)
 	{
 		if (ft_strchr(t_mp, '$'))
 			(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
-		if (!ft_strchr(t_mp, '\"') && ft_strchr((*tmp)->cmds[(*j)], ' '))
+		if (!ft_strchr(t_mp, '\"') && (ft_strchr((*tmp)->cmds[(*j)], ' ') || ft_strchr((*tmp)->cmds[(*j)], '\t')))
 		{
 			temp1 = remove_quotes((*tmp)->cmds[(*j)]);
 			temp1 = set_spliter(temp1, ' ');

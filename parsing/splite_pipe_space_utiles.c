@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 23:22:42 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 22:26:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:49:36 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,23 @@ int	sub_set_spiter_1(char *str, int *i, char **s, int c)
 		if (sub_set_spliter_2(str, i, s))
 			return (1);
 	}
-	else if (str[(*i)] == c)
+	else if (str[(*i)] == c || str[(*i)] == '\t')
 	{
-		(*s)[(*i)] = -1;
-		(*i)++;
+		// printf("str[(*i)] %c\t--> %c\n", str[(*i)], c);
+		if (c == ' ' && (str[(*i)] == '\t' || str[(*i)] == ' '))
+		{
+			(*s)[(*i)] = -1;
+			(*i)++;
+		}
+		else if (c == '|' && str[(*i)] == '|')
+		{
+			// printf("****\n");
+			(*s)[(*i)] = -1;
+			(*i)++;
+		}
+		else
+			(*i)++;
+			
 	}
 	
 	return (0);
@@ -72,9 +85,9 @@ char	*set_spliter(char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 39 || str[i] == 34 || str[i] == c)
+		if (str[i] == 39 || str[i] == 34 || str[i] == c || str[i] == '\t')
 		{
-			sub_set_spiter_1(str, &i, &s, c);	
+			sub_set_spiter_1(str, &i, &s, c);
 		}
 		else
 		{

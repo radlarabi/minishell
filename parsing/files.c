@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 22:29:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 23:43:28 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	sub_command_struct(t_cmd_line **tmp)
 			j += 2;
 		else if (!ft_strcmp((*tmp)->cmds[j], "<"))
 			j += 2;
-			
 		else if (!ft_strcmp((*tmp)->cmds[j], ">"))
 			j += 2;
 		else if (!ft_strcmp((*tmp)->cmds[j], ">>"))

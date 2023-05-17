@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:26:22 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 23:12:02 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:19:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	check_syntax_cmd(char *cmd)
 		return (1);
 	while (cmd[i] != '\0')
 	{
-		if ((cmd[i] >= '0' && cmd[i] <= '9') ||
-			(cmd[i] >= 'a' && cmd[i] <= 'z') ||
-			(cmd[i] >= 'A' && cmd[i] <= 'Z') ||
-			cmd[i] == '_')
+		if ((cmd[i] >= '0' && cmd[i] <= '9')
+			|| (cmd[i] >= 'a' && cmd[i] <= 'z')
+			|| (cmd[i] >= 'A' && cmd[i] <= 'Z')
+			|| cmd[i] == '_')
 			cont += 1;
 		else
 			return (1);

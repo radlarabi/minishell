@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 23:15:29 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:25:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	sub_add_node(t_env **env, t_env **new_node, \
+			char *env_var, char *env_val)
+{
+	(*new_node)->value = ft_strdup(env_val);
+	(*new_node)->var = ft_strdup(env_var);
+	(*new_node)->flag = 0;
+	(*new_node)->next = (*env);
+	(*env) = (*new_node);
+}
 
 void	add_node(t_env **env, char *env_var, char *env_val, int a)
 {
@@ -33,13 +43,7 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 			(*env) = new_node;
 		}
 		else if (!a)
-		{
-			new_node->value = ft_strdup(env_val);
-			new_node->var = ft_strdup(env_var);
-			new_node->flag = 0;
-			new_node->next = (*env);
-			(*env) = new_node;
-		}
+			sub_add_node(env, &new_node, env_var, env_val);
 	}
 }
 
@@ -76,7 +80,13 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 				g_gv->env->flag = 0;
 			if (current->value)
 				free(current->value);
-			current->value = ft_strdup(new_env_val);
+			if (new_env_val)
+			{
+				current->value = ft_strdup(new_env_val);
+				free(new_env_val);
+			}
+			else
+				current->value = NULL;
 			break ;
 		}
 		current = current->next;

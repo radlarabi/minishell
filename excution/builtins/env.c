@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:03:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/15 17:26:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/16 23:40:50 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_env(t_cmd_line **commands_v)
 	tmp = g_gv->env;
 	while (tmp)
 	{
-		if (tmp->value && !tmp->flag && tmp->value[0])
+		if (tmp->value && !tmp->flag)
 		{
 			ft_putstr_fd(tmp->var, 1);
 			ft_putstr_fd("=", 1);

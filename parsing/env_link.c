@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 13:53:22 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 14:40:53 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ t_env	*get_env_1(char **env)
 		tmp = init_env();
 		tmp = fill_env_node(env[i], tmp);
 		ft_add_back_env(&env_var, tmp);
+		free(env[i]);
 		i++;
 	}
+	if (env)
+		free(env);
 	return (env_var);
 }

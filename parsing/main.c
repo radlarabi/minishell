@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 18:52:48 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/17 22:13:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int ac, char **av, char **env)
 		cmd_l = NULL;
 		signal(SIGINT,sigint_handler_main);
 		// signal(SIGQUIT, handleCtrlBS);
-		str = readline("MINISHELL -> ");
+		str = readline("\033[0;33mMINISHELL ->\033[0;m ");
 		fill_t_command_struct(&cmd, str);
 		if (main_check_syntax(str, &cmd))
 			continue ;

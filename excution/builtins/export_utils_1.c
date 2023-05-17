@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:17:27 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/17 13:51:51 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 22:03:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,14 @@ void	export_utils2(char *value_of_var, int i, int *flag, int *flag1)
 		if (ft_cherch_node(export_value[0]))
 		{
 			change_value(&g_gv->env, export_value[0], export_value[1]);
-			(free(export_value[1]), free(export_value[0]));
+			free(export_value[0]);
 			*flag1 = 0;
 		}
 		else
 		{
 			add_node(&g_gv->env, export_value[0], export_value[1], 0);
-			(free(export_value[1]), free(export_value[0]));
+			free(export_value[0]);
+			free(export_value[1]);
 			*flag1 = 0;
 		}
 	}

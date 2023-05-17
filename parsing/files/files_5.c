@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 17:19:29 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 22:08:03 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	**ft_join_2d(char **tab1, char **tab2, int p)
 	while (tab2[++i])
 		new_tab[cont1++] = ft_strdup(tab2[i]);
 	new_tab[cont1] = 0;
+	free_2d_table(tab2);
+	free(tab1);
 	return (new_tab);
 }
 
@@ -54,25 +56,32 @@ void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j)
 	char	*temp1;
 	char	**temp2;
 	char	*t_mp;
+	char	*t_mp1;
 
 	t_mp = (*tmp)->cmds[(*j)];
 	(*tmp)->cmds[(*j)] = extand_var((*tmp)->cmds[(*j)]);
-	if (t_mp)
-		free(t_mp);
 	if ((*tmp)->cmds[(*j)] && ft_strcmp(t_mp, (*tmp)->cmds[(*j)]))
 	{
 		if (ft_strchr(t_mp, '$'))
 			(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
-		if (!ft_strchr(t_mp, '\"') && (ft_strchr((*tmp)->cmds[(*j)], ' ') || ft_strchr((*tmp)->cmds[(*j)], '\t')))
+		if (!ft_strchr(t_mp, '\"') && (ft_strchr((*tmp)->cmds[(*j)], ' ')
+			|| ft_strchr((*tmp)->cmds[(*j)], '\t')))
 		{
 			temp1 = remove_quotes((*tmp)->cmds[(*j)]);
+			t_mp1 = temp1;
 			temp1 = set_spliter(temp1, ' ');
+			if(t_mp1)
+				free(t_mp1);
 			temp2 = ft_split(temp1, -1);
+			if (temp1)
+				free(temp1);
 			(*tmp)->cmds = ft_join_2d((*tmp)->cmds, temp2, (*j));
 		}
 	}
 	else
 		(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
+	if (t_mp)
+		free(t_mp);
 	(*j)++;
 }
 

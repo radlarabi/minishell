@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 21:53:34 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/17 15:12:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/17 18:50:35 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_rep_n(char *line)
 		}
 		i++;
 	}
-	if (len - 1 > 0 && len -1 == cont)
+	if (len - 1 > 0 && len - 1 == cont)
 		return (1);
 	return (0);
 }
@@ -74,7 +74,6 @@ int	ft_echo(t_cmd_line **commands_v)
 	tmp = (*commands_v);
 	flag = 0;
 	i = 1;
-	
 	while (i < line_cmd(tmp->cmds))
 		ft_echo_utils(tmp->cmds, &i, &flag);
 	if (!flag)

@@ -1,0 +1,243 @@
+excution/builtins/cd.c: Error!
+Error: TOO_FEW_TAB          (line:  65, col:  36):	Missing tabs for indent level
+Error: TOO_MANY_INSTR       (line:  65, col:  36):	Too many instructions on a single line
+Error: MULT_ASSIGN_LINE     (line:  65, col:  41):	Multiple assignations on a single line
+Error: TOO_FEW_TAB          (line:  83, col:  33):	Missing tabs for indent level
+Error: TOO_MANY_INSTR       (line:  83, col:  33):	Too many instructions on a single line
+excution/builtins/echo.c: Error!
+Error: EMPTY_LINE_FUNCTION  (line:  77, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  77, col:   1):	Space on empty line
+excution/builtins/env.c: OK!
+excution/builtins/exit.c: OK!
+excution/builtins/export.c: OK!
+excution/builtins/export_utils.c: OK!
+excution/builtins/export_utils_1.c: OK!
+excution/builtins/pwd.c: OK!
+excution/builtins/unset.c: OK!
+excution/builtins/utils_builtins.c: OK!
+excution/execve/execution_utils.c: Error!
+Error: TOO_MANY_FUNCS       (line: 115, col:   1):	Too many functions in file
+excution/pipes/pipes.c: OK!
+excution/pipes/pipes_utiles_1.c: OK!
+excution/pipes/pipes_utiles_2.c: OK!
+includes/minishell.h: Error!
+Notice: GLOBAL_VAR_DETECTED  (line:  63, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: MISALIGNED_FUNC_DECL (line:  95, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line:  96, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line:  97, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line:  98, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line:  99, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 100, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 101, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 103, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 104, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 105, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 106, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 107, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 108, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 109, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 110, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 111, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 112, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 113, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 114, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 115, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 116, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 117, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 118, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 119, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 120, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 121, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 122, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 123, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 124, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 125, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 126, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 127, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 128, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 129, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 130, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 131, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 132, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 133, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 134, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 135, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 136, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 137, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 138, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 139, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 140, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 141, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 142, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 143, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 144, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 145, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 146, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 147, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 148, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 149, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 150, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 151, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 152, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 153, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 154, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 155, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 156, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 157, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 158, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 159, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 160, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 161, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 162, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 163, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 164, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 165, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 166, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 167, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 168, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 169, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 170, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 171, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 172, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 173, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 174, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 175, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 176, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 177, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 178, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 179, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 180, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 181, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 182, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 183, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 184, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 186, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 187, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 188, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 189, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 190, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 191, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 192, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 193, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 194, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 195, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 196, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 197, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 198, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 199, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 200, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 201, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 202, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 203, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 204, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 205, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 206, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 207, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 208, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 209, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 210, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 211, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 212, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 213, col:  27):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 214, col:  26):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 215, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 216, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 217, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 218, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 219, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 220, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 221, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 222, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 223, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 224, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 229, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 230, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 231, col:  25):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 232, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 233, col:   1):	Extra tabs for indent level
+Error: MISALIGNED_FUNC_DECL (line: 234, col:  25):	Misaligned function declaration
+Error: TOO_MANY_TAB         (line: 235, col:   1):	Extra tabs for indent level
+libft/ft_atoi.c: OK!
+libft/ft_bzero.c: OK!
+libft/ft_calloc.c: OK!
+libft/ft_isalnum.c: OK!
+libft/ft_isalpha.c: OK!
+libft/ft_isascii.c: OK!
+libft/ft_isdigit.c: OK!
+libft/ft_isprint.c: OK!
+libft/ft_itoa.c: OK!
+libft/ft_lstadd_back_bonus.c: OK!
+libft/ft_lstadd_front_bonus.c: OK!
+libft/ft_lstclear_bonus.c: OK!
+libft/ft_lstdelone_bonus.c: OK!
+libft/ft_lstiter_bonus.c: OK!
+libft/ft_lstlast_bonus.c: OK!
+libft/ft_lstmap_bonus.c: OK!
+libft/ft_lstnew_bonus.c: OK!
+libft/ft_lstsize_bonus.c: OK!
+libft/ft_memchr.c: OK!
+libft/ft_memcmp.c: OK!
+libft/ft_memcpy.c: OK!
+libft/ft_memmove.c: OK!
+libft/ft_memset.c: OK!
+libft/ft_putchar_fd.c: OK!
+libft/ft_putendl_fd.c: OK!
+libft/ft_putnbr_fd.c: OK!
+libft/ft_putstr_fd.c: OK!
+libft/ft_split.c: OK!
+libft/ft_strchr.c: OK!
+libft/ft_strdup.c: OK!
+libft/ft_striteri.c: OK!
+libft/ft_strjoin.c: OK!
+libft/ft_strlcat.c: OK!
+libft/ft_strlcpy.c: OK!
+libft/ft_strlen.c: OK!
+libft/ft_strmapi.c: OK!
+libft/ft_strncmp.c: OK!
+libft/ft_strnstr.c: OK!
+libft/ft_strrchr.c: OK!
+libft/ft_strtrim.c: OK!
+libft/ft_substr.c: OK!
+libft/ft_tolower.c: OK!
+libft/ft_toupper.c: OK!
+libft/libft.h: OK!
+parsing/check_syntax.c: OK!
+parsing/env_link.c: OK!
+parsing/files.c: OK!
+parsing/fill_types.c: OK!
+parsing/free.c: OK!
+parsing/here_doc.c: Error!
+Error: TOO_MANY_FUNCS       (line:  89, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 116, col:   1):	Too many functions in file
+parsing/lst_add.c: OK!
+parsing/lst_init.c: OK!
+parsing/main.c: Error!
+Error: CONSECUTIVE_SPC      (line:  97, col:   5):	Two or more consecutives spaces
+Error: SPACE_BEFORE_FUNC    (line:  97, col:   8):	space before function name
+Error: FORBIDDEN_CHAR_NAME  (line:  97, col:   9):	user defined identifiers should contain only lowercase characters, digits or '_'
+Error: FORBIDDEN_CHAR_NAME  (line:  97, col:   9):	user defined identifiers should contain only lowercase characters, digits or '_'
+Error: FORBIDDEN_CHAR_NAME  (line:  97, col:   9):	user defined identifiers should contain only lowercase characters, digits or '_'
+Error: WRONG_SCOPE_COMMENT  (line:  99, col:   5):	Comment is invalid in this scope
+Error: TOO_MANY_FUNCS       (line: 102, col:   1):	Too many functions in file
+Error: WRONG_SCOPE_COMMENT  (line: 111, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 112, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 117, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 118, col:   9):	Comment is invalid in this scope
+parsing/set_states.c: OK!
+parsing/splite_pipe_space.c: OK!
+parsing/splite_pipe_space_utiles.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  55, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  63, col:  13):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line:  69, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  69, col:   1):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line:  71, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  71, col:   1):	Space on empty line
+parsing/files/files_1.c: OK!
+parsing/files/files_2.c: OK!
+parsing/files/files_3.c: Error!
+Error: LINE_TOO_LONG        (line:  78, col:  83):	line too long
+parsing/files/files_4.c: OK!
+parsing/files/files_5.c: Error!
+Error: LINE_TOO_LONG        (line:  66, col:  87):	line too long
+parsing/syntax/syntax_1.c: OK!
+parsing/syntax/syntax_2.c: OK!

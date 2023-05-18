@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 16:47:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 20:53:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,12 @@ typedef struct s_cmd
 typedef struct s_cmd_line
 {
 	int					infile;
+	int					fd_herdoc;
 	int					outfile;
 	int					flag;
 	int					index;
+	int					index_infile;
+	int					index_herdoc;
 	char				*fd_error;
 	char				**cmds;
 	struct s_cmd_line	*next;

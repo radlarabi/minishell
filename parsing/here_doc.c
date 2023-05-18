@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 19:17:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:15:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 		child_of_herdoc(temp, fd, j);
 	waitpid(pid, &status, 0);
 	g_gv->exit_status = WEXITSTATUS(status);
-	(*tmp)->infile = fd[0];
-	printf("infile her_doc %d\n", (*tmp)->infile);
+	(*tmp)->fd_herdoc = fd[0];
+	(*tmp)->index_herdoc = *j;
 	close(fd[1]);
 	free(temp[(*j)++]);
 	signal(SIGINT, SIG_IGN);

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 19:19:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 20:55:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if (sub_files_red_in(&infile, tmp, j, temp))
 		return (1);
 	(*tmp)->infile = open(infile, O_RDONLY);
+	(*tmp)->index_infile = *j;
 	printf("red in %d\n", (*tmp)->infile);
 	(*tmp)->fd_error = NULL;
 	if ((*tmp)->infile < 0)

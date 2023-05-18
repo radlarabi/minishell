@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 00:37:37 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/18 20:58:33 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ t_cmd_line	*lst_init_cmds(void)
 	if (!cmd_l)
 		return (NULL);
 	cmd_l->infile = -1;
+	cmd_l->fd_herdoc = -1;
+	cmd_l->index_herdoc = 0;
+	cmd_l->index_infile = 0;
 	cmd_l->outfile = -1;
 	cmd_l->flag = 0;
 	cmd_l->next = NULL;

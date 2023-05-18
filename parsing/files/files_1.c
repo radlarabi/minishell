@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 18:11:20 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:19:45 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->infile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
+		(*tmp)->flag = 3;
 		perror((*tmp)->fd_error);
 		if (infile)
 			free(infile);
@@ -105,6 +106,7 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 	if ((*tmp)->outfile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(outfile);
+		(*tmp)->flag = 4;
 		perror((*tmp)->fd_error);
 		if (outfile)
 			free(outfile);

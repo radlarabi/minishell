@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 17:41:40 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:17:26 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	open_herdoc(char **temp, t_cmd_line **tmp)
 	j = 0;
 	while (temp[j])
 	{
-		printf("temp[%d] %s\n", j, temp[j]);
 		if (!ft_strcmp(temp[j], "<<"))
 		{
 			if (open_appnd_herdoc(temp, tmp, &j))

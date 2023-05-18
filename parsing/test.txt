@@ -1,3 +1,6 @@
 
 echo abdo < ldjfkld: error file not necessary to execute command
 cat < Makefilse < $ldjf << h herdoc first to open
+
+
+ < file | << l | << d 

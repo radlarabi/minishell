@@ -33,7 +33,7 @@ SRCS = 	parsing/main.c \
 		parsing/syntax/syntax_2.c \
 
 CFLAGS = -g3 #-Wall -Wextra -Werror -fsanitize=address
-# CFLAGS = -fsanitize=address -g3
+#CFLAGS = -fsanitize=address -g3
 # CFLAGS = -g
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
@@ -46,9 +46,9 @@ all: $(NAME)
 $(NAME): $(O_SRCS)
 	@stty -echoctl
 	@make -sC libft/
-	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline 
-	
-# -I ~/Users/rlarabi/goinfre/homebrew/Cellar/readline/8.2.1/include  -L /Users/rlarabi/goinfre/homebrew/Cellar/readline/8.2.1/lib 
+	$(CC) $(CFLAGS) $(SRCS) libft/libft.a -o  $(NAME) -lreadline
+
+# -I ~/Users/rlarabi/goinfre/homebrew/Cellar/readline/8.2.1/include  -L /Users/rlarabi/goinfre/homebrew/Cellar/readline/8.2.1/lib
 clean:
 	$(RM) $(O_SRCS)
 

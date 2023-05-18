@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 14:57:07 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 17:41:40 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,17 @@ int	open_herdoc(char **temp, t_cmd_line **tmp)
 	j = 0;
 	while (temp[j])
 	{
+		printf("temp[%d] %s\n", j, temp[j]);
 		if (!ft_strcmp(temp[j], "<<"))
 		{
 			if (open_appnd_herdoc(temp, tmp, &j))
 				return (1);
 		}
 		else
+		{
+			//free(temp[j]);
 			j++;
+		}
 	}
 	return (0);
 }
@@ -116,7 +120,7 @@ int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 		}
 		else
 		{
-			free(temp[j]);
+			//free(temp[j]);
 			j++;
 		}
 	}

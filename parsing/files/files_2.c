@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 01:00:20 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 19:20:28 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 {
 	char	*outfile;
 
-	if (sub_files_red_in(&outfile, tmp, j, temp))
+	if (sub_files_red_out(&outfile, tmp, j, temp))
 		return (1);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if ((*tmp)->outfile < 0)

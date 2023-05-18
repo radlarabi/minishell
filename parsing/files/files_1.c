@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 18:19:45 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:19:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	sub_files_red_in(char **infile, t_cmd_line **tmp, int *j, char **temp)
 			free((*infile));
 		return (1);
 	}
-	if ((*tmp)->infile != -1)
-		close((*tmp)->infile);
 	return (0);
 }
 
@@ -53,6 +51,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	if (sub_files_red_in(&infile, tmp, j, temp))
 		return (1);
 	(*tmp)->infile = open(infile, O_RDONLY);
+	printf("red in %d\n", (*tmp)->infile);
 	(*tmp)->fd_error = NULL;
 	if ((*tmp)->infile < 0)
 	{
@@ -90,8 +89,6 @@ int	sub_files_red_out(char **outfile, t_cmd_line **tmp, int *j, char **temp)
 			free((*outfile));
 		return (1);
 	}
-	if ((*tmp)->outfile != -1)
-		close((*tmp)->outfile);
 	return (0);
 }
 
@@ -99,7 +96,7 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 {
 	char	*outfile;
 
-	if (sub_files_red_in(&outfile, tmp, j, temp))
+	if (sub_files_red_out(&outfile, tmp, j, temp))
 		return (1);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	(*tmp)->fd_error = NULL;

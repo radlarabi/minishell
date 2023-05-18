@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utiles_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 00:23:26 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:10:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,
 {
 	if (cmd_l->infile != -1)
 	{
+		printf("infile in execve %d\n", cmd_l->infile);
 		dup2(cmd_l->infile, 0);
 		close(cmd_l->infile);
 	}

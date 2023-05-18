@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 18:17:26 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/18 18:58:09 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 	int	j;
 
 	j = 0;
-	if (open_herdoc(temp, tmp))
-		return (1);
+	// if (open_herdoc(temp, tmp))
+	// 	return (1);
 	while(temp[j])
 	{
 		if (!ft_strcmp(temp[j], ">>"))
@@ -126,6 +126,30 @@ int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 	return (0);
 }
 
+void	change_commands_struct(t_cmd_line **cmd)
+{
+	t_cmd_line *tmp;
+	char		**temp;
+	int			j;
+	int			i;
+
+	tmp = *cmd;
+	i = 0;
+	while(tmp)
+	{
+		temp = fill_temp_of_command_struct(tmp->cmds);
+		j = sub_command_struct(&tmp);
+		if (tmp->cmds)
+			tmp->cmds = change_content_cmds(tmp->cmds, j);
+		if (open_files_in_command_struct(temp, &tmp))
+			break ;
+		if (temp)
+			free(temp);
+		tmp = tmp->next;
+		i++;
+	}
+}
+
 t_cmd_line	*commands_struct(char **cmds)
 {
 	t_cmd_line	*cmd_l;
@@ -140,15 +164,39 @@ t_cmd_line	*commands_struct(char **cmds)
 	{
 		tmp = init_temp_cmd_line(cmds, i);
 		temp = fill_temp_of_command_struct(tmp->cmds);
-		j = sub_command_struct(&tmp);
-		if (tmp->cmds)
-			tmp->cmds = change_content_cmds(tmp->cmds, j);
-		if (open_files_in_command_struct(temp, &tmp))
-			break ;
-		if (temp)
-			free(temp);
+		j = 0;
+		while(temp[j])
+		{
+			if (!ft_strcmp(temp[j], "<<"))
+			{
+				// free(cmds[j]);
+				printf("herd %d\n", j);
+				j++;
+				files_here_doc(temp, &tmp, &j);
+				// if (g_gv->exit_status == 1)
+				// 	return (1);
+			}else
+				j++;
+		}
 		ft_lstadd_back_cmds(&cmd_l, tmp);
-		i++;
+		i++;	
 	}
+	change_commands_struct(&cmd_l);
+	// i = 0;
+	// while (cmds[i])
+	// {
+	// 	// tmp = init_temp_cmd_line(cmds, i);
+	// 	temp = fill_temp_of_command_struct(cmd_l->cmds);
+	// 	j = sub_command_struct(&cmd_l);
+	// 	if (cmd_l->cmds)
+	// 		cmd_l->cmds = change_content_cmds(cmd_l->cmds, j);
+	// 	if (open_files_in_command_struct(temp, &cmd_l))
+	// 		break ;
+	// 	if (temp)
+	// 		free(temp);
+	// 	cmd_l = cmd_l->next;
+	// 	// ft_lstadd_back_cmds(&cmd_l, tmp);
+	// 	i++;
+	// }
 	return (cmd_l);
 }

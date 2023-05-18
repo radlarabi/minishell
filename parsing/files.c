@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 21:14:47 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 22:05:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 		}
 		else
 		{
-			//free(temp[j]);
+			free(temp[j]);
 			j++;
 		}
 	}
@@ -146,6 +146,7 @@ void	change_commands_struct(t_cmd_line **cmd)
 		tmp = tmp->next;
 		i++;
 	}
+	// free_2d_table(temp);
 }
 
 t_cmd_line	*commands_struct(char **cmds)
@@ -168,7 +169,6 @@ t_cmd_line	*commands_struct(char **cmds)
 			if (!ft_strcmp(temp[j], "<<"))
 			{
 				// free(cmds[j]);
-				printf("herd %d\n", j);
 				j++;
 				files_here_doc(temp, &tmp, &j);
 				if (g_gv->exit_status == 1)
@@ -176,6 +176,7 @@ t_cmd_line	*commands_struct(char **cmds)
 			}else
 				j++;
 		}
+		free_2d_table(temp);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;	
 	}

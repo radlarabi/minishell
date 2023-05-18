@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 21:15:49 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:42:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	child_of_herdoc(char **temp, int fd[2], int *j)
 	tab = remove_quotes(temp[*j]);
 	fill_content_heredoc(tab, fd[1], in_q);
 	free(tab);
-	free(temp[*j]);
+	// free(temp[*j]);
 	close(fd[1]);
 	close(fd[0]);
 	exit(0);
@@ -82,7 +82,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	(*tmp)->fd_herdoc = fd[0];
 	(*tmp)->index_herdoc = *j;
 	close(fd[1]);
-	free(temp[(*j)++]);
+	// free(temp[(*j)++]);
 	signal(SIGINT, SIG_IGN);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 21:01:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:39:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,
 {
 	if (cmd_l->infile != -1 || cmd_l->fd_herdoc != -1)
 	{
-		printf("cmd_l->index_herdoc %d\ncmd_l->index_infile %d\n", cmd_l->index_herdoc , cmd_l->index_infile);
 		if (cmd_l->index_herdoc > cmd_l->index_infile)
 		{
 			dup2(cmd_l->fd_herdoc, 0);
@@ -90,7 +89,6 @@ void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,
 			dup2(cmd_l->infile, 0);
 			close(cmd_l->infile);
 		}
-		printf("infile in execve %d\n", cmd_l->infile);
 	}
 	else if (i != 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 22:08:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 14:41:33 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,7 @@ int	open_read_out_in(char **temp, t_cmd_line **tmp, int *j)
 
 int	open_appnd_herdoc(char **temp, t_cmd_line **tmp, int *j)
 {
-	if (!ft_strcmp(temp[(*j)], ">>"))
-	{
-		free(temp[(*j)]);
-		(*j)++;
-		if (files_append(temp, tmp, j))
-			return (1);
-	}
-	else if (!ft_strcmp(temp[(*j)], "<<"))
+	if (!ft_strcmp(temp[(*j)], "<<"))
 	{
 		free(temp[(*j)]);
 		(*j)++;
@@ -121,6 +114,13 @@ int	open_appnd_herdoc(char **temp, t_cmd_line **tmp, int *j)
 			return (1);
 		files_here_doc(temp, tmp, j);
 		if (g_gv->exit_status == 1)
+			return (1);
+	}
+	else if (!ft_strcmp(temp[(*j)], ">>"))
+	{
+		free(temp[(*j)]);
+		(*j)++;
+		if (files_append(temp, tmp, j))
 			return (1);
 	}
 	return (0);

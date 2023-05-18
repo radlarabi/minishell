@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 22:13:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 13:26:29 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,20 @@ int	main_check_syntax(char *str, t_command **cmd)
 	return (0);
 }
 
-void    sigint_handler_main(int sig)
-{
-	printf("\n");
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
+// void    sigint_handler_main(int sig)
+// {
+// 	printf("\n");
+//     rl_on_new_line();
+//     rl_replace_line("", 0);
+//     rl_redisplay();
+// }
 void    handleCtrlBS(int sig)
 {
+	// printf("stoooooooooop\n");
 	// exit(0);
 }
+
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -114,9 +117,7 @@ int	main(int ac, char **av, char **env)
 	{
 		cmd = NULL;
 		cmd_l = NULL;
-		signal(SIGINT,sigint_handler_main);
-		// signal(SIGQUIT, handleCtrlBS);
-		str = readline("\033[0;33mMINISHELL ->\033[0;m ");
+		str = readline("MINISHELL -> ");
 		fill_t_command_struct(&cmd, str);
 		if (main_check_syntax(str, &cmd))
 			continue ;

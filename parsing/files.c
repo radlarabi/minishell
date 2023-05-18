@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 23:43:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/18 14:57:07 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,42 @@ t_cmd_line	*init_temp_cmd_line(char **cmds, int i)
 	return (tmp);
 }
 
-int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
+int	open_herdoc(char **temp, t_cmd_line **tmp)
 {
 	int	j;
 
 	j = 0;
 	while (temp[j])
 	{
-		if (!ft_strcmp(temp[j], "<") || !ft_strcmp(temp[j], ">"))
-		{
-			if (open_read_out_in(temp, tmp, &j))
-				break ;
-		}
-		else if (!ft_strcmp(temp[j], ">>") || !ft_strcmp(temp[j], "<<"))
+		if (!ft_strcmp(temp[j], "<<"))
 		{
 			if (open_appnd_herdoc(temp, tmp, &j))
 				return (1);
+		}
+		else
+			j++;
+	}
+	return (0);
+}
+
+int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
+{
+	int	j;
+
+	j = 0;
+	if (open_herdoc(temp, tmp))
+		return (1);
+	while(temp[j])
+	{
+		if (!ft_strcmp(temp[j], ">>"))
+		{
+			if (open_appnd_herdoc(temp, tmp, &j))
+				break ;
+		}
+		else if (!ft_strcmp(temp[j], "<") || !ft_strcmp(temp[j], ">"))
+		{
+			if (open_read_out_in(temp, tmp, &j))
+				break ;
 		}
 		else
 		{

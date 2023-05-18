@@ -1,16 +1,3 @@
-/ ====> [bash: /: is a directory]
 
-
-/ hada makhasoch idkhol fi syntax error ;
-
-| test ==>  bash: syntax error near unexpected token `|'
-
-
-HERDOC ====> [<< 456] [>> """""] ogaa3 dok char lokhriin .....
-
-< cs | sc  syntax error
-abcd | ""  syntax error
-
-
-
-
+echo abdo < ldjfkld: error file not necessary to execute command
+cat < Makefilse < $ldjf << h herdoc first to open

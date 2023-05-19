@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 22:05:24 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/19 23:21:07 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,25 @@ void	change_commands_struct(t_cmd_line **cmd)
 		tmp = tmp->next;
 		i++;
 	}
-	// free_2d_table(temp);
+}
+int	open_herdocs(t_cmd_line **tmp, char **temp)
+{
+	int	j;
+
+	j = 0;
+	while(temp[j])
+	{
+		if (!ft_strcmp(temp[j], "<<"))
+		{
+			j++;
+			files_here_doc(temp, tmp, &j);
+			if (g_gv->exit_status == 1)
+				return 1;
+		}
+		else
+			j++;
+	}
+	return 0;
 }
 
 t_cmd_line	*commands_struct(char **cmds)
@@ -163,22 +181,11 @@ t_cmd_line	*commands_struct(char **cmds)
 	{
 		tmp = init_temp_cmd_line(cmds, i);
 		temp = fill_temp_of_command_struct(tmp->cmds);
-		j = 0;
-		while(temp[j])
-		{
-			if (!ft_strcmp(temp[j], "<<"))
-			{
-				// free(cmds[j]);
-				j++;
-				files_here_doc(temp, &tmp, &j);
-				if (g_gv->exit_status == 1)
-					return NULL;
-			}else
-				j++;
-		}
+		if (open_herdocs(&tmp, temp))
+			return NULL;
 		free_2d_table(temp);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
-		i++;	
+		i++;
 	}
 	change_commands_struct(&cmd_l);
 	return (cmd_l);

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/17 13:20:39 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/19 23:13:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_utils_1(char **command)
 		if (dir != NULL)
 		{
 			ft_putstr_fd(command[0], 2);
-			ft_putendl_fd("is a directory", 2);
+			ft_putendl_fd(" is a directory", 2);
 			exit(126);
 		}
 		execve(command[0], command, get__env());

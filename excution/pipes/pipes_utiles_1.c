@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/19 23:24:37 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:00:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ void	open_pipes(int num_pipes, int **pipefd)
 		}
 		i++;
 	}
-}
-
-void	cmd_not_found(char *cmd)
-{
-	printf("command not found: %s\n", cmd);
-	exit(127);
 }
 
 int	check_command_builtins(char *command)
@@ -73,6 +67,7 @@ void	command_builtins(t_cmd_line **cmd_l)
 	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "pwd"))
 		ft_pwd(cmd_l);
 }
+
 void	dup_infile(t_cmd_line *cmd_l)
 {
 	if (cmd_l->index_herdoc > cmd_l->index_infile)
@@ -86,6 +81,7 @@ void	dup_infile(t_cmd_line *cmd_l)
 		close(cmd_l->infile);
 	}
 }
+
 void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,
 		int num_pipes)
 {

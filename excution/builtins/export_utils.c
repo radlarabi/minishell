@@ -6,25 +6,40 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/17 22:02:15 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 18:51:23 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+t_env	*ft_lstlast(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
 void	sub_add_node(t_env **env, t_env **new_node, \
 			char *env_var, char *env_val)
 {
+	t_env	*temp;
+
 	(*new_node)->value = ft_strdup(env_val);
 	(*new_node)->var = ft_strdup(env_var);
 	(*new_node)->flag = 0;
-	(*new_node)->next = (*env);
-	(*env) = (*new_node);
+	(*new_node)->next = NULL;
+	temp = ft_lstlast(*env);
+	temp->next = (*new_node);
 }
 
 void	add_node(t_env **env, char *env_var, char *env_val, int a)
 {
 	t_env	*new_node;
+	t_env	*temp;
 
 	if (env_var)
 	{
@@ -39,8 +54,9 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 				new_node->flag = 2;
 			else if (!a)
 				new_node->flag = 1;
-			new_node->next = (*env);
-			(*env) = new_node;
+			new_node->next = NULL;
+			temp = ft_lstlast(*env);
+			temp->next = new_node;
 		}
 		else if (!a)
 			sub_add_node(env, &new_node, env_var, env_val);
@@ -87,22 +103,6 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 			}
 			else
 				current->value = NULL;
-			break ;
-		}
-		current = current->next;
-	}
-}
-
-void	join_value(t_env **env, char *env_var, char *new_env_val)
-{
-	t_env	*current;
-
-	current = *env;
-	while (current != NULL)
-	{
-		if (ft_strcmp(current->var, env_var) == 0)
-		{
-			current->value = ft_strjoin(current->value, new_env_val);
 			break ;
 		}
 		current = current->next;

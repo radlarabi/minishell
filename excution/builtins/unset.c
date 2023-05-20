@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/16 20:37:54 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 18:54:03 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,27 @@ int	ft_unset(t_cmd_line **commands_v)
 {
 	t_env	*temp;
 	char	*var;
+	int		i;
 
-	temp = g_gv->env;
-	var = (*commands_v)->cmds[1];
-	if (var && check_syntax_cmd(var))
+	i = 0;
+	while ((*commands_v)->cmds && (*commands_v)->cmds[++i])
 	{
-		ft_putstr_fd("unset: ", 1);
-		ft_putstr_fd(var, 1);
-		ft_putendl_fd(" : not a valid identifier", 1);
-		g_gv->exit_status = 1;
-	}
-	while (temp)
-	{
-		if (var && !ft_strcmp(temp->var, var))
+		var = (*commands_v)->cmds[i];
+		if (var && check_syntax_cmd(var))
 		{
-			remove_node(&g_gv->env, temp->var, temp->value);
-			break ;
+			ft_putstr_fd("unset: ", 1);
+			ft_putstr_fd(var, 1);
+			ft_putendl_fd(" : not a valid identifier", 1);
+			g_gv->exit_status = 1;
 		}
-		temp = temp->next;
+		temp = g_gv->env;
+		while (temp)
+		{
+			if (var && !ft_strcmp(temp->var, var))
+				remove_node(&g_gv->env, temp->var, temp->value);
+			temp = temp->next;
+		}
+		g_gv->exit_status = 0;
 	}
-	g_gv->exit_status = 0;
 	return (0);
 }

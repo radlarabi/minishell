@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/17 18:49:20 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:38:14 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,31 +56,41 @@ int	cd_utils(char **path, char *home_dir, char **prev_dir)
 	return (0);
 }
 
-int	ft_cd(t_cmd_line **cd_cmd)
+int	home_not_set_cd(char *home_dir)
+{
+	if (!home_dir)
+	{
+		ft_putendl_fd("cd: HOME not set", 1);
+		g_gv->exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_cd(t_cmd_line **cd_cmd)
 {
 	char	*home_dir;
 	char	*path;
 	char	*prev_dir;
 
-	(home_dir = ft_getenv("HOME"), path = (*cd_cmd)->cmds[1]);
+	home_dir = ft_getenv("HOME");
+	path = (*cd_cmd)->cmds[1];
 	prev_dir = NULL;
 	if (!cd_utils(&path, home_dir, &prev_dir))
-		return (0);
-	if (!home_dir)
-	{
-		ft_putendl_fd("cd: HOME not set", 1);
-		g_gv->exit_status = 1;
-		return (-1);
-	}
-	if (chdir(path) != -1)
+		return ;
+	if (path && chdir(path) != -1)
 	{
 		prev_dir = ft_getenv("OLDPWD");
 		change_value(&g_gv->env, "OLDPWD", ft_strdup(prev_dir));
 		g_gv->exit_status = 0;
-		return (0);
+		return ;
 	}
-	else if (g_gv->exit_status < 1)
-		(g_gv->exit_status = 1, perror("chdir"));
-	g_gv->exit_status = 0;
-	return (0);
+	else if (path && g_gv->exit_status < 1)
+	{
+		g_gv->exit_status = 1;
+		perror("chdir");
+		return ;
+	}
+	if (home_not_set_cd(home_dir))
+		return ;
 }

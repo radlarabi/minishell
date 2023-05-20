@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 21:53:34 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/18 16:30:39 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/20 14:43:07 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int	ft_echo(t_cmd_line **commands_v)
 	t_cmd_line	*tmp;
 
 	tmp = (*commands_v);
-	if ((tmp->infile == -1 && tmp->flag == 3) || (tmp->outfile == -1 && tmp->flag == 4))
-		return 1;
+	if ((tmp->infile == -1 && tmp->flag == 3)
+		|| (tmp->outfile == -1 && tmp->flag == 4))
+		return (1);
 	flag = 0;
 	i = 1;
 	while (i < line_cmd(tmp->cmds))

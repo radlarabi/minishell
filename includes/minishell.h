@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 20:53:27 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:24:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ typedef struct s_num_p_cmds
 	int					num_cmds;
 }						t_num_p_cmds;
 
-extern void			rl_replace_line(const char *s, int i);
+extern void				rl_replace_line(const char *s, int i);
 /*  fonction builtins  */
 int						ft_pwd(t_cmd_line **commands_v);
 int						ft_echo(t_cmd_line **commands_v);
-int						ft_cd(t_cmd_line **cd_cmd);
+void					ft_cd(t_cmd_line **cd_cmd);
 void					ft_env(t_cmd_line **commands_v);
 int						ft_export(t_cmd_line **commands_v);
 int						ft_exit(t_cmd_line **commands_v, int flag_exit);
@@ -106,8 +106,6 @@ int						ft_unset(t_cmd_line **commands_v);
 void					add_node(t_env **env, char *env_var, char *env_val,
 							int a);
 char					*remove_char(char *string, int pos);
-void					change_value(t_env **env, char *env_var,
-							char *new_env_val);
 void					join_value(t_env **env, char *env_var,
 							char *new_env_val);
 void					error_identifie(char *value_of_var);
@@ -139,7 +137,6 @@ int						files_here_doc(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);
-char					*change_quote_in_files(char *str);
 char					*get_stop_heredoc(char *str);
 int						fill_content_heredoc(char *stop, int fd, int in_q);
 int						sub_check_qotes(char *str, int *i, int a);
@@ -169,31 +166,23 @@ void					free_2d_table(char **temp);
 int						check_command_builtins(char *command);
 void					command_builtins(t_cmd_line **cmd_l);
 char					*remove_quotes(char *str);
-void					ft_add_back_env(t_env **lst, t_env *new);
-t_env					*init_env(void);
 t_command				*init_lst_in_middle(void);
 void					main_free(t_command **cmd, t_cmd_line **cmd_l,
 							char **temp, char *str);
-void					free_2d_table(char **temp);
 void					free_t_command(t_command **cmd);
 void					free_t_cmd_line(t_cmd_line **cmd);
-int						is_quots(char *str, int index);
 char					**env_is_null(void);
 void					open_pipes(int num_pipes, int **pipefd);
 void					cmd_not_found(char *cmd);
-int						check_command_builtins(char *command);
-void					command_builtins(t_cmd_line **cmd_l);
 void					dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd,
 							int i, int num_pipes);
+void					ft_utils_1(char **command);
 /*			files					*/
 int						is_ambiguous(char *str);
 int						sub_files_red_in(char **infile, t_cmd_line **tmp,
 							int *j, char **temp);
-int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
 int						sub_files_red_out(char **outfile, t_cmd_line **tmp,
 							int *j, char **temp);
-int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
-int						files_append(char **temp, t_cmd_line **tmp, int *j);
 char					*ret_in_double_quotes(char *str);
 char					*get_variable(char *str);
 void					extand_exit_status(char **ret, int *j);
@@ -208,9 +197,7 @@ int						sub_extand_var(char **ret, char *cmds, int *j);
 char					**change_content_cmds(char **cmds, int leen);
 void					remove_double_quotes(char *str, char **ret, int *i,
 							int *j);
-char					*remove_quotes(char *str);
 int						strlen_2d(char **str);
-char					**ft_join_2d(char **tab1, char **tab2, int p);
 void					extand_in_comamnd_struct(t_cmd_line **tmp, int *j);
 int						sub_command_struct(t_cmd_line **tmp);
 char					**fill_temp_of_command_struct(char **cmds);
@@ -225,11 +212,13 @@ void					child(int num_pipes, int i, int **pipefd,
 void					wait_for_child(int *pids, int i);
 void					sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids,
 							t_cmd_line *cmd_l);
+void					sigint_handler(int sig);
+void					init_main_sig(int ac, char **av, char **env);
+void					fill_env_global_var(int ac, char **av, char **env);
 
 /*			****************					*/
 
 /*						syntax						*/
-void					error_msg(void);
 int						chech_syntax_exclamation_mark(t_command *tmp);
 int						sub_check_syntax_error(t_command **cmd);
 int						check_syntax_1(t_command *tmp, t_command *t1,

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 00:03:30 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/17 13:31:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 18:48:16 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	too_many_args_exit(int flag_exit)
 		ft_putendl_fd("exit", 1);
 	ft_putendl_fd("exit: too many arguments", 2);
 	g_gv->exit_status = 1;
-	exit(g_gv->exit_status);
 }
 
 void	num_arg_require(t_cmd_line *temp, int flag_exit)
@@ -74,6 +73,5 @@ int	ft_exit(t_cmd_line **commands_v, int flag_exit)
 		too_many_args_exit(flag_exit);
 	else
 		sub_exit(temp, flag_exit);
-	exit(0);
 	return (0);
 }

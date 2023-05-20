@@ -6,21 +6,11 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/19 23:12:56 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:16:28 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	strlen_2d(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-		i++;
-	return (i);
-}
 
 char	**link_2d_table(char **tab1, char **tab2, int p)
 {
@@ -34,12 +24,12 @@ char	**link_2d_table(char **tab1, char **tab2, int p)
 		return (NULL);
 	j = 0;
 	i = -1;
-	while(++i < p)
+	while (++i < p)
 		new_tab[j++] = ft_strdup(tab1[i]);
 	k = -1;
-	while(tab2[++k])
+	while (tab2[++k])
 		new_tab[j++] = ft_strdup(tab2[k]);
-	while(tab1[++i])
+	while (tab1[++i])
 	{
 		if (i != p)
 			new_tab[j++] = ft_strdup(tab1[i]);
@@ -47,7 +37,7 @@ char	**link_2d_table(char **tab1, char **tab2, int p)
 	new_tab[j] = 0;
 	free_2d_table(tab2);
 	free_2d_table(tab1);
-	return new_tab;
+	return (new_tab);
 }
 
 void	add_in_midel_of_struct(t_cmd_line **tmp, char *t_mp, int *j)
@@ -60,13 +50,13 @@ void	add_in_midel_of_struct(t_cmd_line **tmp, char *t_mp, int *j)
 	if (ft_strchr(t_mp, '$'))
 		(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
 	if (!ft_strchr(t_mp, '\"') && (ft_strchr((*tmp)->cmds[(*j)], ' ')
-		|| ft_strchr((*tmp)->cmds[(*j)], '\t')))
+			|| ft_strchr((*tmp)->cmds[(*j)], '\t')))
 	{
 		temp3 = ft_strdup((*tmp)->cmds[(*j)]);
 		temp1 = remove_quotes(temp3);
 		t_mp1 = temp1;
 		temp1 = set_spliter(temp1, ' ');
-		if(t_mp1)
+		if (t_mp1)
 			free(t_mp1);
 		temp2 = ft_split(temp1, -1);
 		if (temp1)
@@ -77,11 +67,7 @@ void	add_in_midel_of_struct(t_cmd_line **tmp, char *t_mp, int *j)
 
 void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j)
 {
-	char	*temp1;
-	char	*temp3;
-	char	**temp2;
 	char	*t_mp;
-	char	*t_mp1;
 
 	t_mp = (*tmp)->cmds[(*j)];
 	(*tmp)->cmds[(*j)] = extand_var((*tmp)->cmds[(*j)]);

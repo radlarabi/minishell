@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 23:22:42 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 17:49:36 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 14:48:22 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	sub_set_spiter_1(char *str, int *i, char **s, int c)
 	}
 	else if (str[(*i)] == c || str[(*i)] == '\t')
 	{
-		// printf("str[(*i)] %c\t--> %c\n", str[(*i)], c);
 		if (c == ' ' && (str[(*i)] == '\t' || str[(*i)] == ' '))
 		{
 			(*s)[(*i)] = -1;
@@ -60,15 +59,12 @@ int	sub_set_spiter_1(char *str, int *i, char **s, int c)
 		}
 		else if (c == '|' && str[(*i)] == '|')
 		{
-			// printf("****\n");
 			(*s)[(*i)] = -1;
 			(*i)++;
 		}
 		else
 			(*i)++;
-			
 	}
-	
 	return (0);
 }
 

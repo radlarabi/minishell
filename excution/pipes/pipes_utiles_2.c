@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/17 17:21:08 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 19:00:59 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,10 @@ void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 		cmd_l = cmd_l->next;
 	}
 	wait_for_child(pids, i);
+}
+
+void	cmd_not_found(char *cmd)
+{
+	printf("command not found: %s\n", cmd);
+	exit(127);
 }

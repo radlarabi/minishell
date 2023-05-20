@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:31:40 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/19 21:50:47 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 22:59:30 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,14 @@ char	*extand_var(char *cmds)
 
 char	**change_content_cmds(char **cmds, int leen)
 {
-	int		i;
 	int		j;
 	char	**ret;
 
 	ret = malloc(sizeof(char *) * (leen + 1));
 	if (!ret)
 		return (NULL);
-	i = 0;
 	j = 0;
-	while (leen > i)
-	{
-		while (cmds[i] && (!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i], "<<")
-				|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
-			i += 2;
-		if (cmds[i])
-		{
-			ret[j] = ft_strdup(cmds[i]);
-			j++;
-		}
-		i++;
-	}
+	change_content_cmds_utils(ret, cmds, &j, leen);
 	ret[j] = 0;
 	free_2d_table(cmds);
 	return (ret);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 21:38:41 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 21:39:38 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	sub_files_red_in(char **infile, t_cmd_line **tmp, int *j, char **temp)
 	if (in_q && is_ambiguous((*infile)))
 	{
 		(*tmp)->fd_error = ft_strdup((*infile));
+		(*tmp)->flag = 3;
 		printf("ambiguous redirect\n");
 		g_gv->exit_status = 1;
 		if ((*infile))
@@ -83,6 +84,7 @@ int	sub_files_red_out(char **outfile, t_cmd_line **tmp, int *j, char **temp)
 	if (in_q && is_ambiguous((*outfile)))
 	{
 		(*tmp)->fd_error = ft_strdup((*outfile));
+		(*tmp)->flag = 4;
 		printf("ambiguous redirect\n");
 		g_gv->exit_status = 1;
 		if ((*outfile))

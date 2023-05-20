@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:24:42 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 23:28:11 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,8 @@ void					sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids,
 void					sigint_handler(int sig);
 void					init_main_sig(int ac, char **av, char **env);
 void					fill_env_global_var(int ac, char **av, char **env);
+void					change_content_cmds_utils(char **ret, char **cmds,
+							int *j, int leen);
 
 /*			****************					*/
 

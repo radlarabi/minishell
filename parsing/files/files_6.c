@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:03:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:16:37 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/20 22:57:02 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,31 @@ int	strlen_2d(char **str)
 	while (str && str[i])
 		i++;
 	return (i);
+}
+
+void	change_content_cmds_utils(char **ret, char **cmds, int *j, int leen)
+{
+	int	i;
+
+	i = 0;
+	while (leen > i)
+	{
+		if (leen > i && ((!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i], "<<")
+					|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
+			&& !cmds[i + 1])
+		{
+			ret[*j] = ft_strdup(cmds[0]);
+			(*j)++;
+		}
+		while (leen > i && (!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i],
+					"<<") || !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i],
+					">>")))
+			i += 2;
+		if (leen > i && cmds[i])
+		{
+			ret[*j] = ft_strdup(cmds[i]);
+			(*j)++;
+		}
+		i++;
+	}
 }

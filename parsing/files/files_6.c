@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:03:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 22:57:02 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 16:47:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,19 @@ int	sub_command_struct(t_cmd_line **tmp)
 	char	*t_mp;
 
 	j = 0;
-	while ((*tmp)->cmds && (*tmp)->cmds[j])
+	while ((*tmp)->cmds_exe && (*tmp)->cmds_exe[j])
 	{
-		if (!ft_strcmp((*tmp)->cmds[j], "\"\"") || !ft_strcmp((*tmp)->cmds[j],
-				"\'\'"))
+		if (!ft_strcmp((*tmp)->cmds_exe[j], "\"\"")
+			|| !ft_strcmp((*tmp)->cmds_exe[j], "\'\'"))
 		{
-			t_mp = (*tmp)->cmds[j];
-			(*tmp)->cmds[j++] = ft_strdup("");
+			t_mp = (*tmp)->cmds_exe[j];
+			(*tmp)->cmds_exe[j++] = ft_strdup("");
 			free(t_mp);
 		}
-		else if (!ft_strcmp((*tmp)->cmds[j], "<<"))
-			j += 2;
-		else if (!ft_strcmp((*tmp)->cmds[j], "<"))
-			j += 2;
-		else if (!ft_strcmp((*tmp)->cmds[j], ">"))
-			j += 2;
-		else if (!ft_strcmp((*tmp)->cmds[j], ">>"))
-			j += 2;
 		else
+		{
 			extand_in_comamnd_struct(tmp, &j);
+		}
 	}
 	return (j);
 }
@@ -85,31 +79,4 @@ int	strlen_2d(char **str)
 	while (str && str[i])
 		i++;
 	return (i);
-}
-
-void	change_content_cmds_utils(char **ret, char **cmds, int *j, int leen)
-{
-	int	i;
-
-	i = 0;
-	while (leen > i)
-	{
-		if (leen > i && ((!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i], "<<")
-					|| !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i], ">>")))
-			&& !cmds[i + 1])
-		{
-			ret[*j] = ft_strdup(cmds[0]);
-			(*j)++;
-		}
-		while (leen > i && (!ft_strcmp(cmds[i], "<") || !ft_strcmp(cmds[i],
-					"<<") || !ft_strcmp(cmds[i], ">") || !ft_strcmp(cmds[i],
-					">>")))
-			i += 2;
-		if (leen > i && cmds[i])
-		{
-			ret[*j] = ft_strdup(cmds[i]);
-			(*j)++;
-		}
-		i++;
-	}
 }

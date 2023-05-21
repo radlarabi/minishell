@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:31:40 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 22:59:30 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 16:45:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,6 @@ char	*extand_var(char *cmds)
 				break ;
 		}
 	}
-	return (ret);
-}
-
-char	**change_content_cmds(char **cmds, int leen)
-{
-	int		j;
-	char	**ret;
-
-	ret = malloc(sizeof(char *) * (leen + 1));
-	if (!ret)
-		return (NULL);
-	j = 0;
-	change_content_cmds_utils(ret, cmds, &j, leen);
-	ret[j] = 0;
-	free_2d_table(cmds);
 	return (ret);
 }
 

@@ -6,54 +6,57 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:03:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:57:17 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	open_herdoc(char **temp, t_cmd_line **tmp)
-{
-	int	j;
-
-	j = 0;
-	while (temp[j])
-	{
-		if (!ft_strcmp(temp[j], "<<"))
-		{
-			if (open_appnd_herdoc(temp, tmp, &j))
-				return (1);
-		}
-		else
-			j++;
-	}
-	return (0);
-}
-
 int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 {
 	int	j;
+	int	k;
 
 	j = 0;
+	k = 0;
 	while (temp[j])
 	{
-		if (!ft_strcmp(temp[j], ">>"))
+		if (!ft_strcmp(temp[j], ">>") || !ft_strcmp(temp[j], "<")
+			|| !ft_strcmp(temp[j], ">") || !ft_strcmp(temp[j], "<<"))
 		{
-			if (open_appnd_herdoc(temp, tmp, &j))
-				break ;
-		}
-		else if (!ft_strcmp(temp[j], "<") || !ft_strcmp(temp[j], ">"))
-		{
-			if (open_read_out_in(temp, tmp, &j))
+			if (sub_open_files(temp, tmp, &j))
 				break ;
 		}
 		else
 		{
+			(*tmp)->cmds_exe[k] = ft_strdup(temp[j]);
+			k++;
 			free(temp[j]);
 			j++;
 		}
 	}
+	(*tmp)->cmds_exe[k] = 0;
 	return (0);
+}
+
+char	**change_content(t_cmd_line **cmd)
+{
+	int		i;
+	char	**ret;
+
+	i = 0;
+	while ((*cmd)->cmds_exe && (*cmd)->cmds_exe[i])
+		i++;
+	ret = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while ((*cmd)->cmds_exe && (*cmd)->cmds_exe[i])
+	{
+		ret[i] = ft_strdup((*cmd)->cmds_exe[i]);
+		i++;
+	}
+	ret[i] = 0;
+	free_2d_table((*cmd)->cmds);
+	return (ret);
 }
 
 void	change_commands_struct(t_cmd_line **cmd)
@@ -61,22 +64,26 @@ void	change_commands_struct(t_cmd_line **cmd)
 	t_cmd_line	*tmp;
 	char		**temp;
 	int			j;
-	int			i;
+	int			k;
 
 	tmp = *cmd;
-	i = 0;
 	while (tmp)
 	{
 		temp = fill_temp_of_command_struct(tmp->cmds);
-		j = sub_command_struct(&tmp);
-		if (tmp->cmds)
-			tmp->cmds = change_content_cmds(tmp->cmds, j);
+		j = 0;
+		k = 0;
+		while (temp && temp[j])
+			j++;
+		tmp->cmds_exe = malloc((j + 1) * sizeof(char *));
+		if (!tmp->cmds_exe)
+			return ;
 		if (open_files_in_command_struct(temp, &tmp))
 			break ;
+		j = sub_command_struct(&tmp);
+		tmp->cmds = change_content(&tmp);
 		if (temp)
 			free(temp);
 		tmp = tmp->next;
-		i++;
 	}
 }
 

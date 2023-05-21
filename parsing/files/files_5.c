@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:33:05 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:16:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:46:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	add_in_midel_of_struct(t_cmd_line **tmp, char *t_mp, int *j)
 	char	*t_mp1;
 
 	if (ft_strchr(t_mp, '$'))
-		(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
-	if (!ft_strchr(t_mp, '\"') && (ft_strchr((*tmp)->cmds[(*j)], ' ')
-			|| ft_strchr((*tmp)->cmds[(*j)], '\t')))
+		(*tmp)->cmds_exe[(*j)] = remove_quotes((*tmp)->cmds_exe[(*j)]);
+	if (!ft_strchr(t_mp, '\"') && (ft_strchr((*tmp)->cmds_exe[(*j)], ' ')
+			|| ft_strchr((*tmp)->cmds_exe[(*j)], '\t')))
 	{
-		temp3 = ft_strdup((*tmp)->cmds[(*j)]);
+		temp3 = ft_strdup((*tmp)->cmds_exe[(*j)]);
 		temp1 = remove_quotes(temp3);
 		t_mp1 = temp1;
 		temp1 = set_spliter(temp1, ' ');
@@ -61,7 +61,7 @@ void	add_in_midel_of_struct(t_cmd_line **tmp, char *t_mp, int *j)
 		temp2 = ft_split(temp1, -1);
 		if (temp1)
 			free(temp1);
-		(*tmp)->cmds = link_2d_table((*tmp)->cmds, temp2, (*j));
+		(*tmp)->cmds_exe = link_2d_table((*tmp)->cmds_exe, temp2, (*j));
 	}
 }
 
@@ -69,12 +69,12 @@ void	extand_in_comamnd_struct(t_cmd_line **tmp, int *j)
 {
 	char	*t_mp;
 
-	t_mp = (*tmp)->cmds[(*j)];
-	(*tmp)->cmds[(*j)] = extand_var((*tmp)->cmds[(*j)]);
-	if ((*tmp)->cmds[(*j)] && ft_strcmp(t_mp, (*tmp)->cmds[(*j)]))
+	t_mp = (*tmp)->cmds_exe[(*j)];
+	(*tmp)->cmds_exe[(*j)] = extand_var((*tmp)->cmds_exe[(*j)]);
+	if ((*tmp)->cmds_exe[(*j)] && ft_strcmp(t_mp, (*tmp)->cmds_exe[(*j)]))
 		add_in_midel_of_struct(tmp, t_mp, j);
 	else
-		(*tmp)->cmds[(*j)] = remove_quotes((*tmp)->cmds[(*j)]);
+		(*tmp)->cmds_exe[(*j)] = remove_quotes((*tmp)->cmds_exe[(*j)]);
 	if (t_mp)
 		free(t_mp);
 	(*j)++;

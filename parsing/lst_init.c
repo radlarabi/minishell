@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:13:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 20:58:33 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 16:30:54 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_cmd_line	*lst_init_cmds(void)
 	cmd_l->flag = 0;
 	cmd_l->next = NULL;
 	cmd_l->cmds = NULL;
+	cmd_l->cmds_exe = NULL;
 	cmd_l->fd_error = NULL;
 	return (cmd_l);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 23:28:11 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 16:53:58 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,12 @@ typedef struct s_cmd_line
 	int					outfile;
 	int					flag;
 	int					index;
+	int					is_quoted;
 	int					index_infile;
 	int					index_herdoc;
 	char				*fd_error;
 	char				**cmds;
+	char				**cmds_exe;
 	struct s_cmd_line	*next;
 }						t_cmd_line;
 
@@ -215,8 +217,7 @@ void					sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids,
 void					sigint_handler(int sig);
 void					init_main_sig(int ac, char **av, char **env);
 void					fill_env_global_var(int ac, char **av, char **env);
-void					change_content_cmds_utils(char **ret, char **cmds,
-							int *j, int leen);
+int						sub_open_files(char **temp, t_cmd_line **tmp, int *j);
 
 /*			****************					*/
 

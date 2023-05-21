@@ -33,10 +33,11 @@ SRCS = 	parsing/main.c \
 		parsing/files/files_4.c \
 		parsing/files/files_5.c \
 		parsing/files/files_6.c \
+		parsing/files/files_7.c \
 		parsing/syntax/syntax_1.c \
 		parsing/syntax/syntax_2.c \
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 # -fsanitize=address -g3
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 

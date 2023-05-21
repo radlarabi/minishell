@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/21 19:06:49 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:44:52 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,34 +80,13 @@ int	*ft_len_tab(char **tab, int *len)
 
 int	ft_export(t_cmd_line **commands_v)
 {
-	char	*value_of_var;
-	int		len;
-	size_t	i;
-	int		j;
-	int		flag;
+	int	len;
 
 	len = 0;
-	j = 1;
 	ft_len_tab((*commands_v)->cmds, &len);
 	if (((*commands_v)->infile == -1 && (*commands_v)->flag == 3)
 		|| ((*commands_v)->outfile == -1 && (*commands_v)->flag == 4))
 		return (1);
-	while (j <= len)
-	{
-		i = 0;
-		flag = 0;
-		value_of_var = (*commands_v)->cmds[j];
-		if (value_of_var && !value_of_var[0])
-			error_identifie(value_of_var);
-		while (value_of_var && i < ft_strlen(value_of_var))
-		{
-			export_utils4(value_of_var, i, &flag,
-				ft_len_tab((*commands_v)->cmds, &len));
-			i++;
-		}
-		if (!(*commands_v)->cmds[j] && len == 1)
-			display_export(*(ft_len_tab((*commands_v)->cmds, &len)));
-		j++;
-	}
+	ft_export_utils_1(commands_v, len);
 	return (0);
 }

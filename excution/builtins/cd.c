@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/21 20:24:52 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:38:17 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*ft_get_home_phat(char *home, char *path)
 	char	*homet;
 
 	homet = ft_strdup(home);
+	if (!path)
+		return (homet);
 	new_path = NULL;
 	if (homet && path)
 		new_path = ft_strjoin(homet, path + 1);
@@ -95,15 +97,8 @@ void	ft_cd(t_cmd_line **cd_cmd)
 	prev_dir = NULL;
 	if (!cd_utils(&path, home_dir, &prev_dir, &flag))
 		return ;
-	if (path && chdir(path) != -1)
-	{
-		if (flag)
-			free(path);
-		prev_dir = ft_getenv("OLDPWD");
-		change_value(&g_gv->env, "OLDPWD", ft_strdup(prev_dir));
-		g_gv->exit_status = 0;
+	if (cd_utils_2(path, prev_dir, flag))
 		return ;
-	}
 	else if (path && g_gv->exit_status < 1)
 	{
 		g_gv->exit_status = 1;

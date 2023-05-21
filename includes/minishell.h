@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 16:53:58 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 22:52:26 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,12 @@ void					sigint_handler(int sig);
 void					init_main_sig(int ac, char **av, char **env);
 void					fill_env_global_var(int ac, char **av, char **env);
 int						sub_open_files(char **temp, t_cmd_line **tmp, int *j);
+int						cd_utils_2(char *path, char *prev_dir, int flag);
+void					ft_export_utils_1(t_cmd_line **commands_v, int len);
+int						*ft_len_tab(char **tab, int *len);
+void					export_utils4(char *value_of_var, int i, int *flag,
+							int *flag1);
+void					display_export(int flag1);
 
 /*			****************					*/
 

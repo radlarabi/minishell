@@ -37,7 +37,7 @@ SRCS = 	parsing/main.c \
 		parsing/syntax/syntax_1.c \
 		parsing/syntax/syntax_2.c \
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 NAME = minishell
 O_SRCS = $(SRCS:%.c=%.o)
 

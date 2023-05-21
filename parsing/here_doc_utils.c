@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:05:57 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 22:58:43 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:57:27 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	signal_handler(int signal)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_redisplay();
 		g_gv->exit_status = 1;
 	}

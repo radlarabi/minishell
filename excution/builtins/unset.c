@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/20 18:54:03 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 18:30:23 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_unset(t_cmd_line **commands_v)
 	while ((*commands_v)->cmds && (*commands_v)->cmds[++i])
 	{
 		var = (*commands_v)->cmds[i];
-		if (var && check_syntax_cmd(var))
+		if (var && (check_syntax_cmd(var) || !var[0]))
 		{
 			ft_putstr_fd("unset: ", 1);
 			ft_putstr_fd(var, 1);

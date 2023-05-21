@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/20 17:38:14 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 18:25:05 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ int	cd_utils_1(char *perv_dir, char ***path)
 	}
 }
 
+char	*ft_get_home_phat(char *home, char *path)
+{
+	char	*new_path;
+	char	*homet;
+
+	homet = ft_strdup(home);
+	new_path = NULL;
+	if (homet && path)
+		new_path = ft_strjoin(homet, path + 1);
+	return (new_path);
+}
+
 int	cd_utils(char **path, char *home_dir, char **prev_dir)
 {
 	char	cwd[1024];
@@ -42,7 +54,7 @@ int	cd_utils(char **path, char *home_dir, char **prev_dir)
 	*prev_dir = ft_getenv("OLDPWD");
 	if (!(*path) || *path[0] == '~')
 	{
-		*path = home_dir;
+		*path = ft_get_home_phat(home_dir, *path);
 		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
 		return (1);
 	}

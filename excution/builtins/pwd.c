@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:15:05 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/15 18:03:04 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 19:07:57 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int	ft_pwd(t_cmd_line **commands_v)
 {
 	char	cwd[1024];
 
+	if (((*commands_v)->infile == -1 && (*commands_v)->flag == 3)
+		|| ((*commands_v)->outfile == -1 && (*commands_v)->flag == 4))
+		return (1);	
 	(void)commands_v;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
@@ -25,7 +28,7 @@ int	ft_pwd(t_cmd_line **commands_v)
 	}
 	else
 	{
-		perror("getcwd() error");
+		perror("pwd");
 		g_gv->exit_status = 1;
 		return (1);
 	}

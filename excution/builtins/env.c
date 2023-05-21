@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:03:56 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/16 23:40:50 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:07:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	ft_env(t_cmd_line **commands_v)
 {
 	t_env	*tmp;
 
+	if (((*commands_v)->infile == -1 && (*commands_v)->flag == 3)
+		|| ((*commands_v)->outfile == -1 && (*commands_v)->flag == 4))
+		return ;
 	(void)commands_v;
 	tmp = g_gv->env;
 	while (tmp)

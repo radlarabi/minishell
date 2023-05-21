@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/21 18:30:23 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:41:07 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	ft_unset(t_cmd_line **commands_v)
 			ft_putendl_fd(" : not a valid identifier", 1);
 			g_gv->exit_status = 1;
 		}
+		else
+			g_gv->exit_status = 0;
 		temp = g_gv->env;
 		while (temp)
 		{
@@ -63,7 +65,6 @@ int	ft_unset(t_cmd_line **commands_v)
 				remove_node(&g_gv->env, temp->var, temp->value);
 			temp = temp->next;
 		}
-		g_gv->exit_status = 0;
 	}
 	return (0);
 }

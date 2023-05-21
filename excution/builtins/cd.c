@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/21 18:25:05 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:24:52 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ char	*ft_get_home_phat(char *home, char *path)
 	new_path = NULL;
 	if (homet && path)
 		new_path = ft_strjoin(homet, path + 1);
+	else if (homet)
+		free(homet);
 	return (new_path);
 }
 
-int	cd_utils(char **path, char *home_dir, char **prev_dir)
+int	cd_utils(char **path, char *home_dir, char **prev_dir, int *flag)
 {
 	char	cwd[1024];
 
@@ -55,6 +57,7 @@ int	cd_utils(char **path, char *home_dir, char **prev_dir)
 	if (!(*path) || *path[0] == '~')
 	{
 		*path = ft_get_home_phat(home_dir, *path);
+		(*flag) = 1;
 		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
 		return (1);
 	}
@@ -84,14 +87,18 @@ void	ft_cd(t_cmd_line **cd_cmd)
 	char	*home_dir;
 	char	*path;
 	char	*prev_dir;
+	int		flag;
 
+	flag = 0;
 	home_dir = ft_getenv("HOME");
 	path = (*cd_cmd)->cmds[1];
 	prev_dir = NULL;
-	if (!cd_utils(&path, home_dir, &prev_dir))
+	if (!cd_utils(&path, home_dir, &prev_dir, &flag))
 		return ;
 	if (path && chdir(path) != -1)
 	{
+		if (flag)
+			free(path);
 		prev_dir = ft_getenv("OLDPWD");
 		change_value(&g_gv->env, "OLDPWD", ft_strdup(prev_dir));
 		g_gv->exit_status = 0;

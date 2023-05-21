@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/21 18:41:07 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:55:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	ft_unset(t_cmd_line **commands_v)
 	int		i;
 
 	i = 0;
+	g_gv->exit_status = 0;
 	while ((*commands_v)->cmds && (*commands_v)->cmds[++i])
 	{
 		var = (*commands_v)->cmds[i];
@@ -56,8 +57,6 @@ int	ft_unset(t_cmd_line **commands_v)
 			ft_putendl_fd(" : not a valid identifier", 1);
 			g_gv->exit_status = 1;
 		}
-		else
-			g_gv->exit_status = 0;
 		temp = g_gv->env;
 		while (temp)
 		{

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 12:40:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:45:12 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ t_cmd_line	*commands_struct(char **cmds)
 		{
 			free_2d_table(temp);
 			free_t_cmd_line(&tmp);
-			while(cmds[++i])
+			while (cmds[++i])
 				free(cmds[i]);
 			return (NULL);
 		}

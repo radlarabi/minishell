@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:06:20 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 11:58:43 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	(*tmp)->fd_herdoc = fd[0];
 	(*tmp)->index_herdoc = *j;
 	close(fd[1]);
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, signal_handler);
 	return (0);
 }
 

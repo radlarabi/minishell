@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 16:57:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 11:56:59 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 			|| !ft_strcmp(temp[j], ">") || !ft_strcmp(temp[j], "<<"))
 		{
 			if (sub_open_files(temp, tmp, &j))
+			{
+				while (temp[j])
+					free(temp[j++]);
 				break ;
+			}
 		}
 		else
-		{
-			(*tmp)->cmds_exe[k] = ft_strdup(temp[j]);
-			k++;
-			free(temp[j]);
-			j++;
-		}
+			fill_cmds_exe(tmp, temp, &j, &k);
 	}
 	(*tmp)->cmds_exe[k] = 0;
 	return (0);

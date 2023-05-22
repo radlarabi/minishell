@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:55:02 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 16:56:38 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 11:55:53 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,12 @@ int	sub_open_files(char **temp, t_cmd_line **tmp, int *j)
 		free(temp[(*j)++]);
 	}
 	return (0);
+}
+
+void	fill_cmds_exe(t_cmd_line **tmp, char **temp, int *j, int *k)
+{
+	(*tmp)->cmds_exe[(*k)] = ft_strdup(temp[(*j)]);
+	(*k)++;
+	free(temp[(*j)]);
+	(*j)++;
 }

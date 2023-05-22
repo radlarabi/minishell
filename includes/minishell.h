@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 22:52:26 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/22 11:59:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void					wait_for_child(int *pids, int i);
 void					sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids,
 							t_cmd_line *cmd_l);
 void					sigint_handler(int sig);
+void					signal_handler(int sig);
 void					init_main_sig(int ac, char **av, char **env);
 void					fill_env_global_var(int ac, char **av, char **env);
 int						sub_open_files(char **temp, t_cmd_line **tmp, int *j);
@@ -224,6 +225,8 @@ int						*ft_len_tab(char **tab, int *len);
 void					export_utils4(char *value_of_var, int i, int *flag,
 							int *flag1);
 void					display_export(int flag1);
+void					fill_cmds_exe(t_cmd_line **tmp, char **temp, int *j,
+							int *k);
 
 /*			****************					*/
 

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/18 20:54:55 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:09:36 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 	{
 		(*tmp)->fd_error = ft_strdup(outfile);
 		perror((*tmp)->fd_error);
+		g_gv->exit_status = 1;
 		if (outfile)
 			free(outfile);
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 16:01:40 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:10:06 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 		(*tmp)->fd_error = ft_strdup(infile);
 		(*tmp)->flag = 3;
 		perror((*tmp)->fd_error);
+		g_gv->exit_status = 1;
 		if (infile)
 			free(infile);
 		return (1);
@@ -107,6 +108,7 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 		(*tmp)->fd_error = ft_strdup(outfile);
 		(*tmp)->flag = 4;
 		perror((*tmp)->fd_error);
+		g_gv->exit_status = 1;
 		if (outfile)
 			free(outfile);
 		return (1);

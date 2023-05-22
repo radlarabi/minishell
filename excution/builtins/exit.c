@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 00:03:30 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/20 18:48:16 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:11:31 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ int	ft_exit(t_cmd_line **commands_v, int flag_exit)
 	int			cont;
 	int			j;
 
+	if (((*commands_v)->infile == -1 && (*commands_v)->flag == 3)
+		|| ((*commands_v)->outfile == -1 && (*commands_v)->flag == 4))
+		return (1);
 	cont = 0;
 	temp = (*commands_v);
 	j = 1;

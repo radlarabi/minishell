@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:00:59 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:07:44 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	wait_for_child(int *pids, int i)
 		waitpid(pids[i - 1], &status, 0);
 		while (wait(NULL) != -1)
 			;
-		g_gv->exit_status = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+			g_gv->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_gv->exit_status = WTERMSIG(status) + 128;
 	}
 }
 

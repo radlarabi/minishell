@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 11:58:43 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:08:07 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 	if (pid == 0)
 		child_of_herdoc(temp, fd, j);
 	waitpid(pid, &status, 0);
-	g_gv->exit_status = WEXITSTATUS(status);
+	if (WIFEXITED(status))
+		g_gv->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_gv->exit_status = WTERMSIG(status) + 128;
 	(*tmp)->fd_herdoc = fd[0];
 	(*tmp)->index_herdoc = *j;
 	close(fd[1]);

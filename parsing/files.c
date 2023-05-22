@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 11:56:59 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/22 12:40:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,13 @@ t_cmd_line	*commands_struct(char **cmds)
 		tmp = init_temp_cmd_line(cmds, i);
 		temp = fill_temp_of_command_struct(tmp->cmds);
 		if (open_herdocs(&tmp, temp))
+		{
+			free_2d_table(temp);
+			free_t_cmd_line(&tmp);
+			while(cmds[++i])
+				free(cmds[i]);
 			return (NULL);
+		}
 		free_2d_table(temp);
 		ft_lstadd_back_cmds(&cmd_l, tmp);
 		i++;

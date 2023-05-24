@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 11:59:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/24 23:00:25 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int						ft_unset(t_cmd_line **commands_v);
 /* end */
 void					add_node(t_env **env, char *env_var, char *env_val,
 							int a);
+t_env					*duplicate_linked_list(t_env *head);
+t_env					*sort_list(t_env *lst);
 char					*remove_char(char *string, int pos);
 void					join_value(t_env **env, char *env_var,
 							char *new_env_val);

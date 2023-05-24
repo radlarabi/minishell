@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/24 19:02:25 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/25 00:22:52 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,18 @@
 
 t_env	*duplicate_linked_list(t_env *head)
 {
-	t_env	*new_head;
-	t_env	*current_original;
-	t_env	*current_duplicate;
 	t_env	*new_node;
 
+	new_node = NULL;
 	if (head == NULL)
-	{
 		return (NULL);
-	}
-	new_head = (t_env *)malloc(sizeof(t_env));
-	new_head->var = ft_strdup(head->var);
-	new_head->value = ft_strdup(head->value);
-	new_head->flag = 0;
-	new_head->next = NULL;
-	current_original = head->next;
-	current_duplicate = new_head;
-	while (current_original != NULL)
-	{
-		new_node = (t_env *)malloc(sizeof(t_env));
-		new_node->var = ft_strdup(current_original->var);
-		new_node->value = ft_strdup(current_original->value);
-		new_node->flag = 0;
-		new_node->next = NULL;
-		current_duplicate->next = new_node;
-		current_original = current_original->next;
-		current_duplicate = current_duplicate->next;
-	}
-	return (new_head);
+	new_node = (t_env *)malloc(sizeof(t_env));
+	new_node->var = ft_strdup(head->var);
+	new_node->value = ft_strdup(head->value);
+	new_node->flag = 0;
+	new_node->next = NULL;
+	new_node->next = duplicate_linked_list(head->next);
+	return (new_node);
 }
 
 void	remove_node(t_env **head_ref, char *key, char *key1)
@@ -60,7 +44,7 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 		return ;
 	}
 	while (temp != NULL && (ft_strcmp(temp->var, key)
-			|| ft_strcmp(temp->value, key1)))
+			|| (temp->value && ft_strcmp(temp->value, key1))))
 	{
 		prev = temp;
 		temp = temp->next;
@@ -71,6 +55,17 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 	free(temp->value);
 	free(temp->var);
 	free(temp);
+}
+
+void	ft_unset_utils(char *var)
+{
+	if (var && (check_syntax_cmd(var) || !var[0]))
+	{
+		ft_putstr_fd("unset: ", 1);
+		ft_putstr_fd(var, 1);
+		ft_putendl_fd(" : not a valid identifier", 1);
+		g_gv->exit_status = 1;
+	}
 }
 
 int	ft_unset(t_cmd_line **commands_v)
@@ -85,22 +80,14 @@ int	ft_unset(t_cmd_line **commands_v)
 	while ((*commands_v)->cmds && (*commands_v)->cmds[++i])
 	{
 		var = (*commands_v)->cmds[i];
-		if (var && (check_syntax_cmd(var) || !var[0]))
-		{
-			ft_putstr_fd("unset: ", 1);
-			ft_putstr_fd(var, 1);
-			ft_putendl_fd(" : not a valid identifier", 1);
-			g_gv->exit_status = 1;
-		}
+		ft_unset_utils(var);
 		temp = duplicate_linked_list(g_gv->env);
 		while (temp)
 		{
 			tmp = temp->next;
 			if (var && !ft_strcmp(temp->var, var))
 				remove_node(&g_gv->env, temp->var, temp->value);
-			free(temp->var);
-			free(temp->value);
-			free(temp);
+			(free(temp->var), free(temp->value), free(temp));
 			temp = tmp;
 		}
 	}

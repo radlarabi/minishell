@@ -6,17 +6,17 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/21 22:38:17 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/25 00:21:40 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	cd_utils_1(char *perv_dir, char ***path)
+int	cd_utils_1(char *prev_dir, char **path, int *flag)
 {
 	char	cwd[1024];
 
-	if (!perv_dir)
+	if (!prev_dir)
 	{
 		ft_putendl_fd("cd: OLDPWD not set", 1);
 		g_gv->exit_status = 1;
@@ -24,12 +24,14 @@ int	cd_utils_1(char *perv_dir, char ***path)
 	}
 	else
 	{
-		**path = ft_getenv("OLDPWD");
+		*path = ft_strdup(prev_dir);
+		(*flag) = 1;
 		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
-		if (chdir(**path) == 0)
+		if (chdir(*path) == 0)
 		{
-			ft_putendl_fd(**path, 1);
+			ft_putendl_fd(*path, 1);
 			g_gv->exit_status = 0;
+			free(*path);
 		}
 		return (1);
 	}
@@ -64,7 +66,7 @@ int	cd_utils(char **path, char *home_dir, char **prev_dir, int *flag)
 		return (1);
 	}
 	else if (*path[0] == '-')
-		cd_utils_1(*prev_dir, &path);
+		return (cd_utils_1(*prev_dir, &(*path), flag));
 	else if (*path)
 	{
 		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
@@ -99,7 +101,7 @@ void	ft_cd(t_cmd_line **cd_cmd)
 		return ;
 	if (cd_utils_2(path, prev_dir, flag))
 		return ;
-	else if (path && g_gv->exit_status < 1)
+	else if (path && g_gv->exit_status < 1 && flag != 1)
 	{
 		g_gv->exit_status = 1;
 		perror("chdir");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/22 12:10:46 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/24 22:59:49 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void	display_export(int flag1)
 {
 	t_env	*tmp;
+	t_env	*tmp1;
 
-	tmp = g_gv->env;
+	tmp = duplicate_linked_list(g_gv->env);
+	tmp = sort_list(tmp);
 	while (tmp)
 	{
+		tmp1 = tmp->next;
 		if (!tmp->value || (!ft_strcmp(tmp->value, "") && flag1 >= 1))
-		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putendl_fd(tmp->var, 1);
-		}
+			(ft_putstr_fd("declare -x ", 1), ft_putendl_fd(tmp->var, 1));
 		else
 		{
 			ft_putstr_fd("declare -x ", 1);
@@ -33,7 +33,8 @@ void	display_export(int flag1)
 			ft_putstr_fd(tmp->value, 1);
 			ft_putendl_fd("\"", 1);
 		}
-		tmp = tmp->next;
+		(free(tmp->var), free(tmp->value), free(tmp));
+		tmp = tmp1;
 	}
 	g_gv->exit_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 18:49:45 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 22:49:55 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/24 23:04:14 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,56 @@ void	ft_export_utils_1(t_cmd_line **commands_v, int len)
 			display_export(*(ft_len_tab((*commands_v)->cmds, &len)));
 		j++;
 	}
+}
+
+t_env	*merge_lists(t_env *left, t_env *right)
+{
+	t_env	dummy;
+	t_env	*tail;
+
+	tail = &dummy;
+	dummy.next = NULL;
+	while (left != NULL && right != NULL)
+	{
+		if (ft_strcmp(left->var, right->var) < 0)
+		{
+			tail->next = left;
+			left = left->next;
+		}
+		else
+		{
+			tail->next = right;
+			right = right->next;
+		}
+		tail = tail->next;
+	}
+	if (left != NULL)
+		tail->next = left;
+	else
+		tail->next = right;
+	return (dummy.next);
+}
+
+t_env	*sort_list(t_env *lst)
+{
+	t_env	*slow;
+	t_env	*fast;
+	t_env	*second_half;
+	t_env	*left;
+	t_env	*right;
+
+	if (lst == NULL || lst->next == NULL)
+		return (lst);
+	slow = lst;
+	fast = lst->next;
+	while (fast != NULL && fast->next != NULL)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	second_half = slow->next;
+	slow->next = NULL;
+	left = sort_list(lst);
+	right = sort_list(second_half);
+	return (merge_lists(left, right));
 }

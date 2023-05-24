@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:40:05 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:02:25 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 	t_env	*prev;
 
 	temp = *head_ref;
-	if (temp != NULL && !ft_strcmp(temp->var, key) && !ft_strcmp(temp->value,
-			key1))
+	if (temp != NULL && !ft_strcmp(temp->var, key)
+		&& !ft_strcmp(temp->value, key1))
 	{
 		*head_ref = temp->next;
 		free(temp->value);
@@ -59,10 +59,9 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 		free(temp);
 		return ;
 	}
-	while (temp != NULL && (ft_strcmp(temp->var, key) || ft_strcmp(temp->value,
-				key1)))
+	while (temp != NULL && (ft_strcmp(temp->var, key)
+			|| ft_strcmp(temp->value, key1)))
 	{
-		//printf("%s\t%s\n",key,key1);
 		prev = temp;
 		temp = temp->next;
 	}
@@ -77,6 +76,7 @@ void	remove_node(t_env **head_ref, char *key, char *key1)
 int	ft_unset(t_cmd_line **commands_v)
 {
 	t_env	*temp;
+	t_env	*tmp;
 	char	*var;
 	int		i;
 
@@ -95,11 +95,14 @@ int	ft_unset(t_cmd_line **commands_v)
 		temp = duplicate_linked_list(g_gv->env);
 		while (temp)
 		{
+			tmp = temp->next;
 			if (var && !ft_strcmp(temp->var, var))
 				remove_node(&g_gv->env, temp->var, temp->value);
-			temp = temp->next;
+			free(temp->var);
+			free(temp->value);
+			free(temp);
+			temp = tmp;
 		}
-		//free()
 	}
 	return (0);
 }

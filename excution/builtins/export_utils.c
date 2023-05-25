@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/20 18:51:23 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/25 23:50:21 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 			return ;
 		if (!env_val)
 		{
-			new_node->value = ft_strdup("");
 			new_node->var = ft_strdup(env_var);
 			if (a)
-				new_node->flag = 2;
+				new_node->value = NULL;
 			else if (!a)
-				new_node->flag = 1;
+				new_node->value = ft_strdup("");
 			new_node->next = NULL;
 			temp = ft_lstlast(*env);
 			temp->next = new_node;
@@ -91,7 +90,10 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 		if (ft_strcmp(current->var, env_var) == 0)
 		{
 			if (new_env_val && !new_env_val[0])
+			{
+				printf("*******\n");
 				g_gv->env->flag = 1;
+			}
 			else
 				g_gv->env->flag = 0;
 			if (current->value)

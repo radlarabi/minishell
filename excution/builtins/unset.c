@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:36:28 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/25 00:22:52 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/25 23:38:38 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*duplicate_linked_list(t_env *head)
 	new_node = (t_env *)malloc(sizeof(t_env));
 	new_node->var = ft_strdup(head->var);
 	new_node->value = ft_strdup(head->value);
-	new_node->flag = 0;
+	new_node->flag = head->flag;
 	new_node->next = NULL;
 	new_node->next = duplicate_linked_list(head->next);
 	return (new_node);

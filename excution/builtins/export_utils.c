@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/25 23:50:21 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/26 00:39:30 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 		if (ft_strcmp(current->var, env_var) == 0)
 		{
 			if (new_env_val && !new_env_val[0])
-			{
-				printf("*******\n");
 				g_gv->env->flag = 1;
-			}
 			else
 				g_gv->env->flag = 0;
 			if (current->value)

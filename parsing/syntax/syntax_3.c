@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 00:29:17 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 00:29:36 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 00:39:57 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	max_herdoc(t_command **cmd)
 
 	count = 0;
 	tmp = *cmd;
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->type == HERDOC)
 			count++;
 		tmp = tmp->next;
 	}
 	if (count > 16)
-		return 1;
+		return (1);
 	else
-		return 0;
+		return (0);
 }

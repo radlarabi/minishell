@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/25 00:21:40 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/25 20:59:18 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cd_utils_1(char *prev_dir, char **path, int *flag)
 	{
 		ft_putendl_fd("cd: OLDPWD not set", 1);
 		g_gv->exit_status = 1;
-		return (-1);
+		return (0);
 	}
 	else
 	{
@@ -31,7 +31,6 @@ int	cd_utils_1(char *prev_dir, char **path, int *flag)
 		{
 			ft_putendl_fd(*path, 1);
 			g_gv->exit_status = 0;
-			free(*path);
 		}
 		return (1);
 	}
@@ -48,8 +47,6 @@ char	*ft_get_home_phat(char *home, char *path)
 	new_path = NULL;
 	if (homet && path)
 		new_path = ft_strjoin(homet, path + 1);
-	else if (homet)
-		free(homet);
 	return (new_path);
 }
 
@@ -108,5 +105,8 @@ void	ft_cd(t_cmd_line **cd_cmd)
 		return ;
 	}
 	if (home_not_set_cd(home_dir))
+	{
+		free(path);
 		return ;
+	}
 }

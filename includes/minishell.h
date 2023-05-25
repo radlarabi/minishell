@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/24 23:00:25 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/26 00:30:01 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ void					export_utils4(char *value_of_var, int i, int *flag,
 void					display_export(int flag1);
 void					fill_cmds_exe(t_cmd_line **tmp, char **temp, int *j,
 							int *k);
+int						max_herdoc(t_command **cmd);
 
 /*			****************					*/
 

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/25 13:42:48 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 00:28:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,13 @@ int	main_check_syntax(char *str, t_command **cmd)
 		if (str)
 			free(str);
 		return (1);
+	}
+	if (max_herdoc(cmd))
+	{
+		g_gv->exit_status = 2;
+		printf("maximum here-document count exceeded\n");
+		free_t_command(cmd);
+		exit(2);
 	}
 	return (0);
 }

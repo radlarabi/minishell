@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 16:07:44 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 13:49:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,31 @@ void	wait_for_child(int *pids, int i)
 			g_gv->exit_status = WTERMSIG(status) + 128;
 	}
 }
+void	close_file_pipes(t_cmd_line *cmd, int **pipefd, t_num_p_cmds num)
+{
+	int	i;
 
+	i = -1;	
+	while(++i < num.num_pipes)
+	{
+		close(pipefd[i][0]);
+		close(pipefd[i][1]);
+	}
+	while(cmd)
+	{
+		close(cmd->infile);
+		close(cmd->outfile);
+		close(cmd->fd_herdoc);
+		cmd = cmd->next;
+	}
+}
 void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int	i;
+	t_cmd_line *tmp;
 	int	status;
 
+	tmp = cmd_l;
 	i = -1;
 	status = 0;
 	while (++i < num.num_cmds && cmd_l)
@@ -72,6 +91,7 @@ void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 		cmd_l = cmd_l->next;
 	}
 	wait_for_child(pids, i);
+	close_file_pipes(tmp, pipefd, num);
 }
 
 void	cmd_not_found(char *cmd)

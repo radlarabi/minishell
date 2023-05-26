@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 00:30:01 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 13:35:20 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int						files_red_in(char **temp, t_cmd_line **tmp, int *j);
 int						files_red_out(char **temp, t_cmd_line **tmp, int *j);
 int						files_append(char **temp, t_cmd_line **tmp, int *j);
 char					*get_stop_heredoc(char *str);
-int						fill_content_heredoc(char *stop, int fd, int in_q);
+int						fill_content_heredoc(char *stop, int fd[2], int in_q);
 int						sub_check_qotes(char *str, int *i, int a);
 int						check_close_qotes(char *str);
 void					fill_types(t_command *tmp, char c, int *i, char *str);
@@ -176,7 +176,6 @@ void					main_free(t_command **cmd, t_cmd_line **cmd_l,
 void					free_t_command(t_command **cmd);
 void					free_t_cmd_line(t_cmd_line **cmd);
 char					**env_is_null(void);
-void					open_pipes(int num_pipes, int **pipefd);
 void					cmd_not_found(char *cmd);
 void					dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd,
 							int i, int num_pipes);

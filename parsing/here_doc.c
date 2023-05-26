@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 16:08:07 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 14:27:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	child_of_herdoc(char **temp, int fd[2], int *j)
 	signal(SIGINT, sigint_handler);
 	in_q = is_in_qotes(temp[*j]);
 	tab = remove_quotes(temp[*j]);
-	fill_content_heredoc(tab, fd[1], in_q);
+	fprintf(stderr, "%d %d \n", fd[0], fd[1]);
+	fill_content_heredoc(tab, fd, in_q);
 	free(tab);
 	close(fd[1]);
 	close(fd[0]);
@@ -60,6 +61,7 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 		g_gv->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		g_gv->exit_status = WTERMSIG(status) + 128;
+	close((*tmp)->fd_herdoc);
 	(*tmp)->fd_herdoc = fd[0];
 	(*tmp)->index_herdoc = *j;
 	close(fd[1]);
@@ -94,7 +96,7 @@ char	*extand_var_for_herdoc(char *str)
 	return (ret);
 }
 
-int	fill_content_heredoc(char *stop, int fd, int in_q)
+int	fill_content_heredoc(char *stop, int fd[2], int in_q)
 {
 	char	*str;
 	char	*content;
@@ -105,14 +107,15 @@ int	fill_content_heredoc(char *stop, int fd, int in_q)
 		content = NULL;
 		if (!str || !ft_strcmp(str, stop))
 		{
-			close(fd);
+			close(fd[1]);
+			close(fd[0]);
 			exit(0);
 		}
 		content = ft_strjoin(content, str);
 		content = ft_strjoin(content, "\n");
 		if (in_q)
 			content = extand_var_for_herdoc(content);
-		write(fd, content, ft_strlen(content));
+		write(fd[1], content, ft_strlen(content));
 		free(content);
 		free(str);
 	}

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 12:10:06 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 13:41:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 
 	if (sub_files_red_in(&infile, tmp, j, temp))
 		return (1);
+	if ((*tmp)->infile != -1)
+		close((*tmp)->infile);
 	(*tmp)->infile = open(infile, O_RDONLY);
 	(*tmp)->index_infile = *j;
 	(*tmp)->fd_error = NULL;
@@ -101,6 +103,8 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 
 	if (sub_files_red_out(&outfile, tmp, j, temp))
 		return (1);
+	if ((*tmp)->outfile != -1)
+		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	(*tmp)->fd_error = NULL;
 	if ((*tmp)->outfile < 0)

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:31:40 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/21 16:45:56 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 16:25:11 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*extand_var(char *cmds)
 		ret = ft_strjoin(ret, "$");
 		return (ret);
 	}
-	while (cmds[j])
+	while (cmds && cmds[j])
 	{
 		if (cmds[j] == '\"')
 			extand_var_in_double_qoutes(&ret, cmds, &j);

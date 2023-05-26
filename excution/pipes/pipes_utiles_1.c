@@ -6,27 +6,11 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 19:00:49 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 12:58:24 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	open_pipes(int num_pipes, int **pipefd)
-{
-	int	i;
-
-	i = 0;
-	while (i < num_pipes)
-	{
-		if (pipe(pipefd[i]) == -1)
-		{
-			perror("pipe");
-			return ;
-		}
-		i++;
-	}
-}
 
 int	check_command_builtins(char *command)
 {
@@ -73,6 +57,7 @@ void	dup_infile(t_cmd_line *cmd_l)
 	if (cmd_l->index_herdoc > cmd_l->index_infile)
 	{
 		dup2(cmd_l->fd_herdoc, 0);
+		printf("her %d\n", cmd_l->fd_herdoc);
 		close(cmd_l->fd_herdoc);
 	}
 	else

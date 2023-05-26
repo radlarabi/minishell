@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/26 00:39:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 19:41:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,12 @@ void	change_value(t_env **env, char *env_var, char *new_env_val)
 			if (current->value)
 				free(current->value);
 			if (new_env_val)
-			{
 				current->value = ft_strdup(new_env_val);
-				free(new_env_val);
-			}
 			else
 				current->value = NULL;
 			break ;
 		}
 		current = current->next;
 	}
+	free(new_env_val);
 }

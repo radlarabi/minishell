@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:05:57 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/25 21:11:59 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 19:28:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	init_main_sig(int ac, char **av, char **env)
 	fill_env_global_var(ac, av, env);
 	change_value(&g_gv->env, "OLDPWD", NULL);
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 14:27:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:52:03 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ int	files_here_doc(char **temp, t_cmd_line **tmp, int *j)
 		g_gv->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		g_gv->exit_status = WTERMSIG(status) + 128;
-	close((*tmp)->fd_herdoc);
+	(close((*tmp)->fd_herdoc), close(fd[1]));
 	(*tmp)->fd_herdoc = fd[0];
 	(*tmp)->index_herdoc = *j;
-	close(fd[1]);
 	signal(SIGINT, signal_handler);
 	return (0);
 }

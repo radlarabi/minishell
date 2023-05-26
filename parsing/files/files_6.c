@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:03:19 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 17:18:30 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:52:39 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	sub_command_struct(t_cmd_line **tmp)
 
 	j = 0;
 	len = 0;
-	while((*tmp)->cmds_exe && (*tmp)->cmds_exe[len])
+	while ((*tmp)->cmds_exe && (*tmp)->cmds_exe[len])
 		len++;
 	while ((*tmp)->cmds_exe && (*tmp)->cmds_exe[j])
 	{
@@ -35,7 +35,7 @@ int	sub_command_struct(t_cmd_line **tmp)
 		{
 			extand_in_comamnd_struct(tmp, &j);
 			if (len <= j)
-				break;
+				break ;
 		}
 	}
 	return (j);

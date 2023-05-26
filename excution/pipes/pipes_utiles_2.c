@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 13:49:27 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:50:32 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,18 @@ void	wait_for_child(int *pids, int i)
 			g_gv->exit_status = WTERMSIG(status) + 128;
 	}
 }
+
 void	close_file_pipes(t_cmd_line *cmd, int **pipefd, t_num_p_cmds num)
 {
 	int	i;
 
-	i = -1;	
-	while(++i < num.num_pipes)
+	i = -1;
+	while (++i < num.num_pipes)
 	{
 		close(pipefd[i][0]);
 		close(pipefd[i][1]);
 	}
-	while(cmd)
+	while (cmd)
 	{
 		close(cmd->infile);
 		close(cmd->outfile);
@@ -62,25 +63,20 @@ void	close_file_pipes(t_cmd_line *cmd, int **pipefd, t_num_p_cmds num)
 		cmd = cmd->next;
 	}
 }
+
 void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
-	int	i;
-	t_cmd_line *tmp;
-	int	status;
+	int			i;
+	t_cmd_line	*tmp;
+	int			status;
 
 	tmp = cmd_l;
 	i = -1;
 	status = 0;
 	while (++i < num.num_cmds && cmd_l)
 	{
-		if (i < num.num_pipes)
-			pipe(pipefd[i]);
-		pids[i] = fork();
-		if (pids[i] == -1)
-		{
-			perror("fork");
+		if (sub3_pipex(i, num, pipefd, &pids))
 			return ;
-		}
 		if (pids[i] == 0)
 			child(num.num_pipes, i, pipefd, cmd_l);
 		if (i > 0)

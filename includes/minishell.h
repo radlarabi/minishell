@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 13:35:20 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:51:13 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,8 @@ void					display_export(int flag1);
 void					fill_cmds_exe(t_cmd_line **tmp, char **temp, int *j,
 							int *k);
 int						max_herdoc(t_command **cmd);
+int						sub3_pipex(int i, t_num_p_cmds num, int **pipefd,
+							int **pids);
 
 /*			****************					*/
 

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 12:58:24 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:49:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,23 @@ void	dup_files_and_pipes(t_cmd_line *cmd_l, int **pipefd, int i,
 		dup2(pipefd[i][1], 1);
 		close(pipefd[i][1]);
 	}
+}
+
+int	sub3_pipex(int i, t_num_p_cmds num, int **pipefd, int **pids)
+{
+	if (i < num.num_pipes)
+	{
+		if (pipe(pipefd[i]) == -1)
+		{
+			perror("pipe");
+			return (1);
+		}
+	}
+	(*pids)[i] = fork();
+	if ((*pids)[i] == -1)
+	{
+		perror("fork");
+		return (1);
+	}
+	return (0);
 }

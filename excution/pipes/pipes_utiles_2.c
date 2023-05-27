@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 18:50:32 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 19:10:00 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 {
 	char	*path;
 
+	signal(SIGQUIT, signal_handler);
+	signal(SIGINT, signal_handler);
 	if (cmd_l->fd_error)
 		exit(1);
 	if (!cmd_l->cmds[0])

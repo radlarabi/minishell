@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/25 20:56:14 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:48:42 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,24 @@ void	change_commands_struct(t_cmd_line **cmd)
 {
 	t_cmd_line	*tmp;
 	char		**temp;
-	int			j;
-	int			k;
+	int			p;
 
+	p = 0;
 	tmp = *cmd;
 	while (tmp)
 	{
+		if (p != 0)
+			g_gv->exit_status = 0;
 		temp = fill_temp_of_command_struct(tmp->cmds);
-		j = 0;
-		k = 0;
-		while (temp && temp[j])
-			j++;
-		tmp->cmds_exe = malloc((j + 1) * sizeof(char *));
-		if (!tmp->cmds_exe)
-			return ;
+		tmp->cmds_exe = alloc_cmd_exe(temp);
 		if (open_files_in_command_struct(temp, &tmp))
 			break ;
-		j = sub_command_struct(&tmp);
+		sub_command_struct(&tmp);
 		tmp->cmds = change_content(&tmp);
 		if (temp)
 			free(temp);
 		tmp = tmp->next;
+		p++;
 	}
 }
 

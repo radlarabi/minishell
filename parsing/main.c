@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 00:28:56 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:53:00 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,11 @@ int	main(int ac, char **av, char **env)
 	{
 		cmd = NULL;
 		cmd_l = NULL;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, signal_handler);
 		str = readline("MINISHELL -> ");
-		if (!str)
-		{
-			ft_putendl_fd("exit", 1);
-			exit(g_gv->exit_status);
-		}
+		signal(SIGINT, SIG_IGN);
+		exit_cntrl_d(str);
 		fill_t_command_struct(&cmd, str);
 		if (main_check_syntax(str, &cmd))
 			continue ;

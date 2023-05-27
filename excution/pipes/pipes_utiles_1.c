@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 18:49:21 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 14:18:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	dup_infile(t_cmd_line *cmd_l)
 	if (cmd_l->index_herdoc > cmd_l->index_infile)
 	{
 		dup2(cmd_l->fd_herdoc, 0);
-		printf("her %d\n", cmd_l->fd_herdoc);
 		close(cmd_l->fd_herdoc);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:55:02 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/22 11:55:53 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 20:52:25 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,18 @@ void	fill_cmds_exe(t_cmd_line **tmp, char **temp, int *j, int *k)
 	(*k)++;
 	free(temp[(*j)]);
 	(*j)++;
+}
+
+char	**alloc_cmd_exe(char **temp)
+{
+	int		j;
+	char	**cmds_exe;
+
+	j = 0;
+	while (temp && temp[j])
+		j++;
+	cmds_exe = malloc((j + 1) * sizeof(char *));
+	if (!cmds_exe)
+		return (NULL);
+	return (cmds_exe);
 }

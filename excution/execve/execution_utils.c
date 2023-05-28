@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/28 16:14:16 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:18:31 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	ft_execution(t_cmd_line *cmd_l)
 	{
 		if (!check_command_builtins(cmd_l->cmds[0]))
 		{
-			command_builtins(&cmd_l,1);
+			command_builtins(&cmd_l, 1);
 			exit(g_gv->exit_status);
 		}
 		else

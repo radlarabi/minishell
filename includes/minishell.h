@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/28 01:36:51 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/28 16:13:03 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char					*get__path(char *cmd);
 int						is_in_qotes(char *str);
 void					free_2d_table(char **temp);
 int						check_command_builtins(char *command);
-void					command_builtins(t_cmd_line **cmd_l);
+void					command_builtins(t_cmd_line **cmd_l, int flag);
 char					*remove_quotes(char *str);
 t_command				*init_lst_in_middle(void);
 void					main_free(t_command **cmd, t_cmd_line **cmd_l,

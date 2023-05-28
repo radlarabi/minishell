@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utiles_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:31:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 14:18:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/28 16:12:33 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	check_command_builtins(char *command)
 	return (1);
 }
 
-void	command_builtins(t_cmd_line **cmd_l)
+void	command_builtins(t_cmd_line **cmd_l, int flag)
 {
 	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "exit"))
-		ft_exit(cmd_l, 0);
+		ft_exit(cmd_l, flag);
 	if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "echo"))
 		ft_echo(cmd_l);
 	else if ((*cmd_l) && !ft_strcmp((*cmd_l)->cmds[0], "export"))

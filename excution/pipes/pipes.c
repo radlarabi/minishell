@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 22:33:12 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/28 16:14:08 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	single_buildins_cmd(t_cmd_line *cmd_l)
 		dup2(cmd_l->outfile, STDOUT_FILENO);
 		close(cmd_l->outfile);
 	}
-	command_builtins(&cmd_l);
+	command_builtins(&cmd_l, 0);
 	dup2(std_out, STDOUT_FILENO);
 	close(std_out);
 }

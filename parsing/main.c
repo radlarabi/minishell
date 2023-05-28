@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 20:53:00 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 22:36:04 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**env_is_null(void)
 	tab = malloc(sizeof(char *) * 4);
 	if (!tab)
 		return (NULL);
-	tab[0] = ft_strjoin(NULL, "PWD=/Users/hlakhal-/Desktop/minishell");
+	tab[0] = ft_strjoin(NULL, "PWD=/Users/rlarabi/Desktop/minishell");
 	tab[1] = ft_strjoin(NULL, "SHLVL=1");
 	tab[2] = ft_strjoin(NULL, "_=/usr/bin/env");
 	tab[3] = 0;

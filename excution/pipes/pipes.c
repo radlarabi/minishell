@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 14:16:28 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 22:33:12 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	pipex(t_cmd_line *cmd_l)
 	pipefd = alloc_pipefd(num.num_pipes);
 	pids = malloc(sizeof(int) * num.num_cmds);
 	if (!pids)
-		exit(1);
+		return ;
 	sub2_pipex(num, pipefd, pids, cmd_l);
 	free_int(pipefd, pids, num.num_pipes);
 }

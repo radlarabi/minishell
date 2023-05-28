@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:56:30 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 19:09:17 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 21:32:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	child_of_herdoc(char **temp, int fd[2], int *j)
 	signal(SIGINT, sigint_handler);
 	in_q = is_in_qotes(temp[*j]);
 	tab = remove_quotes(temp[*j]);
-	fprintf(stderr, "%d %d \n", fd[0], fd[1]);
 	fill_content_heredoc(tab, fd, in_q);
 	free(tab);
 	close(fd[1]);

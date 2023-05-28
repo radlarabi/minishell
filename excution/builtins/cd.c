@@ -6,35 +6,11 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 02:07:52 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/25 20:59:18 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/28 01:37:38 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	cd_utils_1(char *prev_dir, char **path, int *flag)
-{
-	char	cwd[1024];
-
-	if (!prev_dir)
-	{
-		ft_putendl_fd("cd: OLDPWD not set", 1);
-		g_gv->exit_status = 1;
-		return (0);
-	}
-	else
-	{
-		*path = ft_strdup(prev_dir);
-		(*flag) = 1;
-		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
-		if (chdir(*path) == 0)
-		{
-			ft_putendl_fd(*path, 1);
-			g_gv->exit_status = 0;
-		}
-		return (1);
-	}
-}
 
 char	*ft_get_home_phat(char *home, char *path)
 {
@@ -47,66 +23,84 @@ char	*ft_get_home_phat(char *home, char *path)
 	new_path = NULL;
 	if (homet && path)
 		new_path = ft_strjoin(homet, path + 1);
+	free(path);
 	return (new_path);
 }
 
-int	cd_utils(char **path, char *home_dir, char **prev_dir, int *flag)
+int	cd_absolute_path(char *home_dir, char **path)
 {
 	char	cwd[1024];
 
-	*prev_dir = ft_getenv("OLDPWD");
-	if (!(*path) || *path[0] == '~')
+	if (home_not_set_cd(home_dir))
 	{
-		*path = ft_get_home_phat(home_dir, *path);
-		(*flag) = 1;
-		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+		free((*path));
 		return (1);
 	}
-	else if (*path[0] == '-')
-		return (cd_utils_1(*prev_dir, &(*path), flag));
-	else if (*path)
+	(*path) = ft_get_home_phat(home_dir, (*path));
+	change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+	return (0);
+}
+
+int	cd_prev_pwd(char **path)
+{
+	char	cwd[1024];
+	char	*prev_pwd;
+
+	prev_pwd = ft_getenv("OLDPWD");
+	if (!prev_pwd)
 	{
-		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+		ft_putendl_fd("cd: OLDPWD not set", 1);
+		g_gv->exit_status = 1;
+		free((*path));
 		return (1);
+	}
+	free((*path));
+	(*path) = ft_strdup(prev_pwd);
+	if (prev_pwd[0])
+	{
+		ft_putendl_fd(prev_pwd, 1);
+		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
 	}
 	return (0);
 }
 
-int	home_not_set_cd(char *home_dir)
+void	change_directory(char **path)
 {
-	if (!home_dir)
+	if (chdir((*path)) != -1)
 	{
-		ft_putendl_fd("cd: HOME not set", 1);
-		g_gv->exit_status = 1;
-		return (1);
+		g_gv->exit_status = 0;
+		free((*path));
 	}
-	return (0);
+	else
+	{
+		perror((*path));
+		free((*path));
+		g_gv->exit_status = 1;
+	}
 }
 
 void	ft_cd(t_cmd_line **cd_cmd)
 {
 	char	*home_dir;
 	char	*path;
-	char	*prev_dir;
-	int		flag;
+	char	cwd[1024];
 
-	flag = 0;
 	home_dir = ft_getenv("HOME");
-	path = (*cd_cmd)->cmds[1];
-	prev_dir = NULL;
-	if (!cd_utils(&path, home_dir, &prev_dir, &flag))
-		return ;
-	if (cd_utils_2(path, prev_dir, flag))
-		return ;
-	else if (path && g_gv->exit_status < 1 && flag != 1)
+	if ((*cd_cmd)->cmds[1])
+		path = ft_strdup((*cd_cmd)->cmds[1]);
+	else
+		path = NULL;
+	if (!path || path[0] == '~')
 	{
-		g_gv->exit_status = 1;
-		perror("chdir");
-		return ;
+		if (cd_absolute_path(home_dir, &path))
+			return ;
 	}
-	if (home_not_set_cd(home_dir))
+	else if (path && path[0] == '-' && !path[1])
 	{
-		free(path);
-		return ;
+		if (cd_prev_pwd(&path))
+			return ;
 	}
+	else if (path)
+		change_value(&g_gv->env, "OLDPWD", ft_strdup(getcwd(cwd, sizeof(cwd))));
+	change_directory(&path);
 }

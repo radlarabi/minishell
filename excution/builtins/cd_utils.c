@@ -3,24 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 22:04:47 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/24 23:55:58 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/05/28 01:37:10 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	cd_utils_2(char *path, char *prev_dir, int flag)
+int	home_not_set_cd(char *home_dir)
 {
-	if (path && chdir(path) != -1)
+	if (!home_dir)
 	{
-		if (flag)
-			free(path);
-		prev_dir = ft_getenv("OLDPWD");
-		change_value(&g_gv->env, "OLDPWD", ft_strdup(prev_dir));
-		g_gv->exit_status = 0;
+		ft_putendl_fd("cd: HOME not set", 1);
+		g_gv->exit_status = 1;
 		return (1);
 	}
 	return (0);

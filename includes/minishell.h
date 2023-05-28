@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 20:52:21 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/28 01:36:51 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ int						sub3_pipex(int i, t_num_p_cmds num, int **pipefd,
 							int **pids);
 char					**alloc_cmd_exe(char **temp);
 void					exit_cntrl_d(char *str);
-
+int						home_not_set_cd(char *home_dir);
 /*			****************					*/
 
 /*						syntax						*/

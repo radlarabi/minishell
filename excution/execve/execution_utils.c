@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/27 18:52:18 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/27 21:45:37 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ft_execution(t_cmd_line *cmd_l)
 		if (!check_command_builtins(cmd_l->cmds[0]))
 		{
 			command_builtins(&cmd_l);
-			exit(0);
+			exit(g_gv->exit_status);
 		}
 		else
 		{

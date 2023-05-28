@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 19:10:00 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/28 01:17:27 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ void	child(int num_pipes, int i, int **pipefd, t_cmd_line *cmd_l)
 	signal(SIGINT, signal_handler);
 	if (cmd_l->fd_error)
 		exit(1);
-	if (!cmd_l->cmds[0])
-		exit(g_gv->exit_status);
 	path = get__path(cmd_l->cmds[0]);
 	if (check_command_builtins(cmd_l->cmds[0]) && !ft_strchr(cmd_l->cmds[0],
 			'/') && (access(path, F_OK) == -1 || !ft_strcmp(cmd_l->cmds[0],
 				"")))
 		cmd_not_found(cmd_l->cmds[0]);
+	free(path);
 	dup_files_and_pipes(cmd_l, pipefd, i, num_pipes);
 	ft_execution(cmd_l);
 }
@@ -75,6 +74,8 @@ void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 	tmp = cmd_l;
 	i = -1;
 	status = 0;
+	if (cmd_l && !cmd_l->cmds[0])
+		return ;
 	while (++i < num.num_cmds && cmd_l)
 	{
 		if (sub3_pipex(i, num, pipefd, &pids))

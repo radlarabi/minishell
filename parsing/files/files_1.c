@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/26 13:41:24 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/05/31 22:42:02 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,12 @@ int	files_red_in(char **temp, t_cmd_line **tmp, int *j)
 	(*tmp)->infile = open(infile, O_RDONLY);
 	(*tmp)->index_infile = *j;
 	(*tmp)->fd_error = NULL;
+	if (access(infile, R_OK) == -1)
+		perror(infile);
 	if ((*tmp)->infile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(infile);
 		(*tmp)->flag = 3;
-		perror((*tmp)->fd_error);
 		g_gv->exit_status = 1;
 		if (infile)
 			free(infile);
@@ -107,11 +108,14 @@ int	files_red_out(char **temp, t_cmd_line **tmp, int *j)
 		close((*tmp)->outfile);
 	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	(*tmp)->fd_error = NULL;
+	if (access(outfile, W_OK) == -1)
+		perror(outfile);
+	else
+		(*tmp)->outfile = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if ((*tmp)->outfile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(outfile);
 		(*tmp)->flag = 4;
-		perror((*tmp)->fd_error);
 		g_gv->exit_status = 1;
 		if (outfile)
 			free(outfile);

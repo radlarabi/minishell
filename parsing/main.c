@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:00:22 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 22:36:04 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/06/01 16:31:07 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	fill_t_command_struct(t_command **cmd, char *str)
 	int			i;
 
 	tmp = NULL;
-	add_history(str);
+	if (ft_strlen(str) != 0)
+		add_history(str);
 	i = 0;
 	while (str && str[i])
 	{

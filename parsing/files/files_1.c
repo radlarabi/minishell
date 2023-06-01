@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:28:24 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/31 22:42:02 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:55:58 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_ambiguous(char *str)
 {
-	if (str && (ft_strchr(str, 32) || !str[0]))
+	if (str && (ft_strchr(str, 32) || ft_strchr(str, 9) || !str[0]))
 		return (1);
 	return (0);
 }

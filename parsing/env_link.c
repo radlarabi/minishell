@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:04:26 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/06/01 14:49:55 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:50:49 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_env	*fill_env_node(char *env, t_env *t_env)
 	var = NULL;
 	var = fill_env_var(env, &i);
 	t_env->var = var;
-	if(!env[i])
+	if (!env[i])
 	{
 		t_env->value = "\0";
 		return (t_env);

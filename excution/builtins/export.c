@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/25 23:41:03 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:51:10 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	display_export(int flag1)
 	{
 		tmp1 = tmp->next;
 		if (!tmp->value || (!ft_strcmp(tmp->value, "") && flag1 >= 1))
+		{
 			(ft_putstr_fd("declare -x ", 1), ft_putendl_fd(tmp->var, 1));
+			flag1 = 0;
+		}
 		else
 		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(tmp->var, 1);
+			(ft_putstr_fd("declare -x ", 1), ft_putstr_fd(tmp->var, 1));
 			ft_putstr_fd("=", 1);
 			ft_putstr_fd("\"", 1);
 			ft_putstr_fd(tmp->value, 1);

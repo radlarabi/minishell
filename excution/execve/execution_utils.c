@@ -6,7 +6,7 @@
 /*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 23:32:08 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/28 16:18:31 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:16:07 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_execution(t_cmd_line *cmd_l)
 			ft_utils_1(cmd_l->cmds);
 			path = get__path(cmd_l->cmds[0]);
 			execve(path, cmd_l->cmds, get__env());
-			perror("execve");
+			perror(cmd_l->cmds[0]);
 			exit(127);
 		}
 	}

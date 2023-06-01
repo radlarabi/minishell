@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 18:55:12 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/20 18:55:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/06/01 15:18:07 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_utils_1(char **command)
 			exit(126);
 		}
 		execve(command[0], command, get__env());
-		perror("execve");
+		perror(command[0]);
 		exit(127);
 	}
 }

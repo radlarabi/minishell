@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:11:37 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/31 22:41:12 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/03 16:50:39 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ t_cmd_line				*init_temp_cmd_line(char **cmds, int i);
 int						open_read_out_in(char **temp, t_cmd_line **tmp, int *j);
 int						open_appnd_herdoc(char **temp, t_cmd_line **tmp,
 							int *j);
-int						open_files_in_command_struct(char **temp,
+void					open_files_in_command_struct(char **temp,
 							t_cmd_line **tmp);
 void					child(int num_pipes, int i, int **pipefd,
 							t_cmd_line *cmd_l);

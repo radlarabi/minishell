@@ -6,13 +6,13 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 23:38:03 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/27 20:48:42 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/06/03 21:28:11 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
+void	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 {
 	int	j;
 	int	k;
@@ -35,25 +35,30 @@ int	open_files_in_command_struct(char **temp, t_cmd_line **tmp)
 			fill_cmds_exe(tmp, temp, &j, &k);
 	}
 	(*tmp)->cmds_exe[k] = 0;
-	return (0);
 }
 
-char	**change_content(t_cmd_line **cmd)
+char	**change_content(t_cmd_line **cmd, int len)
 {
 	int		i;
+	int		k;
 	char	**ret;
 
 	i = 0;
-	while ((*cmd)->cmds_exe && (*cmd)->cmds_exe[i])
-		i++;
-	ret = malloc(sizeof(char *) * (i + 1));
+	ret = malloc(sizeof(char *) * (len + 1));
+	if (!ret)
+		return (NULL);
 	i = 0;
-	while ((*cmd)->cmds_exe && (*cmd)->cmds_exe[i])
+	k = 0;
+	while (i < len)
 	{
-		ret[i] = ft_strdup((*cmd)->cmds_exe[i]);
+		if ((*cmd)->cmds_exe && (*cmd)->cmds_exe[i])
+		{
+			ret[k] = ft_strdup((*cmd)->cmds_exe[i]);
+			k++;
+		}
 		i++;
 	}
-	ret[i] = 0;
+	ret[k] = 0;
 	free_2d_table((*cmd)->cmds);
 	return (ret);
 }
@@ -63,19 +68,20 @@ void	change_commands_struct(t_cmd_line **cmd)
 	t_cmd_line	*tmp;
 	char		**temp;
 	int			p;
+	int			len;
 
 	p = 0;
 	tmp = *cmd;
+	len = 0;
 	while (tmp)
 	{
 		if (p != 0)
 			g_gv->exit_status = 0;
 		temp = fill_temp_of_command_struct(tmp->cmds);
 		tmp->cmds_exe = alloc_cmd_exe(temp);
-		if (open_files_in_command_struct(temp, &tmp))
-			break ;
-		sub_command_struct(&tmp);
-		tmp->cmds = change_content(&tmp);
+		open_files_in_command_struct(temp, &tmp);
+		len = sub_command_struct(&tmp);
+		tmp->cmds = change_content(&tmp, len);
 		if (temp)
 			free(temp);
 		tmp = tmp->next;

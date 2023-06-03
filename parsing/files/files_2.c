@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:29:43 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/31 22:37:57 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:25:49 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ int	files_append(char **temp, t_cmd_line **tmp, int *j)
 		return (1);
 	if ((*tmp)->outfile != -1)
 		close((*tmp)->outfile);
-	(*tmp)->outfile = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (access(outfile, W_OK) == -1)
-		perror(outfile);
-	else
-		(*tmp)->outfile = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	(*tmp)->outfile = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if ((*tmp)->outfile < 0)
 	{
 		(*tmp)->fd_error = ft_strdup(outfile);
+		(*tmp)->flag = 4;
+		perror(outfile);
 		g_gv->exit_status = 1;
 		if (outfile)
 			free(outfile);

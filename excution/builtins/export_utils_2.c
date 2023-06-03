@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 18:49:45 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/24 23:04:14 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:35:56 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	join_value(t_env **env, char *env_var, char *new_env_val)
 	{
 		if (ft_strcmp(current->var, env_var) == 0)
 		{
+			current->flag = 0;
 			current->value = ft_strjoin(current->value, new_env_val);
 			break ;
 		}

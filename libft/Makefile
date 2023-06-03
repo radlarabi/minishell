@@ -33,35 +33,19 @@ FILES_M = 	ft_memset.c \
 			ft_putnbr_fd.c \
 			ft_striteri.c
 
-FILES_B = 	ft_lstnew_bonus.c \
-	  		ft_lstadd_front_bonus.c \
-	  		ft_lstsize_bonus.c \
-	  		ft_lstlast_bonus.c \
-	  		ft_lstadd_back_bonus.c \
-	  		ft_lstdelone_bonus.c \
-	  		ft_lstclear_bonus.c \
-			ft_lstiter_bonus.c \
-			ft_lstmap_bonus.c
-
-
 CFLAGS = -Wall -Wextra -Werror
 NAME = libft.a
 RM = rm -f
 
 MO_SRCS = $(FILES_M:%.c=%.o)
 
-BO_SRCS = $(FILES_B:%.c=%.o)
-
 all: $(NAME)
 
 $(NAME): $(MO_SRCS)
 	ar -rc $(NAME) $(MO_SRCS)
 
-bonus: $(BO_SRCS)
-	ar -rc $(NAME) $(BO_SRCS)
-
 clean:
-	$(RM) $(MO_SRCS) $(BO_SRCS)
+	$(RM) $(MO_SRCS)
 
 fclean: clean
 	$(RM) $(NAME)

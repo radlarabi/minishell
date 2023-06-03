@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 09:46:08 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/05/28 16:14:08 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:38:35 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,16 @@ void	pipex(t_cmd_line *cmd_l)
 	int				**pipefd;
 	t_num_p_cmds	num;
 
+	if (cmd_l && cmd_l->cmds && !cmd_l->cmds[0]
+		&& ((cmd_l->infile == -1 && !cmd_l->flag)
+			|| (cmd_l->outfile == -1 && !cmd_l->flag)))
+		return ;
 	num.num_cmds = count_pipes(cmd_l);
 	num.num_pipes = count_pipes(cmd_l) - 1;
 	if (num.num_pipes < 0)
 		num.num_pipes = 0;
-	if (!num.num_pipes && cmd_l && !check_command_builtins(cmd_l->cmds[0]))
+	if (!num.num_pipes && cmd_l && cmd_l->cmds
+		&& !check_command_builtins(cmd_l->cmds[0]))
 	{
 		single_buildins_cmd(cmd_l);
 		return ;

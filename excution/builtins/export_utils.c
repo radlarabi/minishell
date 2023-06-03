@@ -6,7 +6,7 @@
 /*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:46:46 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/26 19:41:13 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/06/03 22:36:48 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	add_node(t_env **env, char *env_var, char *env_val, int a)
 			return ;
 		if (!env_val)
 		{
+			new_node->flag = 1;
 			new_node->var = ft_strdup(env_var);
 			if (a)
 				new_node->value = NULL;

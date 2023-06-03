@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utiles_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 18:38:23 by rlarabi           #+#    #+#             */
-/*   Updated: 2023/06/01 15:08:14 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:42:12 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,9 @@ void	sub2_pipex(t_num_p_cmds num, int **pipefd, int *pids, t_cmd_line *cmd_l)
 {
 	int			i;
 	t_cmd_line	*tmp;
-	int			status;
 
 	tmp = cmd_l;
 	i = -1;
-	status = 0;
-	if (cmd_l && !cmd_l->cmds[0])
-		return ;
 	while (++i < num.num_cmds && cmd_l)
 	{
 		if (sub3_pipex(i, num, pipefd, &pids))

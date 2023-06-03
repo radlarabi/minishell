@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 20:53:41 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/06/01 15:51:10 by hlakhal-         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:11:21 by rlarabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	export_one_var(char *value_of_var, int *flag1, int *flag)
 	}
 	else if (!ft_cherch_node(value_of_var))
 	{
-		change_value(&g_gv->env, value_of_var, NULL);
 		add_node(&g_gv->env, value_of_var, NULL, 1);
 		*(flag1) += 1;
 	}

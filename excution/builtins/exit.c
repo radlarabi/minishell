@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlarabi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hlakhal- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 00:03:30 by hlakhal-          #+#    #+#             */
-/*   Updated: 2023/05/22 12:11:31 by rlarabi          ###   ########.fr       */
+/*   Updated: 2023/06/03 15:58:09 by hlakhal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ int	check_arg(char *arg)
 	i = 0;
 	while (arg[i])
 	{
-		if (ft_isalpha(arg[i]))
+		if (!i && (arg[i] == '+' || arg[i] == '-'))
+		{
+			i++;
+			continue ;
+		}
+		if (!ft_isdigit(arg[i]))
 			return (0);
 		i++;
 	}
